@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+{% load static %}
+{% load mysettings %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="yandex-verification" content="3697ed9bb1a232f1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="Author" content="{% settings_value 'AUTHOR' %}"/>
+  <meta name="keywords" content="{% settings_value 'KEYWORDS' %}" />
+  <meta name="description" content="{% settings_value 'DESCRIPTION' %}" />
+  <title>{% settings_value 'SITE_TITLE' %}</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'lte/plugins/fontawesome-free/css/all.min.css' %}?ver={% settings_value 'APP_VER' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'lte/dist/css/adminlte.min.css' %}?ver={% settings_value 'APP_VER' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition lockscreen">
+    <section class="content">
+      <div class="error-page">
+        <h2 class="headline text-yellow"> 404</h2>
+
+        <div class="error-content">
+          <h3><i class="fa fa-warning text-yellow"></i> Упс! Страница не найдена.</h3>
+
+          <p>
+            <a href="/">Главная страница</a> 
+          </p>
+
+          
+        </div>
+        <!-- /.error-content -->
+      </div>
+      <!-- /.error-page -->
+    </section>
+
+
+<!-- jQuery -->
+<script src="{% static 'lte/plugins/jquery/jquery.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+</body>
+</html>

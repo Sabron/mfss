@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+{% load mysettings %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Войти | Control panel Zahid.Host</title>
+    <meta name="description" content="Войти в панель управления Zahid.Host">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <link rel="shortcut icon" href="/static/img/favicon.png" />
+
+    <!-- Bootstrap 4.3.1 -->
+    <link type="text/css" rel="stylesheet" href="{% static '/css/bootstrap-reboot.min.css' %}?ver={% settings_value 'APP_VER' %}">
+    <link type="text/css" rel="stylesheet" href="{% static '/css/bootstrap-grid.min.css' %}?ver={% settings_value 'APP_VER' %}">
+    <!--bootstrap-->
+
+    <link type="text/css" rel="stylesheet" href="{% static '/css/fonts.css' %}?ver={% settings_value 'APP_VER' %}">
+    <link type="text/css" rel="stylesheet" href="{% static '/css/main.css' %}?ver={% settings_value 'APP_VER' %}">
+    <link type="text/css" rel="stylesheet" href="{% static '/css/media.css' %}?ver={% settings_value 'APP_VER' %}">
+
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{% static 'lte/plugins/iCheck/square/blue.css' %}?ver={% settings_value 'APP_VER' %}">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+
+        </div>
+
+
+        <div class="content-main">
+            <div class="content">
+                <section class="login-page h-100vh">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 col-lg-5 col-xl-6">
+                                <div class="login-page__form h-100vh align-items-center">
+
+                                    <form class="login-page__bl-left" method="post">
+                                        {% csrf_token %}
+                                        <header class="login-page__form--header"><h5>Войти</h5></header>
+
+
+                                        <div class="login-page__form--input">
+                                            <p><label for="id_username">Имя пользователя:</label> *</p>
+
+                                            <input type="text" name="username" autofocus maxlength="254" class="form-control" required id="id_username" />
+
+                                            <div class="login-page__form--input-info"></div>
+                                        </div>
+
+
+
+                                        <div class="login-page__form--input">
+                                            <p><label for="id_password">Пароль:</label> *</p>
+
+                                            <input type="password" name="password" class="form-control" required id="id_password" />
+
+                                            <div class="login-page__form--input-info"></div>
+                                        </div>
+
+
+
+                                        <div class="login-page__form--input">
+
+                                            <input type="hidden" class="django-recaptcha-hidden-field" name="g-recaptcha-response">
+                                            <div class="login-page__form--input-info"></div>
+                                        </div>
+
+
+                                        <div class="login-page__forgot-your-password">
+                                            <a disabled href="/">Забыли пароль?</a>
+                                        </div>
+                                        <div class="login-page__form--button">
+                                            <input type="submit" value="Войти">
+                                        </div>
+                                        <p class="login-page__form--no-account">Нет учётной записи? <a href="/">Зарегистрироваться</a></p>
+                                    </form>
+
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg-7 col-xl-6">
+                                <div class="login-page__info-block h-100vh align-items-center">
+                                    <div class="login-page__info-bl-right">
+                                        <h2>Многофункциональная система безопасности</h2>
+                                        <div class="login-page__logo">
+                                            <a href="/"><img width="226" height="26" src="{% static 'img/logo.png' %}?ver={% settings_value 'APP_VER' %}" alt="logo"></a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="hidden"></div>
+
+
+    </div>
+    <!-- /.login-box -->
+    <!--Start of Tawk.to Script-->
+    <!--End of Tawk.to Script-->
+    <!-- Google Tag Manager (noscript) -->
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- jQuery -->
+    <script src="{% static 'lte/plugins/jquery/jquery.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'lte/plugins/bootstrap/js/bootstrap.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+</body>
+</html>

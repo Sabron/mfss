@@ -1,0 +1,112 @@
+﻿{% extends "base.html" %}
+{% load static %}
+{% load mysettings %}
+
+
+
+{% block content %}
+
+ <div class="content-wrapper">
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="error-page">
+        <h2 class="headline text-red">500</h2>
+
+        <div class="error-content">
+          <h3><i class="fa fa-warning text-yellow"></i> Упс! Ошибка.</h3>
+
+          <p>
+            <a href="/">Главная страница</a> 
+          </p>
+
+          
+        </div>
+        <!-- /.error-content -->
+      </div>
+      <!-- /.error-page -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+
+{% endblock %}
+
+
+{% block script_footer %}
+	<!-- DataTables -->
+	<script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+	<script src="{% static 'plugins/datatables/dataTables.bootstrap.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+	<!-- SlimScroll -->
+	<script src="{% static 'plugins/slimScroll/jquery.slimscroll.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+	<!-- FastClick -->
+	<script src="{% static 'plugins/fastclick/fastclick.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<script type="text/javascript">
+
+
+
+    $(".hrefpanel").click(function () {
+        var num = $(this).data('id');
+        var name = $(this).data('name');
+		                var Rec = $.ajax({
+				                method: 'GET',
+				                url: window.location.pathname+name+'/',
+				                data: {
+                                        id:num
+                                      },
+                            success: function (data) {
+                                $("this").html(data);
+                                console.log(data)
+                                if (data=='ERROR'){
+					            $("this").html(data);}
+				        }
+
+                });          
+    /*if (!!cmd) {
+        $.ajax({
+            type: 'POST', // метод отправки
+            url: '/catalog/devicecmd/?SN=' + cmd+"&cmd=REBBOT", // путь к обработчику
+            data: {
+                "cmd": cmd
+            },
+            // dataType: 'text',
+            success: function (data) {
+                alert('Команда выполнена')
+                //$("#tt_ajax").html(data); // при успешном получении ответа от сервера, заносим полученные данные в элемент с классом answer
+            },
+            error: function (dataerr) {
+                 alert('Ошибка выполнение команды')
+            }
+        });
+
+    }-*/
+
+    })
+
+    $("#cmdCheck").click(function () {
+        var cmd = $("#idDevice").val();
+    if (!!cmd) {
+        $.ajax({
+            type: 'POST', // метод отправки
+            url: '/catalog/devicecmd/?SN=' + cmd+"&cmd=RELOAD", // путь к обработчику
+            data: {
+                "cmd": cmd
+            },
+            // dataType: 'text',
+            success: function (data) {
+                alert('Команда выполнена')
+                //$("#tt_ajax").html(data); // при успешном получении ответа от сервера, заносим полученные данные в элемент с классом answer
+            },
+            error: function (dataerr) {
+                alert('Ошибка выполнение команды')
+            }
+        });
+
+    }
+
+    })
+
+
+</script>
+
+{% endblock script_footer %}

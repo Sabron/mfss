@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load static %}
+{% load mysettings %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="yandex-verification" content="3697ed9bb1a232f1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="Author" content="{% settings_value 'AUTHOR' %}"/>
+  <meta name="keywords" content="{% settings_value 'KEYWORDS' %}" />
+  <meta name="description" content="{% settings_value 'DESCRIPTION' %}" />
+  <title>{% settings_value 'SITE_TITLE_S' %} : {{ user.profile.client }}</title>
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{% static 'lte/plugins/fontawesome-free/css/all.min.css' %}?ver={% settings_value 'APP_VER' %}">
+  <!-- IonIcons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+ <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'lte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}?ver={% settings_value 'APP_VER' %}">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{% static 'lte/plugins/toastr/toastr.min.css' %}?ver={% settings_value 'APP_VER' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'lte/dist/css/adminlte.min.css' %}?ver={% settings_value 'APP_VER' %}">
+<!-- SweetAlert2 -->
+<script src="{% static 'lte/plugins/sweetalert2/sweetalert2.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'lte/plugins/toastr/toastr.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+
+<link type="text/css" rel="stylesheet" href="{% static '/css/main.css' %}?ver={% settings_value 'APP_VER' %}">
+
+</head>
+<body class="sidebar-collapse">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Navbar Search -->
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                        <i class="fas fa-search"></i>
+                    </a>
+                    <div class="navbar-search-block">
+                        <form class="form-inline">
+                            <div class="input-group input-group-sm">
+                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-navbar" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown mr-3 lead">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user-circle mr-2 "></i>
+                        {{user}}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="profileDropdown">
+                        <a class="dropdown-item" href="/dashboard/profile/">
+                            <i class="fas fa-id-card"></i>
+                            Профиль
+                        </a>
+                        <a class="dropdown-item" href="/password_reset/">
+                            <i class="fas fa-cog"></i>
+                            Параметры
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="/accounts/logout/?next=/accounts/login/" class="dropdown-item">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Выход
+                        </a>
+                    </div>
+                </li>
+
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+<div class="content-wrapper text-sm">
+
+<section class="content">
+      <div class="container-fluid">
+    <h5 class="mb-2"> </h5>
+        <!-- Small boxes (Stat box) -->
+       <!-- /.row -->
+        <!-- Main row -->
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-4	col-xl-3 col-xxl-3">
+            <!-- Widget: user widget style 1 -->
+            <div class="card card-widget widget-user shadow">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-info">
+
+                <h3 class="widget-user-username">Система аэрогазового контроля</h3>
+                <h5 class="widget-user-desc">(АГК)</h5>
+              </div>
+              <div class="widget-user-image">
+                <a href="/acs/"type="button" class="img-circle elevation-2">
+                    <img class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
+                </a>
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">10</h5>
+                      <span class="description-text">Показатель 1</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">13,000</h5>
+                      <span class="description-text">Показатель 2</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4">
+                    <div class="description-block">
+                      <h5 class="description-header">35</h5>
+                      <span class="description-text">Показатель 3</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+              </div>
+            </div>
+            <!-- /.widget-user -->
+          </div>
+
+           <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-3">
+            <!-- Widget: user widget style 1 -->
+            <div class="card card-widget widget-user shadow">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-info">
+                <h3 class="widget-user-username">Система контроля запыленности воздуха.</h3>
+                <h5 class="widget-user-desc"></h5>
+              </div>
+              <div class="widget-user-image">
+                <a href="/catalog/device/"type="button" class="img-circle elevation-2">
+                    <img class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/error-status.webp' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
+                </a>
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-3 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">3,200</h5>
+                      <span class="description-text">Показатель 1</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">13,000</h5>
+                      <span class="description-text">Показатель 2</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-3 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">35</h5>
+                      <span class="description-text">Показатель 3</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="description-block">
+                      <h5 class="description-header">35</h5>
+                      <span class="description-text">Показатель 4</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+              </div>
+            </div>
+            <!-- /.widget-user -->
+          </div>
+
+           <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-3">
+            <!-- Widget: user widget style 1 -->
+            <div class="card card-widget widget-user shadow">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-info">
+                <h3 class="widget-user-username">Противопожарная защита</h3>
+                <h5 class="widget-user-desc"></h5>
+              </div>
+              <div class="widget-user-image">
+                <!--<img class="img-circle elevation-2" src="{% static 'img/error-status.webp' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">-->
+                <a href="/catalog/device/"type="button" class="img-circle elevation-2">
+                    <button type="submit" class="btn-circle"></button>
+
+                </a>
+
+                
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-6 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">3,200</h5>
+                      <span class="description-text">Показатель 1</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-6">
+                    <div class="description-block">
+                      <h5 class="description-header">13,000</h5>
+                      <span class="description-text">Показатель 2</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+              </div>
+            </div>
+            <!-- /.widget-user -->
+          </div>
+
+         <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-3">
+            <!-- Widget: user widget style 1 -->
+            <div class="card card-widget widget-user shadow">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-info">
+                <h3 class="widget-user-username">Система контроля и управления пожарным водоснабжение.</h3>
+                <h5 class="widget-user-desc"></h5>
+              </div>
+              <div class="widget-user-image">
+                <a href="/catalog/device/"type="button" class="img-circle elevation-2">
+                    <img class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
+                </a>
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">3,200</h5>
+                      <span class="description-text">Показатель 1</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">13,000</h5>
+                      <span class="description-text">Показатель 2</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4">
+                    <div class="description-block">
+                      <h5 class="description-header">35</h5>
+                      <span class="description-text">Показатель 3</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+              </div>
+            </div>
+            <!-- /.widget-user -->
+          </div>
+
+         <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-3">
+            <!-- Widget: user widget style 1 -->
+            <div class="card card-widget widget-user shadow">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-info">
+                <h3 class="widget-user-username">Система определения местоположения сотрудников фабрики.</h3>
+                <h5 class="widget-user-desc"></h5>
+              </div>
+              <div class="widget-user-image">
+                <a href="/catalog/device/"type="button" class="img-circle elevation-2">
+                    <img class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
+                </a>
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">3,200</h5>
+                      <span class="description-text">Показатель 1</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">13,000</h5>
+                      <span class="description-text">Показатель 2</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4">
+                    <div class="description-block">
+                      <h5 class="description-header">35</h5>
+                      <span class="description-text">Показатель 3</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+              </div>
+            </div>
+            <!-- /.widget-user -->
+          </div>
+
+         <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-3">
+            <!-- Widget: user widget style 1 -->
+            <div class="card card-widget widget-user shadow">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-info">
+                <h3 class="widget-user-username">Система контроля работы оборудования</h3>
+                <h5 class="widget-user-desc"></h5>
+              </div>
+              <div class="widget-user-image">
+                <a href="/catalog/device/"type="button" class="img-circle elevation-2">
+                    <img class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
+                </a>
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">3,200</h5>
+                      <span class="description-text">Показатель 1</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4 border-right">
+                    <div class="description-block">
+                      <h5 class="description-header">13,000</h5>
+                      <span class="description-text">Показатель 2</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                  <div class="col-sm-4">
+                    <div class="description-block">
+                      <h5 class="description-header">35</h5>
+                      <span class="description-text">Показатель 3</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+              </div>
+            </div>
+            <!-- /.widget-user -->
+          </div>
+
+        </div>
+
+       <!-- /.row (main row) -->
+      </div><!-- /.container-fluid -->
+    </section>
+
+</div>
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+            <div class="p-3">
+                <h5>Title</h5>
+                <p>Sidebar content</p>
+            </div>
+        </aside>
+        <!-- /.control-sidebar -->
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <strong>{% settings_value 'APP_COPPIRIGHT' %} </strong>
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Версия :</b> {% settings_value 'APP_VER' %}
+            </div>
+        </footer>
+    </div>
+    <!-- ./wrapper -->
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    <script src="{% static 'lte/plugins/jquery/jquery.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'lte/dist/js/adminlte.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+</body>
+</html>

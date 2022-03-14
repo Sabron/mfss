@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load static %}
+{% load mysettings %}
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="Author" content="{% settings_value 'AUTHOR' %}"/>
+  <meta name="keywords" content="{% settings_value 'KEYWORDS' %}" /> 
+  <meta name="description" content="{% settings_value 'DESCRIPTION' %}" />
+  <title>{% settings_value 'SITE_TITLE' %}</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'lte/plugins/fontawesome-free/css/all.min.css' %}?ver={% settings_value 'APP_VER' %}">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{% static 'lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}?ver={% settings_value 'APP_VER' %}">
+  <!-- SweetAlert2 -->
+  <link rel="stylesheet" href="{% static 'lte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}?ver={% settings_value 'APP_VER' %}">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{% static 'lte/plugins/toastr/toastr.min.css' %}?ver={% settings_value 'APP_VER' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'lte/dist/css/adminlte.min.css' %}?ver={% settings_value 'APP_VER' %}">
+
+</head>
+<body class="hold-transition login-page" style="background-image: url({% static 'img/backgroundimage.jpg' %}?ver={% settings_value 'APP_VER' %});">
+<div class="login-box">
+  <!-- /.login-logo -->
+  <div class="card card-outline card-primary">
+    <div class="card-header text-center">
+      <a href="/" class="h2">Личный кабинет</a>
+    </div>
+    <div class="card-body">
+       <p class="login-box-msg">Добро пожаловать</p>
+      <form action="" method="post">
+         {% csrf_token %}
+        <div class="input-group mb-3">
+          <input name="username"  id="id_username" type="text" class="form-control" placeholder="Логин" value="{{login}}">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                </div>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" name="password"  id="id_password" type="password" class="form-control" placeholder="Пароль">
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Вход</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+        <p class="mb-1">
+                <a href="forgot-password.html">Напомнить пароль</a>
+        </p>
+    </div>
+    <!-- /.card-body -->
+  </div>
+  <!-- /.card -->
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="{% static 'lte/plugins/jquery/jquery.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'lte/plugins/sweetalert2/sweetalert2.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'lte/plugins/toastr/toastr.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'lte/dist/js/adminlte.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+
+ {% if error %}
+     <script>
+ $(function() {
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+      Toast.fire({
+        icon: 'error',
+        title: '{{comment}}'
+      })
+
+  });
+    </script>
+{% endif %}
+</body>
+</html>
