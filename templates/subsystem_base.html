@@ -129,9 +129,7 @@
     <script src="{% static 'lte/plugins/jquery/jquery.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
     <!-- Bootstrap -->
     <script src="{% static 'lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
-    {% block script_footer %}
 
-    {% endblock script_footer %}
     <!-- AdminLTE -->
     <script src="{% static 'lte/dist/js/adminlte.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 
@@ -139,6 +137,8 @@
     <script src="{% static 'lte/plugins/chart.js/Chart.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 
     <script src="{% static 'js/main.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    {% block script_footer %}
 
+    {% endblock script_footer %}
 </body>
 </html>

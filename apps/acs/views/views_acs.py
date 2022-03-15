@@ -71,9 +71,10 @@ def SensorList(request):
         if request.method == "GET":
             param=request.GET.dict()
             sensor=AcsSensor.objects.filter(id=param['id']).first()
-
+            sensor_list = AcsIndicators.objects.filter(sensor=sensor).all().order_by('date_time')
             context={
                     'sensor':sensor,
+                    'sensor_list':sensor_list,
                     }
             return render(request, 'acs_sensor_list.html',context) 
     except Exception as err:
