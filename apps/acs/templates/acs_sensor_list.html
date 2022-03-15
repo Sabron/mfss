@@ -1,0 +1,38 @@
+{% extends "subsystem_base.html" %}
+{% load static %}
+{% load mysettings %}
+
+
+{% block header_link %}
+
+{% endblock header_link %}
+
+
+{% block content %}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>{{sensor.name}}</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/acs/">Главная</a></li>
+                    <li class="breadcrumb-item active">{{sensor.name}}</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock %}
+
+{% block script_footer %}
+{% endblock script_footer %}

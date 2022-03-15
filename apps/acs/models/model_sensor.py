@@ -32,6 +32,10 @@ class AcsSensor(models.Model):  # Датчики
         null=False,
         default=True,
         blank=True)
+    value = models.IntegerField(
+        default=0,
+        help_text="",
+        verbose_name="Показание")
     comments = models.TextField(
         max_length=1001,
         blank=True,

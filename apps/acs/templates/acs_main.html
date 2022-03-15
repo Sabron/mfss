@@ -9,8 +9,60 @@
 
 
 {% block content %}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+          </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+      <div class="container-fluid">
+        <div class="row">
+<div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Показания датчиков</h3>
+
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">#</th>
+                      <th>Датчик</th>
+                      <th>Прогресс</th>
+                      <th style="width: 40px">Показание</th>
+                      <th style="width: 40px">Норма</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for sensor in m_sensor %}
+                    <tr>
+                      <td>1.</td>
+                      <td><a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a></td>
+                      <td>
+                        <div class="progress progress-xs progress-striped active">
+                          <div class="progress-bar {{sensor.color}}" style="width: {{sensor.value}}%"></div>
+                        </div>
+
+                      </td>
+                      <td><span class="badge {{sensor.color}}">{{sensor.value}}%</span></td>
+                      <td><span class="badge ">{{sensor.critical_value}}%</span></td>
+                    </tr>                    
+                     {% endfor %}
+                    </tbody>
+                    </table>
+          </div>
+ 
+
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+</section>
+
 {% endblock %}
 
 {% block script_footer %}
-
 {% endblock script_footer %}

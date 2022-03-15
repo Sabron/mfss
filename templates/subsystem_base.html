@@ -33,7 +33,7 @@
     {% endblock header_link %}
 
 </head>
-<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<body class=" layout-fixed text-sm">
 
 
     <div class="wrapper">
@@ -109,15 +109,11 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper text-sm">
-            <!-- Main content -->
-            <section class="content text-sm">
-                <div class="container-fluid text-sm">
                     {% block content %}
                     {% endblock %}
-                </div><!-- /.container-fluid -->
-            </section>
-            <!-- /.content -->
         </div>
+
+
         <!-- /.content-wrapper -->
         <footer class="main-footer text-sm">
             <strong>{% settings_value 'APP_COPPIRIGHT' %} </strong>

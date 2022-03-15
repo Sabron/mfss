@@ -7,6 +7,7 @@ from apps.acs.views import views_acs
 
 urlpatterns = [
     url(r'^$', views_acs.MainIndex, name='MainIndex'),
+    url(r'^sensor/$', views_acs.SensorList, name='SensorList'),
     #url(r'ajax/$', views_main.get_ajax, name='get_ajax'),
     
     ]
