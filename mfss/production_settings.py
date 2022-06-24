@@ -44,7 +44,15 @@ DATABASES = {
         'USER': 'mfss_user',
         'PASSWORD': 'Angstrem*45',
         'PORT': int(os.environ.get('POSTGRES_PORT', '5432')),
-    }
+    },
+    'mfsb': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mfsb',
+        'USER': 'postgres',
+        'PASSWORD': '1395',
+        'HOST': '176.197.1.94',
+        'PORT': '88',
+    },
 }
                                                     	
 #LOGGING = {
