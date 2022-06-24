@@ -50,7 +50,7 @@ DATABASES = {
         'NAME': 'mfsb',
         'USER': 'postgres',
         'PASSWORD': '1395',
-        'HOST': '176.197.1.94',
+        'HOST': '192.168.0.135',
         'PORT': '5432',
     },
 }
