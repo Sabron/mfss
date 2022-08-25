@@ -20,6 +20,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'apps.ops.apps.OpsConfig',
 
     #'apps.adm_sys.apps.adm_sysConfig',
 

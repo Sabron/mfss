@@ -36,7 +36,9 @@ ROOT_URLCONF = 'mfss.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_ROOT,'apps/reports/templates'],
+        'DIRS': [TEMPLATES_ROOT,'apps/main/templates',
+                    'apps/management/templates',
+                    ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

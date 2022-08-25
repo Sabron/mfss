@@ -23,14 +23,12 @@ from sabron.util import logging
 
 
 
-
-
-
 def get_context_template():
-        
     context={
               }
     return context
+
+
 
 
 def static(prefix, view=serve, **kwargs):

@@ -29,9 +29,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static/'),
 )
-ATT_ROOT = '/home/hronos/washer_msk/static/att'
+ATT_ROOT = '/home/mfss/mfss/static/att'
 ADR_LOCAL ='carwash.hronos.su'
-DOWNLOAD_ROOT = '/home/hronos/washer_msk/media/download'
+DOWNLOAD_ROOT = '/home/mfss/mfss/media/download'
 
 DATABASES_NAME='mfss_db'
 
@@ -45,14 +45,14 @@ DATABASES = {
         'PASSWORD': 'Angstrem*45',
         'PORT': int(os.environ.get('POSTGRES_PORT', '5432')),
     },
-    'mfsb': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mfsb',
-        'USER': 'postgres',
-        'PASSWORD': '1395',
-        'HOST': '192.168.0.135',
-        'PORT': '5432',
-    },
+    #'mfsb': {
+    #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #    'NAME': 'mfsb',
+    #    'USER': 'postgres',
+    #    'PASSWORD': '1395',
+    #    'HOST': '192.168.0.135',
+    #    'PORT': '5432',
+    #},
 }
                                                     	
 #LOGGING = {

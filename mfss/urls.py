@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^main/', include('apps.main.urls')),
     url(r'^acs/', include('apps.acs.urls')),
-    #url(r'^management/', include('apps.adm_sys.urls')),
+    url(r'^management/', include('apps.management.urls')),
 
     url(r'^accounts/logout/', views.user_logout, name='user_logout'),
     url(r'^accounts/', views.user_login, name='user_login'),
