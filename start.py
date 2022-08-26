@@ -2,7 +2,6 @@ import os, django
 import requests
 import requests.exceptions as rex
 import sys
-import redis
 import calendar
 import uuid
 
