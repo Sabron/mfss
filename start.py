@@ -42,12 +42,12 @@ from sabron.util import logging
 
 
 def test_Mfsb():
-    #mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
-    #for mfsb in mfsb_list:
-    #    print(mfsb.name+'   :  '+str(mfsb.values))
-    mfsb_list = Mfsb.objects.using('mfsb').values('name').filter(check=False).distinct()
+    mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
     for mfsb in mfsb_list:
-        print(mfsb['name'])
+        print(mfsb.name+'   :  '+str(mfsb.values))
+    #mfsb_list = Mfsb.objects.using('mfsb').values('name').filter(check=False).distinct()
+    #for mfsb in mfsb_list:
+    #    print(mfsb['name'])
     
 
 

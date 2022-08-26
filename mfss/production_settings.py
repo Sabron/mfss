@@ -45,14 +45,14 @@ DATABASES = {
         'PASSWORD': 'Angstrem*45',
         'PORT': int(os.environ.get('POSTGRES_PORT', '5432')),
     },
-    #'mfsb': {
-    #    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #    'NAME': 'mfsb',
-    #    'USER': 'postgres',
-    #    'PASSWORD': '1395',
-    #    'HOST': '192.168.0.135',
-    #    'PORT': '5432',
-    #},
+    'mfsb': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mfsb',
+        'USER': 'mfsb_user',
+        'PASSWORD': 'mfsb',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    },
 }
                                                     	
 #LOGGING = {
