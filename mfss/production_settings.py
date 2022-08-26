@@ -1,6 +1,6 @@
 import os
 
-DEBUG =False
+DEBUG =True
 
 TIME_ZONE = 'Europe/Moscow'
 
