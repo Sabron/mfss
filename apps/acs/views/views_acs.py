@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 import traceback
-import datetime
 import requests
 
-from datetime import datetime
+from datetime import datetime,timedelta
 from requests.auth import HTTPBasicAuth
 from django.conf import settings
 from django.db.models import Q
@@ -35,7 +34,7 @@ def get_ajax(request):
 
 def MainIndexDefault(request):
      if request.method == "GET":
-        sensor_list = AcsSensor.objects.filter(active=True).all().order_by()
+        sensor_list = AcsSensor.objects.filter(active=True).all().order_by('name')
         m_sensor=[]
         for sensor in sensor_list:
             print(sensor.critical_type)
@@ -43,6 +42,7 @@ def MainIndexDefault(request):
             sensor_dict.update(sensor=sensor)
             sensor_dict.update(value=sensor.value)
             sensor_dict.update(critical_value=sensor.critical_value)
+            sensor_dict.update(unit=sensor.unit)
             #sensor.critical_value
             #color=0 зеленый
             #color=1 желтый
@@ -71,7 +71,10 @@ def SensorList(request):
         if request.method == "GET":
             param=request.GET.dict()
             sensor=AcsSensor.objects.filter(id=param['id']).first()
-            sensor_list = AcsIndicators.objects.filter(sensor=sensor).all().order_by('date_time')
+            now = datetime.now()
+            start_date= now - timedelta(hours=0, minutes=30)
+            print(start_date)
+            sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('date_time')
             context={
                     'sensor':sensor,
                     'sensor_list':sensor_list,
@@ -85,8 +88,8 @@ def SensorList(request):
 @never_cache
 def MainIndex(request):
     try:
-        if request.user.profile.role == 2: # Администратор системы
-            return redirect('/management/')
+        #if request.user.profile.role == 2: # Администратор системы
+        #    return redirect('/management/')
 
         return MainIndexDefault(request)
     except Exception as err:

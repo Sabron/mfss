@@ -41,8 +41,8 @@ def MainIndexDefault(request):
 @never_cache
 def MainIndex(request):
     try:
-        if request.user.profile.role == 2: # Администратор системы
-            return redirect('/management/')
+        #if request.user.profile.role == 2: # Администратор системы
+        #    return redirect('/management/')
 
         return MainIndexDefault(request)
     except Exception as err:

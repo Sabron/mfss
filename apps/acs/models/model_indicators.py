@@ -19,8 +19,8 @@ class AcsIndicators(models.Model):  # Показания датчиков
         on_delete=models.SET_NULL,
         null=True,
         verbose_name="Датчики")
-    value = models.IntegerField(
-        default=0,
+    value = models.FloatField(
+        default=0.0,
         help_text="",
         verbose_name="Показание")
 

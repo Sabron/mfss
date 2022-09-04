@@ -30,7 +30,7 @@
                 <table class="table">
                   <thead>
                     <tr>
-                      <th style="width: 10px">#</th>
+                      <th style="width: 10px">id</th>
                       <th>Датчик</th>
                       <th>Прогресс</th>
                       <th style="width: 40px">Показание</th>
@@ -40,16 +40,16 @@
                   <tbody>
                     {% for sensor in m_sensor %}
                     <tr>
-                      <td>1.</td>
+                      <td>{{sensor.sensor.id}}</td>
                       <td><a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a></td>
                       <td>
                         <div class="progress progress-xs progress-striped active">
-                          <div class="progress-bar {{sensor.color}}" style="width: {{sensor.value}}%"></div>
+                          <div class="progress-bar {{sensor.color}}" style="width: {{sensor.value}}{{sensor.unit}}"></div>
                         </div>
 
                       </td>
-                      <td><span class="badge {{sensor.color}}">{{sensor.value}}%</span></td>
-                      <td><span class="badge ">{{sensor.critical_value}}%</span></td>
+                      <td><span class="badge {{sensor.color}}">{{sensor.value}} {{sensor.unit}}</span></td>
+                      <td><span class="badge ">{{sensor.critical_value}} {{sensor.unit}}</span></td>
                     </tr>                    
                      {% endfor %}
                     </tbody>

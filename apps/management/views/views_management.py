@@ -15,8 +15,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.contrib.auth.models import User
 
-from sabron.util import logging
+from . import views_acs
 
+from sabron.util import logging
 from apps.util import generalmodule
 
 
@@ -26,8 +27,16 @@ from apps.util import generalmodule
 @never_cache
 def main_index(request):
     try:
-        if request.method == "GET":
-            context = generalmodule.get_context_template()
-            return render(request, 'main_management.html',context) 
+
+        #if request.user.profile.role !=1 or request.user.profile.role !=2:
+        #    return redirect('/')
+        param=request.GET.dict()
+        if 'module' in param:
+            if param['module']=='acs':
+                return views_acs.main_index(request)
+
+
+        context = generalmodule.get_context_template()
+        return render(request, 'main_management.html',context) 
     except Exception as err:
         logging.error(traceback.format_exc())
