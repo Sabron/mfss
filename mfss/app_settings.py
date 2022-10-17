@@ -25,8 +25,9 @@ INSTALLED_APPS = [
 
     'django_celery_beat', 
 
+    
+    'apps.catalog.apps.CatalogConfig',
     'apps.schedulers.apps.SchedulersConfig',
-    #'apps.catalog.apps.CatalogConfig',
     #'apps.documents.apps.DocumentsConfig',
     'apps.main.apps.MainConfig',
     'apps.acs.apps.acsConfig',
