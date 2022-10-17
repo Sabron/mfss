@@ -38,7 +38,7 @@ DATABASES_NAME='mfss_db'
 
 DATABASES = {
     'default': {
-        'HOST': '127.0.0.1',
+        'HOST': '192.168.10.2',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': DATABASES_NAME,
         'USER': 'mfss_user',
@@ -47,10 +47,10 @@ DATABASES = {
     },
     'mfsb': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mfsb',
-        'USER': 'mfsb_user',
+        'NAME': 'agk',
+        'USER': 'mfsb_agk',
         'PASSWORD': 'mfsb',
-        'HOST': '127.0.0.1',
+        'HOST': '192.168.10.2',
         'PORT': '5432',
     },
 }
