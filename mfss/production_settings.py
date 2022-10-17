@@ -47,7 +47,7 @@ DATABASES = {
     },
     'mfsb': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'agk',
+        'NAME': 'mfsb_agk',
         'USER': 'mfsb_agk',
         'PASSWORD': 'mfsb',
         'HOST': '192.168.10.2',
