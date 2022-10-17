@@ -23,9 +23,9 @@ INSTALLED_APPS = [
     
     'apps.ops.apps.OpsConfig',
 
-    #'apps.adm_sys.apps.adm_sysConfig',
+    'django_celery_beat', 
 
-    #'api.v1.apps.Apiv1Config',
+    'apps.schedulers.apps.SchedulersConfig',
     #'apps.catalog.apps.CatalogConfig',
     #'apps.documents.apps.DocumentsConfig',
     'apps.main.apps.MainConfig',
@@ -36,7 +36,7 @@ INSTALLED_APPS = [
 """Информация о приложении """
 SITE_TITLE = u'Многофункциональная система безопасности'
 SITE_TITLE_S = u'МФСБ'
-APP_VER = u'1.0.00.2'
+APP_VER = u'1.0.01.1'
 APP_COPPIRIGHT = u'Многофункциональная система безопасности'
 
 
