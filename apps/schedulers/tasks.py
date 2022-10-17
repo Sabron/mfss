@@ -13,7 +13,7 @@ from apps.catalog.models.model_workers import Workers
 #from apps.catalog.models.model_subscribe_date import SubscribeDate
 
 
-from hronos_school.celery import app
+from mfss.celery import app
 
 from sabron.util import logging    
 
