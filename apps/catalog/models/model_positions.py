@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.urls import reverse #Used to generate URLs by reversing the URL patterns
-from .model_clients import Clients
 
 
 class PositionsManager(models.Manager):
@@ -15,8 +14,7 @@ class Positions(models.Model):  # Должности клиента
     """
 
     name = models.CharField(max_length=60, help_text="",default=" ",verbose_name="Наименование")
-    client = models.ForeignKey(Clients, on_delete=models.SET_NULL, null=True,verbose_name="Клиент")
-
+    
     objects=PositionsManager()
 
 
@@ -41,6 +39,6 @@ class Positions(models.Model):  # Должности клиента
         verbose_name = u'должность'
         verbose_name_plural = u'должности'
         indexes = [
-            models.Index(fields=['client']),
+            models.Index(fields=['name']),
             ]
 
