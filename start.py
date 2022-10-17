@@ -43,21 +43,6 @@ from datetime import datetime, timedelta, timezone
 from sabron.util import logging
 
 
-
-def test_Mfsb():
-    mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
-    for mfsb in mfsb_list:
-        print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
-        datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-        if datd_mfsb is None:
-            DataMfsb.objects.create(
-                date=mfsb.date,
-                name=mfsb.name,
-                values=mfsb.values,
-                check=mfsb.check)
-        mfsb.check = True
-        mfsb.save()
-
 def update_acs():
     sensor_list = AcsSensor.objects.values('name').order_by('tag').distinct()
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
@@ -76,6 +61,22 @@ def update_acs():
             data.save()
             print(Acs_Indicators)
 
+
+def test_Mfsb():
+    mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
+    for mfsb in mfsb_list:
+        print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
+        datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+        if datd_mfsb is None:
+            DataMfsb.objects.create(
+                date=mfsb.date,
+                name=mfsb.name,
+                values=mfsb.values,
+                check=mfsb.check)
+        mfsb.check = True
+        mfsb.save()
+        update_acs()
+  
 
 if __name__ == "__main__":
     test_Mfsb()

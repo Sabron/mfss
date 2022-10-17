@@ -10,7 +10,8 @@ class AcsSensorForm(forms.ModelForm):
     )
     name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','autofocus':'','placeholder':'Наименование'})) 
     #critical_value = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.00001','autofocus':'',})) 
-    critical_value = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
+    critical_value = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',}))
+    max_value = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
     critical_type = forms.ChoiceField(
         widget=forms.Select(
             attrs={
@@ -23,6 +24,6 @@ class AcsSensorForm(forms.ModelForm):
     comments = forms.CharField(required=False,widget=forms.Textarea(attrs={'class':'form-control','autofocus':'','placeholder':'Комментарий'})) 
     class Meta:
         model=AcsSensor
-        fields = ('id','tag','name','critical_value','critical_type','value','active','unit','comments')
+        fields = ('id','tag','name','critical_value','critical_type','value','active','unit','max_value','comments')
 
 

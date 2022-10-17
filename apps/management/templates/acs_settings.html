@@ -142,8 +142,8 @@
                                                 <th>ТЭГ</th>
                                                 <th>Наименование</th>
                                                 <th>Ед. измерения</th>
-                                                <th>Тип</th>
-                                                <th>Критически допустимое значение</th>
+                                                <th>Авария</th>
+                                                <th>Максимальное</th>
                                                 <th>Активность</th>
                                             </tr>
                                         </thead>
@@ -184,20 +184,6 @@
                                                     </form>                                                
                                                 
                                                 </td>
-                                                <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_phone_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
-                                                        {% csrf_token %}
-                                                        <a href="#" onclick="document.getElementById('frm_phone_{{catalog.id}}').submit(); return false;">
-                                                            {% if catalog.critical_type == "max" %} 
-                                                                Максимальный
-                                                            {% else %}
-                                                                Минимальный
-                                                            {% endif %}
-                                                        </a>
-                                                        <input type="hidden" value="{{catalog.id}}" name="id">
-                                                    </form>                                                
-                                                
-                                                </td>
                                                <td>
                                                     <form action="./?module=acs&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
@@ -208,8 +194,16 @@
                                                     </form>                                                
                                                 
                                                 </td>
-
-                                                <td>
+                                               <td>
+                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                        {% csrf_token %}
+                                                        <a href="#" onclick="document.getElementById('frm_adress_{{catalog.id}}').submit(); return false;">
+                                                            {{catalog.max_value}}
+                                                        </a>
+                                                        <input type="hidden" value="{{catalog.id}}" name="id">
+                                                    </form>                                                
+                                                
+                                                </td>                                                <td>
                                                     <form action="./?module=acs&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_adress_{{catalog.id}}').submit(); return false;">

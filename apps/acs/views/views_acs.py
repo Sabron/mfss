@@ -25,20 +25,45 @@ from sabron.util import logging
 
 def get_ajax(request):
     try:
-        data=dict()
+        if request.method == "POST":
+            sensor_list = AcsSensor.objects.filter(active=True).all().order_by('name')
+            m_sensor = []
+            for sensor in sensor_list:
+                sensor_dict = dict()
+                sensor_dict.update(sensor_id=sensor.id)
+                sensor_dict.update(value=sensor.value)
+                sensor_dict.update(critical_value=sensor.critical_value)
+                sensor_dict.update(unit=sensor.unit)
+                pecent = (sensor.value * 100) / sensor.critical_value
+                sensor_dict.update(pecent_value=pecent)
+                #sensor.critical_value
+                #color=0 зеленый
+                #color=1 желтый
+                #color=2 красный
+                color = 'bg-success'
+                if sensor.critical_type == 'max':
+                    if sensor.value >= sensor.critical_value:
+                        color = 'bg-danger'
+                else:
+                    if sensor.value <= sensor.critical_value:
+                        color = 'bg-danger'
+                sensor_dict.update(color=color)
+                m_sensor.append(sensor_dict)
+                data = dict()
+            return generalmodule.ReturnJson(200,m_sensor)
     except Exception as err:
         logging.error(traceback.format_exc())
-        data=dict()
+        data = dict()
         data.update(status=-1)
         return generalmodule.ReturnJson(200,data)
 
 def MainIndexDefault(request):
      if request.method == "GET":
         sensor_list = AcsSensor.objects.filter(active=True).all().order_by('name')
-        m_sensor=[]
+        m_sensor = []
         for sensor in sensor_list:
             print(sensor.critical_type)
-            sensor_dict=dict()
+            sensor_dict = dict()
             sensor_dict.update(sensor=sensor)
             sensor_dict.update(value=sensor.value)
             sensor_dict.update(critical_value=sensor.critical_value)
@@ -47,16 +72,16 @@ def MainIndexDefault(request):
             #color=0 зеленый
             #color=1 желтый
             #color=2 красный
-            color='bg-success'
-            if sensor.critical_value=='max':
-                if sensor.value>=sensor.critical_value:
-                    color='bg-danger'
+            color = 'bg-success'
+            if sensor.critical_type == 'max':
+                if sensor.value >= sensor.critical_value:
+                    color = 'bg-danger'
             else:
-                if sensor.value<=sensor.critical_value:
-                    color='bg-danger'
+                if sensor.value <= sensor.critical_value:
+                    color = 'bg-danger'
             sensor_dict.update(color=color)
             m_sensor.append(sensor_dict)
-        context={
+        context = {
               'updatepage':True,
               'sensor_list':sensor_list,
               'm_sensor':m_sensor,
@@ -69,13 +94,13 @@ def MainIndexDefault(request):
 def SensorList(request):
     try:
         if request.method == "GET":
-            param=request.GET.dict()
-            sensor=AcsSensor.objects.filter(id=param['id']).first()
+            param = request.GET.dict()
+            sensor = AcsSensor.objects.filter(id=param['id']).first()
             now = datetime.now()
-            start_date= now - timedelta(hours=0, minutes=30)
+            start_date = now - timedelta(hours=0, minutes=30)
             print(start_date)
             sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('date_time')
-            context={
+            context = {
                     'sensor':sensor,
                     'sensor_list':sensor_list,
                     }
