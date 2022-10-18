@@ -57,3 +57,13 @@ def update_subscribe_payment():
     except Exception as err:
         logging.error(traceback.format_exc())
         return HttpResponse("ERROR", content_type="text/plain")
+
+
+@app.task(ignore_result=True)
+def update_ops_date():
+    try:
+        logging.message('update ops')
+        pass
+    except Exception as err:
+        logging.error(traceback.format_exc())
+        return HttpResponse("ERROR", content_type="text/plain")
