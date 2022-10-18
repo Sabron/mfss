@@ -2,7 +2,7 @@ import os
 
 DEBUG =True
 
-TIME_ZONE = 'Europe/Moscow'
+TIME_ZONE = 'Asia/Krasnoyarsk'
 
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN",'1886949342:AAHJtTvmhdKCu506XSZi5q0bpNRUtZSR53k')
@@ -54,34 +54,3 @@ DATABASES = {
         'PORT': '5432',
     },
 }
-                                                    	
-#LOGGING = {
-#    'version': 1,
-#    'disable_existing_loggers': False,
-#    'formatters': {
-#       'console': {
-#            'format': '%(name)-12s %(levelname)-8s %(message)s'
-#        },
-#        'file': {
-#            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
-#        }
-#   },
-#    'handlers': {
-#       'console': {
-#            'class': 'logging.StreamHandler',
-#            'formatter': 'console'
-#        },
-#        'file': {
-#            'level': 'DEBUG',
-#            'class': 'logging.FileHandler',
-#            'formatter': 'file',
-#            'filename': 'debug.log'
-#        }
-#    },
-#    'loggers': {
-#        '': {
-#            'level': 'DEBUG',
-#            'handlers': ['console', 'file']
-#        }
-#    }
-#}
