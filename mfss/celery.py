@@ -18,12 +18,12 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 app.conf.enable_utc = False
 app.conf.beat_schedule = {
+#    'send-send_telegram_message-minute': {
+#        'task': 'apps.schedulers.tasks.update_ops_date',
+#        'schedule': crontab(),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
+#    },
     'send-send_telegram_message-minute': {
         'task': 'apps.schedulers.tasks.update_ops_date',
-        'schedule': crontab(),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
-    },
-    'send-send_telegram_message-minute': {
-        'task': 'apps.schedulers.tasks.update_ops_date10',
         'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
     },
 
