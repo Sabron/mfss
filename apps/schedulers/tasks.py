@@ -6,11 +6,12 @@ from django.db.models import Sum
 
 from datetime import datetime, timedelta, timezone,date
 
-#from apps.catalog.models.model_workersinjob import Workersinjob
-#from apps.catalog.models.model_checkpoints import Checkpoints
 from apps.catalog.models.model_workers import Workers
-#from apps.account.models.model_personalaccounts import PersonalAccount
-#from apps.catalog.models.model_subscribe_date import SubscribeDate
+
+from apps.ops.models.model_mfsb import Mfsb
+from apps.main.models.model_datamfsb import DataMfsb
+from apps.acs.models.model_sensor import AcsSensor
+from apps.acs.models.model_indicators import AcsIndicators
 
 
 from mfss.celery import app
