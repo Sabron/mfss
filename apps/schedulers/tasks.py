@@ -35,7 +35,6 @@ def update_acs():
             data.save()
  
 
-
 def end_moth(old_date,mes):
     if old_date is None:
         dt = datetime.now()
