@@ -22,7 +22,6 @@ def add_acs(request):
         param=request.POST.dict()
         if request.method == "POST":
             form = AcsSensorForm(request.POST)
-            print(form)
             if form.is_valid():
                 acs = form.save(commit=False)
                 acs.save()
@@ -52,7 +51,6 @@ def edit_acs(request):
             data_mfsb = DataMfsb.objects.values('name').filter(~Q(name__in=sensor_list)).order_by('name').distinct()
             accs_sensor = AcsSensor.objects.get(id=param['id'])
             form = AcsSensorForm(instance=accs_sensor)
-            print(accs_sensor)
             context = generalmodule.get_context_template()
             context.update({
                 'mt':'save',
@@ -73,7 +71,6 @@ def save_acs(request):
         if request.method == "POST":
             accs_sensor = AcsSensor.objects.get(id=param['id'])
             form = AcsSensorForm(request.POST,instance=accs_sensor)
-            print(form)
         if form.is_valid():
             accs_sensor = form.save(commit=False)
             accs_sensor.save()
@@ -108,7 +105,6 @@ def open_type(request,get_parm):
 @never_cache
 def cmd_manager(request,get_parm):
     try:
-        print('cmd')
         if get_parm['cmd']=='add':
             return add_acs(request)
         if get_parm['cmd']=='save':

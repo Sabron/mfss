@@ -25,6 +25,7 @@ from sabron.util import logging
 
 def get_ajax(request):
     try:
+        print('2s3')
         if request.method == "POST":
             sensor_list = AcsSensor.objects.filter(active=True).all().order_by('name')
             m_sensor = []
@@ -49,7 +50,6 @@ def get_ajax(request):
                         color = 'bg-danger'
                 sensor_dict.update(color=color)
                 m_sensor.append(sensor_dict)
-                data = dict()
             return generalmodule.ReturnJson(200,m_sensor)
     except Exception as err:
         logging.error(traceback.format_exc())
@@ -62,7 +62,6 @@ def MainIndexDefault(request):
         sensor_list = AcsSensor.objects.filter(active=True).all().order_by('name')
         m_sensor = []
         for sensor in sensor_list:
-            print(sensor.critical_type)
             sensor_dict = dict()
             sensor_dict.update(sensor=sensor)
             sensor_dict.update(value=sensor.value / 100)
@@ -93,6 +92,7 @@ def MainIndexDefault(request):
 @never_cache
 def SensorList(request):
     try:
+        print('2s')
         if request.method == "GET":
             param = request.GET.dict()
             sensor = AcsSensor.objects.filter(id=param['id']).first()
@@ -113,6 +113,34 @@ def SensorList(request):
             return render(request, 'acs_sensor_list.html',context) 
     except Exception as err:
         logging.error(traceback.format_exc())
+
+@login_required(login_url='/accounts/login/?next=')
+@never_cache
+def sensor_ajax(request):
+    try:
+        print('s')
+        if request.method == "POST":
+            sensor_dict = dict()
+            param = request.POST.dict()
+            print(param)
+            sensor = AcsSensor.objects.filter(id=param['id']).first()
+            print(sensor)
+            now = datetime.now()
+            start_date = now - timedelta(hours=00, minutes=10)
+            print(start_date)
+            print(datetime.now())
+            sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('date_time')
+            print(sensor_list)
+            m_sensor = []
+            for sensor in sensor_list:
+                sensor_dict = dict()
+                sensor_dict.update(date_time=str(sensor.date_time))
+                sensor_dict.update(value=sensor.value / 100)
+                m_sensor.append(sensor_dict)
+            return generalmodule.ReturnJson(200,m_sensor) 
+    except Exception as err:
+        logging.error(traceback.format_exc())
+
 
 
 @login_required(login_url='/accounts/login/?next=')
