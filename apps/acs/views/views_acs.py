@@ -123,7 +123,7 @@ def sensor_ajax(request):
             m_sensor = []
             for sensor in sensor_list:
                 sensor_dict = dict()
-                sensor_dict.update(date_time=str(sensor.date_time))
+                sensor_dict.update(date_time=sensor.date_time.strftime("%H:%M:%S"))
                 sensor_dict.update(value=sensor.value / 100)
                 m_sensor.append(sensor_dict)
             return generalmodule.ReturnJson(200,m_sensor) 
