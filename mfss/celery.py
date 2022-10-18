@@ -3,6 +3,13 @@ from celery import Celery
 from celery.schedules import crontab
 from datetime import timedelta
 
+from apps.ops.models.model_mfsb import Mfsb
+from apps.main.models.model_datamfsb import DataMfsb
+from apps.acs.models.model_sensor import AcsSensor
+from apps.acs.models.model_indicators import AcsIndicators
+
+
+
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mfss.settings')
 
