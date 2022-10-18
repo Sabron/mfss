@@ -103,14 +103,11 @@ const myChart = new Chart(ctx, {
     type: 'line',
     data: {
     labels: [
-        {% for sensor in sensor_list %}
-            '{{sensor.date_time|date:'H:i:s'}}',
-        {% endfor %}
-    ],
+     ],
         datasets: [{
             label: 'Показания датчика',
             fill: false,
-              data:[{{sensor_str}}
+              data:[
                     ],  
             /*backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
