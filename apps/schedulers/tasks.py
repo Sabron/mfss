@@ -90,6 +90,6 @@ def update_ops_date():
                     check=True)
             mfsb.check = True
             mfsb.save()
-            update_acs()
+        update_acs()
     except Exception as err:
         logging.error(traceback.format_exc())
