@@ -65,7 +65,7 @@ def MainIndexDefault(request):
             print(sensor.critical_type)
             sensor_dict = dict()
             sensor_dict.update(sensor=sensor)
-            sensor_dict.update(value=sensor.value)
+            sensor_dict.update(value=sensor.value/100)
             sensor_dict.update(critical_value=sensor.critical_value)
             sensor_dict.update(unit=sensor.unit)
             #sensor.critical_value
@@ -74,10 +74,10 @@ def MainIndexDefault(request):
             #color=2 красный
             color = 'bg-success'
             if sensor.critical_type == 'max':
-                if sensor.value >= sensor.critical_value:
+                if sensor.value/100 >= sensor.critical_value:
                     color = 'bg-danger'
             else:
-                if sensor.value <= sensor.critical_value:
+                if sensor.value/100 <= sensor.critical_value:
                     color = 'bg-danger'
             sensor_dict.update(color=color)
             m_sensor.append(sensor_dict)
@@ -97,9 +97,10 @@ def SensorList(request):
             param = request.GET.dict()
             sensor = AcsSensor.objects.filter(id=param['id']).first()
             now = datetime.now()
-            start_date = now - timedelta(hours=0, minutes=30)
-            print(start_date)
+            start_date = now - timedelta(hours=0, minutes=20)
+            logging.message(start_date)
             sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('date_time')
+
             context = {
                     'sensor':sensor,
                     'sensor_list':sensor_list,
