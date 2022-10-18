@@ -107,11 +107,7 @@ const myChart = new Chart(ctx, {
         datasets: [{
             label: 'Показания датчика',
             fill: false,
-              data:[
-                {% for sensor in sensor_list %}
-                    {{sensor.value}},
-                {% endfor %}
-    
+              data:[{{sensor_str}}
                     ],  
             /*backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
