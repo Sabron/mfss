@@ -159,8 +159,6 @@ const myChart = new Chart(ctx, {
                         myChart.data.labels.push(data[index].date_time);
                         myChart.data.datasets[0].data.push(data[index].value);
                 }
-                console.log(myChart.data.labels)
-                console.log(myChart.data.datasets[0].data)
                 myChart.update();
             },
             error: function (dataerr) {
