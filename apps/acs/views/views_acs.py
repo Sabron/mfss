@@ -25,7 +25,6 @@ from sabron.util import logging
 
 def get_ajax(request):
     try:
-        print('2s3')
         if request.method == "POST":
             sensor_list = AcsSensor.objects.filter(active=True).all().order_by('name')
             m_sensor = []
@@ -92,15 +91,11 @@ def MainIndexDefault(request):
 @never_cache
 def SensorList(request):
     try:
-        print('2s')
         if request.method == "GET":
             param = request.GET.dict()
             sensor = AcsSensor.objects.filter(id=param['id']).first()
             now = datetime.now()
             start_date = now - timedelta(hours=0, minutes=1)
-            logging.message(start_date)
-            logging.message(datetime.now())
-            
             sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('date_time')
             sensor_str = ''
             for sensor in sensor_list:
@@ -118,19 +113,13 @@ def SensorList(request):
 @never_cache
 def sensor_ajax(request):
     try:
-        print('s')
         if request.method == "POST":
             sensor_dict = dict()
             param = request.POST.dict()
-            print(param)
             sensor = AcsSensor.objects.filter(id=param['id']).first()
-            print(sensor)
             now = datetime.now()
-            start_date = now - timedelta(hours=00, minutes=10)
-            print(start_date)
-            print(datetime.now())
+            start_date = now - timedelta(hours=0, minutes=1)
             sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('date_time')
-            print(sensor_list)
             m_sensor = []
             for sensor in sensor_list:
                 sensor_dict = dict()
