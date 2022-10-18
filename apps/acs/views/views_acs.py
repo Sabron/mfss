@@ -93,6 +93,7 @@ def SensorList(request):
     try:
         if request.method == "GET":
             param = request.GET.dict()
+            logging.message(param)
             sensor = AcsSensor.objects.filter(id=param['id']).first()
             print(sensor)
             now = datetime.now()
