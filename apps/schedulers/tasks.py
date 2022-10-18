@@ -82,17 +82,17 @@ def update_subscribe_payment():
 def update_ops_date():
     try:
         logging.message('update_ops_date')
-        #mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
-        #for mfsb in mfsb_list:
-        #    datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-        #    if datd_mfsb is None:
-        #        DataMfsb.objects.create(
-        #            date=mfsb.date,
-        #            name=mfsb.name,
-        #            values=mfsb.values,
-        #            check=mfsb.check)
-        #    mfsb.check = True
-        #    mfsb.save()
+        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
+        for mfsb in mfsb_list:
+            datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+            if datd_mfsb is None:
+                DataMfsb.objects.create(
+                    date=mfsb.date,
+                    name=mfsb.name,
+                    values=mfsb.values,
+                    check=mfsb.check)
+            mfsb.check = True
+            mfsb.save()
         #    update_acs()
     except Exception as err:
         logging.error(traceback.format_exc())
