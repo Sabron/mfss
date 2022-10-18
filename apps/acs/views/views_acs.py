@@ -99,6 +99,8 @@ def SensorList(request):
             now = datetime.now()
             start_date = now - timedelta(hours=0, minutes=3)
             logging.message(start_date)
+            logging.message(datetime.now())
+            
             sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('date_time')
             logging.message(str(sensor_list))
             context = {
