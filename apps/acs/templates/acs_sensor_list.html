@@ -156,10 +156,15 @@ const myChart = new Chart(ctx, {
                     myChart.data.labels=[]
                     myChart.data.datasets[0].data = []
                     str_table = ''
-                for (index = 0; index<data.length;index++) {
+                    start=0
+                for (index = data.length - 1; index >= 0; --index) {
+                        start=start+1
                         myChart.data.labels.push(data[index].date_time);
                         myChart.data.datasets[0].data.push(data[index].value);
+                    if (start < 5) {
                         str_table = str_table + '<tr><td>' + (index + 1) + '.</td><td>' + data[index].date_time + '</td><td>' + data[index].value + '</td></tr>'
+
+                    }
                 }
 
                 myChart.update();
