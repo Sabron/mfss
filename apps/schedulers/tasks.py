@@ -19,22 +19,21 @@ from mfss.celery import app
 from sabron.util import logging    
 
 
-#def update_acs():
-#    sensor_list = AcsSensor.objects.values('name').order_by('tag').distinct()
-#    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
-#    for data in data_mfsb:
-#        sensor_link = AcsSensor.objects.filter(name=data.name).filter(active=True).first()
-#        if sensor_link is not None:
-#            Acs_Indicators = AcsIndicators.objects.create(
-#                date_time =data.date,
-#                sensor = sensor_link,
-#                value = data.values)
-#            sensor_link.value = data.values
-#            sensor_link.save()
- #           data.check = True
- #           data.save()
- #           print(Acs_Indicators)
-
+def update_acs():
+    sensor_list = AcsSensor.objects.values('name').order_by('tag').distinct()
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
+    for data in data_mfsb:
+        sensor_link = AcsSensor.objects.filter(name=data.name).filter(active=True).first()
+        if sensor_link is not None:
+            Acs_Indicators = AcsIndicators.objects.create(
+                date_time =data.date,
+                sensor = sensor_link,
+                value = data.values)
+            sensor_link.value = data.values
+            sensor_link.save()
+            data.check = True
+            data.save()
+ 
 
 
 def end_moth(old_date,mes):
@@ -93,6 +92,6 @@ def update_ops_date():
                     check=mfsb.check)
             mfsb.check = True
             mfsb.save()
-        #    update_acs()
+            update_acs()
     except Exception as err:
         logging.error(traceback.format_exc())
