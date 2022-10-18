@@ -104,7 +104,7 @@ def SensorList(request):
             sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('date_time')
             sensor_str = ''
             for sensor in sensor_list:
-                sensor_str = sensor_str+str(sensor.value).replace(',','.')
+                sensor_str = sensor_str+str(sensor.value).replace(',','.')+','
             context = {
                     'sensor':sensor,
                     'sensor_list':sensor_list,
