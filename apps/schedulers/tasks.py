@@ -67,3 +67,12 @@ def update_ops_date():
     except Exception as err:
         logging.error(traceback.format_exc())
         return HttpResponse("ERROR", content_type="text/plain")
+
+@app.task(ignore_result=True)
+def update_ops_date10():
+    try:
+        logging.message('update ops 10')
+        pass
+    except Exception as err:
+        logging.error(traceback.format_exc())
+        return HttpResponse("ERROR", content_type="text/plain")

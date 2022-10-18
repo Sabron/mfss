@@ -1,6 +1,7 @@
 import os
 from celery import Celery
 from celery.schedules import crontab
+from datetime import timedelta
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mfss.settings')
@@ -20,6 +21,10 @@ app.conf.beat_schedule = {
     'send-send_telegram_message-minute': {
         'task': 'apps.schedulers.tasks.update_ops_date',
         'schedule': crontab(),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
+    },
+    'send-send_telegram_message-minute': {
+        'task': 'apps.schedulers.tasks.update_ops_date10',
+        'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
     },
 
 #    'send-send_telegram_message-minute': {
