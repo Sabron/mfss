@@ -97,7 +97,7 @@ def SensorList(request):
             param = request.GET.dict()
             sensor = AcsSensor.objects.filter(id=param['id']).first()
             now = datetime.now()
-            start_date = now - timedelta(hours=0, minutes=0,seconds=5)
+            start_date = now - timedelta(hours=0, minutes=1)
             logging.message(start_date)
             logging.message(datetime.now())
             
