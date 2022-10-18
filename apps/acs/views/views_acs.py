@@ -31,10 +31,10 @@ def get_ajax(request):
             for sensor in sensor_list:
                 sensor_dict = dict()
                 sensor_dict.update(sensor_id=sensor.id)
-                sensor_dict.update(value=sensor.value/100)
+                sensor_dict.update(value=sensor.value / 100)
                 sensor_dict.update(critical_value=sensor.critical_value)
                 sensor_dict.update(unit=sensor.unit)
-                pecent = ((sensor.value/100)* 100) / sensor.critical_value
+                pecent = ((sensor.value / 100) * 100) / sensor.critical_value
                 sensor_dict.update(pecent_value=pecent)
                 #sensor.critical_value
                 #color=0 зеленый
@@ -42,10 +42,10 @@ def get_ajax(request):
                 #color=2 красный
                 color = 'bg-success'
                 if sensor.critical_type == 'max':
-                    if sensor.value/100 >= sensor.critical_value:
+                    if sensor.value / 100 >= sensor.critical_value:
                         color = 'bg-danger'
                 else:
-                    if sensor.value/100 <= sensor.critical_value:
+                    if sensor.value / 100 <= sensor.critical_value:
                         color = 'bg-danger'
                 sensor_dict.update(color=color)
                 m_sensor.append(sensor_dict)
@@ -65,7 +65,7 @@ def MainIndexDefault(request):
             print(sensor.critical_type)
             sensor_dict = dict()
             sensor_dict.update(sensor=sensor)
-            sensor_dict.update(value=sensor.value/100)
+            sensor_dict.update(value=sensor.value / 100)
             sensor_dict.update(critical_value=sensor.critical_value)
             sensor_dict.update(unit=sensor.unit)
             #sensor.critical_value
@@ -74,10 +74,10 @@ def MainIndexDefault(request):
             #color=2 красный
             color = 'bg-success'
             if sensor.critical_type == 'max':
-                if sensor.value/100 >= sensor.critical_value:
+                if sensor.value / 100 >= sensor.critical_value:
                     color = 'bg-danger'
             else:
-                if sensor.value/100 <= sensor.critical_value:
+                if sensor.value / 100 <= sensor.critical_value:
                     color = 'bg-danger'
             sensor_dict.update(color=color)
             m_sensor.append(sensor_dict)
@@ -102,10 +102,13 @@ def SensorList(request):
             logging.message(datetime.now())
             
             sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('date_time')
-            logging.message(str(sensor_list))
+            sensor_str = ''
+            for sensor in sensor_list:
+                sensor_str = sensor_str+str(sensor.value).replace(',','.')
             context = {
                     'sensor':sensor,
                     'sensor_list':sensor_list,
+                    'sensor_str':sensor_str,
                     }
             return render(request, 'acs_sensor_list.html',context) 
     except Exception as err:
