@@ -162,7 +162,7 @@ const myChart = new Chart(ctx, {
                         myChart.data.labels.push(data[index].date_time);
                         myChart.data.datasets[0].data.push(data[index].value);
                     if (start < 5) {
-                        str_table = str_table + '<tr><td>' + (data.length-index) + '.</td><td>' + data[index].date_time + '</td><td>' + data[index].value + '</td></tr>'
+                        str_table = str_table + '<tr><td>' + (data.length-index) + '.</td><td>' + data[data.length-index].date_time + '</td><td>' + data[data.length-index].value + '</td></tr>'
 
                     }
                 }
