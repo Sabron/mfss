@@ -87,7 +87,7 @@ def update_ops_date():
                     date=mfsb.date,
                     name=mfsb.name,
                     values=mfsb.values,
-                    check=mfsb.check)
+                    check=True)
             mfsb.check = True
             mfsb.save()
             update_acs()
