@@ -31,10 +31,10 @@ def get_ajax(request):
             for sensor in sensor_list:
                 sensor_dict = dict()
                 sensor_dict.update(sensor_id=sensor.id)
-                sensor_dict.update(value=sensor.value)
+                sensor_dict.update(value=sensor.value/100)
                 sensor_dict.update(critical_value=sensor.critical_value)
                 sensor_dict.update(unit=sensor.unit)
-                pecent = (sensor.value * 100) / sensor.critical_value
+                pecent = ((sensor.value/100)* 100) / sensor.critical_value
                 sensor_dict.update(pecent_value=pecent)
                 #sensor.critical_value
                 #color=0 зеленый

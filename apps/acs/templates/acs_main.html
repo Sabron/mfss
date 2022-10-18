@@ -45,12 +45,12 @@
                       <td><a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a></td>
                       <td id="{{sensor.sensor.id}}_pecent">
                         <div class="progress progress-xs progress-striped active">
-                          <div class="progress-bar {{sensor.color}}" style="width: {{sensor.value/100}}%"></div>
+                          <div class="progress-bar {{sensor.color}}" style="width: {{sensor.value}}%"></div>
                         </div>
 
                       </td>
-                      <td id="{{sensor.sensor.id}}_value"><span class="badge {{sensor.color}}">{{sensor.value/100}} {{sensor.unit}}</span></td>
-                      <td><span class="badge ">{{sensor.critical_value/100}} {{sensor.unit}}</span></td>
+                      <td id="{{sensor.sensor.id}}_value"><span class="badge {{sensor.color}}">{{sensor.value}} {{sensor.unit}}</span></td>
+                      <td><span class="badge ">{{sensor.critical_value}} {{sensor.unit}}</span></td>
                     </tr>                    
                      {% endfor %}
                     </tbody>
