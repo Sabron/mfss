@@ -33,10 +33,6 @@ class AcsSensor(models.Model):  # Датчики
                               help_text="",
                               blank=True,
                               verbose_name="Масштабирование")
-    step = models.FloatField(default=0.01,
-                              help_text="",
-                              blank=True,
-                              verbose_name="Шаг")
     value = models.FloatField(default=0.0,
                               help_text="",
                               blank=True,
@@ -52,6 +48,28 @@ class AcsSensor(models.Model):  # Датчики
     comments = models.TextField(max_length=1001,
         blank=True,
         verbose_name="Комментарий",default=' ')
+    scale = models.CharField(max_length=250,
+        help_text="",
+        default="0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0",
+        verbose_name="Шкала датчика")
+    norm_value_from = models.FloatField(default=0.0,
+        help_text="",
+        verbose_name="Показатель нормы от")
+    norm_value_to = models.FloatField(default=0.0,
+        help_text="",
+        verbose_name="Показатель нормы до")
+    danger_value_from = models.FloatField(default=0.0,
+        help_text="",
+        verbose_name="Показатель опасности от")
+    danger_value_to = models.FloatField(default=0.0,
+        help_text="Показатель опасности до",
+        verbose_name="Показатель опасности до")
+    critical_value_from = models.FloatField(default=0.0,
+        help_text="",
+        verbose_name="Критический показатель от")
+    critical_value_to = models.FloatField(default=0.0,
+        help_text="",
+        verbose_name="Критический показатель до")
         
 
     def getId(self):

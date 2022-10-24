@@ -77,10 +77,6 @@ def MainIndexDefault(request):
         sensor_list = AcsSensor.objects.filter(active=True).all().order_by('name')
         m_sensor = []
         for sensor in sensor_list:
-            str_step= ''
-            for f_step in float_range(0, sensor.critical_value,sensor.step):
-                str_step = str_step+f_step+','
-            str_step = '0.'+str_step+str(sensor.critical_value)
             str_value=str(sensor.value / sensor.ratio).replace(',','.')
             sensor_dict = dict()
             sensor_dict.update(sensor=sensor)
@@ -89,7 +85,13 @@ def MainIndexDefault(request):
             sensor_dict.update(critical_value=sensor.critical_value)
             sensor_dict.update(str_critical_value=str(sensor.critical_value).replace(',','.'))
             sensor_dict.update(unit=sensor.unit)
-            sensor_dict.update(str_step=str_step)
+            sensor_dict.update(scale=sensor.scale)
+            sensor_dict.update(norm_value_from=str(sensor.norm_value_from).replace(',','.'))
+            sensor_dict.update(norm_value_to=str(sensor.norm_value_to).replace(',','.'))
+            sensor_dict.update(danger_value_from=str(sensor.danger_value_from).replace(',','.'))
+            sensor_dict.update(danger_value_to=str(sensor.danger_value_to).replace(',','.'))
+            sensor_dict.update(critical_value_from=str(sensor.critical_value_from).replace(',','.'))
+            sensor_dict.update(critical_value_to=str(sensor.critical_value_to).replace(',','.'))
             #sensor.critical_value
             #color=0 зеленый
             #color=1 желтый

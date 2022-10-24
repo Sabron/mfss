@@ -70,9 +70,9 @@
                             <div style="display:inline;width:90px;height:90px;">
                                 <canvas id="{{sensor.sensor.id}}_value_canvas" class="gauge-speed" style="margin-top:40px;" data-type="radial-gauge" data-width="200"
                                         data-glow="false" data-height="200" data-units="{{sensor.unit}}" data-title="{{sensor.sensor}}" data-min-value="0.0"
-                                        data-max-value="{{sensor.str_critical_value}}" data-major-ticks="{{sensor.str_step}}" data-minor-ticks="2" data-value="{{sensor.str_value}}"
-                                        data-stroke-ticks="false" data-highlights='[{ "from": 0, "to": 0.1, "color": "#4caf50" },
-                                             { "from": 0.1, "to":0.2 , "color": "#ff9800" },{ "from": 0.2, "to": 0.4, "color": "#f44336" }]'
+                                        data-max-value="{{sensor.str_critical_value}}" data-major-ticks="{{sensor.scale}}" data-minor-ticks="10" data-value="{{sensor.str_value}}"
+                                        data-stroke-ticks="false" data-highlights='[{ "from": {{sensor.norm_value_from}}, "to": {{sensor.norm_value_to}}, "color": "#4caf50" },
+                                             { "from": {{sensor.danger_value_from}}, "to":{{sensor.danger_value_to}} , "color": "#ff9800" },{ "from": {{sensor.critical_value_from}}, "to": {{sensor.critical_value_to}}, "color": "#f44336" }]'
                                         data-color-needle-start="rgba(240, 128, 128, 1)" data-color-needle-end="rgba(255, 160, 122, .9)"
                                         data-value-box="true" data-animation-rule="linear" data-animation-duration="100"
                                         data-needle-shadow="false"></canvas>

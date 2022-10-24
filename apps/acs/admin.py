@@ -5,7 +5,7 @@ from .models.model_indicators import AcsIndicators
 
 @admin.register(AcsSensor)
 class AcsSensorAdmin(admin.ModelAdmin):
-    list_display = ('tag','name','critical_value','step','ratio','max_value','critical_type','active')
+    list_display = ('tag','name','critical_value','ratio','max_value','critical_type','active')
     search_fields = ('name',)
 
 @admin.register(AcsIndicators)

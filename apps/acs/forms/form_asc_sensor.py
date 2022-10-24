@@ -10,8 +10,7 @@ class AcsSensorForm(forms.ModelForm):
     )
     name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','autofocus':'','placeholder':'Наименование'})) 
     critical_value = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
-    step = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.01','autofocus':'',})) 
-    ratio = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'any','autofocus':'',})) 
+    ratio = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
     max_value = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
     critical_type = forms.ChoiceField(
         widget=forms.Select(
@@ -23,8 +22,22 @@ class AcsSensorForm(forms.ModelForm):
     active=forms.BooleanField(widget=forms.CheckboxInput(),required = False)
     unit= forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','autofocus':'','placeholder':'Единица измерения'})) 
     comments = forms.CharField(required=False,widget=forms.Textarea(attrs={'class':'form-control','autofocus':'','placeholder':'Комментарий'})) 
+    scale= forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','autofocus':'','placeholder':'Шкала датчика'})) 
+    norm_value_from = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
+    norm_value_to = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
+    danger_value_from = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
+    danger_value_to = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
+    critical_value_from = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
+    critical_value_to = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
+
     class Meta:
         model=AcsSensor
-        fields = ('id','tag','name','critical_value','critical_type','value','active','unit','max_value','comments','ratio','step')
+        fields = ('id','tag','name','critical_value',
+                  'critical_type','value','active',
+                  'unit','max_value','comments',
+                  'ratio','scale','norm_value_from',
+                  'norm_value_to','danger_value_from',
+                  'danger_value_to','critical_value_from',
+                  'critical_value_to',)
 
 
