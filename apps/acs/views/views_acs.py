@@ -22,6 +22,22 @@ from apps.acs.models.model_sensor import AcsSensor
 from apps.util import generalmodule
 from sabron.util import logging
 
+def float_range(A, L=None, D=None):
+    #Use float number in range() function
+    # if L and D argument is null set A=0.0 and D = 1.0
+    if L == None:
+        L = A + 0.0
+        A = 0.0
+    if D == None:
+        D = 1.0
+    while True:
+        if D > 0 and A >= L:
+            break
+        elif D < 0 and A <= L:
+            break
+        yield ("%g" % A) # return float number
+        A = A + D
+#end of function float_range()
 
 def get_ajax(request):
     try:
@@ -31,10 +47,10 @@ def get_ajax(request):
             for sensor in sensor_list:
                 sensor_dict = dict()
                 sensor_dict.update(sensor_id=sensor.id)
-                sensor_dict.update(value=sensor.value / 100)
+                sensor_dict.update(value=sensor.value / sensor.ratio)
                 sensor_dict.update(critical_value=sensor.critical_value)
                 sensor_dict.update(unit=sensor.unit)
-                pecent = ((sensor.value / 100) * 100) / sensor.critical_value
+                pecent = ((sensor.value / sensor.ratio) * 100) / sensor.critical_value
                 sensor_dict.update(pecent_value=pecent)
                 #sensor.critical_value
                 #color=0 зеленый
@@ -42,10 +58,10 @@ def get_ajax(request):
                 #color=2 красный
                 color = 'bg-success'
                 if sensor.critical_type == 'max':
-                    if sensor.value / 100 >= sensor.critical_value:
+                    if sensor.value / sensor.ratio >= sensor.critical_value:
                         color = 'bg-danger'
                 else:
-                    if sensor.value / 100 <= sensor.critical_value:
+                    if sensor.value / sensor.ratio <= sensor.critical_value:
                         color = 'bg-danger'
                 sensor_dict.update(color=color)
                 m_sensor.append(sensor_dict)
@@ -61,21 +77,29 @@ def MainIndexDefault(request):
         sensor_list = AcsSensor.objects.filter(active=True).all().order_by('name')
         m_sensor = []
         for sensor in sensor_list:
+            str_step= ''
+            for f_step in float_range(0, sensor.critical_value,sensor.step):
+                str_step = str_step+f_step+','
+            str_step = '0.'+str_step+str(sensor.critical_value)
+            str_value=str(sensor.value / sensor.ratio).replace(',','.')
             sensor_dict = dict()
             sensor_dict.update(sensor=sensor)
-            sensor_dict.update(value=sensor.value / 100)
+            sensor_dict.update(value=sensor.value / sensor.ratio)
+            sensor_dict.update(str_value=str_value)
             sensor_dict.update(critical_value=sensor.critical_value)
+            sensor_dict.update(str_critical_value=str(sensor.critical_value).replace(',','.'))
             sensor_dict.update(unit=sensor.unit)
+            sensor_dict.update(str_step=str_step)
             #sensor.critical_value
             #color=0 зеленый
             #color=1 желтый
             #color=2 красный
             color = 'bg-success'
             if sensor.critical_type == 'max':
-                if sensor.value / 100 >= sensor.critical_value:
+                if sensor.value / sensor.ratio >= sensor.critical_value:
                     color = 'bg-danger'
             else:
-                if sensor.value / 100 <= sensor.critical_value:
+                if sensor.value / sensor.ratio <= sensor.critical_value:
                     color = 'bg-danger'
             sensor_dict.update(color=color)
             m_sensor.append(sensor_dict)
@@ -95,8 +119,8 @@ def SensorList(request):
             param = request.GET.dict()
             sensor = AcsSensor.objects.filter(id=param['id']).first()
             now = datetime.now()
-            start_date = now - timedelta(hours=0, minutes=1)
-            sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('date_time')
+            start_date = now - timedelta(hours=0, minutes=0)
+            sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('-date_time')
             sensor_str = ''
             for sensor_in in sensor_list:
                 sensor_str = sensor_str+str(sensor_in.value).replace(',','.')+','
@@ -124,7 +148,7 @@ def sensor_ajax(request):
             for sensor in sensor_list:
                 sensor_dict = dict()
                 sensor_dict.update(date_time=sensor.date_time.strftime("%H:%M:%S"))
-                sensor_dict.update(value=sensor.value / 100)
+                sensor_dict.update(value=sensor.value / sensor.sensor.ratio)
                 m_sensor.append(sensor_dict)
             return generalmodule.ReturnJson(200,m_sensor) 
     except Exception as err:

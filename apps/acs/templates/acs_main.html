@@ -4,7 +4,7 @@
 
 
 {% block header_link %}
-
+<link type="text/css" rel="stylesheet" href="{% static '/css/speedometer.css' %}?ver={% settings_value 'APP_VER' %}">
 {% endblock header_link %}
 
 
@@ -13,60 +13,86 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <p id="id_time"></p>
-          </div>
+        </div>
     </div><!-- /.container-fluid -->
 </section>
 
 <section class="content">
-      <div class="container-fluid">
+    <div class="container-fluid">
         <div class="row">
-<div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Показания датчиков</h3>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Показания датчиков</h3>
 
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body p-0">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th style="width: 10px">id</th>
-                      <th>Датчик</th>
-                      <th>Прогресс</th>
-                      <th style="width: 40px">Показание</th>
-                      <th style="width: 40px">Норма</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for sensor in m_sensor %}
-                    <tr>
-                      <td>{{sensor.sensor.id}}</td>
-                      <td><a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a></td>
-                      <td id="{{sensor.sensor.id}}_pecent">
-                        <div class="progress progress-xs progress-striped active">
-                          <div class="progress-bar {{sensor.color}}" style="width: {{sensor.value}}%"></div>
-                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px">id</th>
+                                    <th>Датчик</th>
+                                    <th>Прогресс</th>
+                                    <th style="width: 40px">Показание</th>
+                                    <th style="width: 40px">ПДК</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sensor in m_sensor %}
+                                <tr>
+                                    <td>{{sensor.sensor.id}}</td>
+                                    <td><a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a></td>
+                                    <td id="{{sensor.sensor.id}}_pecent">
+                                        <div class="progress progress-xs progress-striped active">
+                                            <div class="progress-bar {{sensor.color}}" style="width: {{sensor.value}}%"></div>
+                                        </div>
 
-                      </td>
-                      <td id="{{sensor.sensor.id}}_value"><span class="badge {{sensor.color}}">{{sensor.value}} {{sensor.unit}}</span></td>
-                      <td><span class="badge ">{{sensor.critical_value}} {{sensor.unit}}</span></td>
-                    </tr>                    
-                     {% endfor %}
-                    </tbody>
-                    </table>
-          </div>
- 
+                                    </td>
+                                    <td id="{{sensor.sensor.id}}_value"><span class="badge {{sensor.color}}">{{sensor.value}} {{sensor.unit}}</span></td>
+                                    <td><span class="badge ">{{sensor.critical_value}} {{sensor.unit}}</span></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
 
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="row">
+                        {% for sensor in m_sensor %}
+                        <div class="col-6 col-md-3 text-center">
+                            <div style="display:inline;width:90px;height:90px;">
+                                <canvas id="{{sensor.sensor.id}}_value_canvas" class="gauge-speed" style="margin-top:40px;" data-type="radial-gauge" data-width="200"
+                                        data-glow="false" data-height="200" data-units="{{sensor.unit}}" data-title="{{sensor.sensor}}" data-min-value="0.0"
+                                        data-max-value="{{sensor.str_critical_value}}" data-major-ticks="{{sensor.str_step}}" data-minor-ticks="2" data-value="{{sensor.str_value}}"
+                                        data-stroke-ticks="false" data-highlights='[{ "from": 0, "to": 0.1, "color": "#4caf50" },
+                                             { "from": 0.1, "to":0.2 , "color": "#ff9800" },{ "from": 0.2, "to": 0.4, "color": "#f44336" }]'
+                                        data-color-needle-start="rgba(240, 128, 128, 1)" data-color-needle-end="rgba(255, 160, 122, .9)"
+                                        data-value-box="true" data-animation-rule="linear" data-animation-duration="100"
+                                        data-needle-shadow="false"></canvas>
+                            </div>
+
+                            <div class="knob-label">{{sensor.sensor}}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    </div>
+                </div>
+        </div>
 </section>
 
 {% endblock %}
 
 {% block script_footer %}
-	<script>
+<script src="{% static 'js/gauge.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<script src="{% static 'js/speedometer.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<script>
 		function show()
 		{
 		cmd = 'refresh';
@@ -86,6 +112,7 @@
 					$("#" + data[index].sensor_id + "_value").html(str_value)
                     var seconds = new Date().getTime() / 1000;
                     //$("#id_time").html(seconds)
+					$("#" + data[index].sensor_id + "_value_canvas").attr('data-value', data[index].value)
                 }
             },
             error: function (dataerr) {
@@ -93,10 +120,10 @@
             }
         });
 		}
-	
+
 		$(document).ready(function(){
 			show();
 			setInterval('show()',1000);
 		});
-	</script>
+</script>
 {% endblock script_footer %}

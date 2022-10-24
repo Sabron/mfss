@@ -29,10 +29,18 @@ class AcsSensor(models.Model):  # Датчики
         null=False,
         default=True,
         blank=True)
+    ratio = models.IntegerField(default=1,
+                              help_text="",
+                              blank=True,
+                              verbose_name="Масштабирование")
+    step = models.FloatField(default=0.01,
+                              help_text="",
+                              blank=True,
+                              verbose_name="Шаг")
     value = models.FloatField(default=0.0,
-        help_text="",
-        blank=True,
-        verbose_name="Показание")
+                              help_text="",
+                              blank=True,
+                              verbose_name="Показание")
     max_value = models.FloatField(default=0.0,
         help_text="",
         blank=True,

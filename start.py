@@ -69,7 +69,7 @@ def test_Mfsb():
         datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
         if datd_mfsb is None:
             DataMfsb.objects.create(
-                date=mfsb.date,
+                date=datetime.now(),
                 name=mfsb.name,
                 values=mfsb.values,
                 check=mfsb.check)
@@ -80,4 +80,4 @@ def test_Mfsb():
 
 if __name__ == "__main__":
     test_Mfsb()
-    #update_acs()
+    update_acs()

@@ -12,6 +12,7 @@
   <meta name="keywords" content="{% settings_value 'KEYWORDS' %}" />
   <meta name="description" content="{% settings_value 'DESCRIPTION' %}" />
   <title>{% settings_value 'SITE_TITLE_S' %} : {{ user.profile.client }}</title>
+  <link rel="icon" href="{% static 'img/favicon.ico' %}?ver={% settings_value 'APP_VER' %}" type="image/x-icon">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
@@ -198,7 +199,7 @@
                 <h5 class="widget-user-desc"></h5>
               </div>
               <div class="widget-user-image">
-                <a href="/"type="button" class="img-circle elevation-2">
+                <a type="" class="img-circle elevation-2">
                     <img class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
                 </a>
               </div>
@@ -224,7 +225,7 @@
                 <h5 class="widget-user-desc"></h5>
               </div>
               <div class="widget-user-image">
-                <a href="/"type="button" class="img-circle elevation-2">
+                <a href="/"type="" class="img-circle elevation-2">
                     <img class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
                 </a>
               </div>
@@ -250,7 +251,7 @@
                 <h5 class="widget-user-desc"></h5>
               </div>
               <div class="widget-user-image">
-                <a href="/"type="button" class="img-circle elevation-2">
+                <a type="" class="img-circle elevation-2">
                     <img class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
                 </a>
               </div>

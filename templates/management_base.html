@@ -12,7 +12,7 @@
   <meta name="keywords" content="{% settings_value 'KEYWORDS' %}" />
   <meta name="description" content="{% settings_value 'DESCRIPTION' %}" />
   <title>{% settings_value 'SITE_TITLE_S' %} : {{ user.profile.client }}</title>
-
+  <link rel="icon" href="{% static 'img/favicon.ico' %}?ver={% settings_value 'APP_VER' %}" type="image/x-icon">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
@@ -42,11 +42,16 @@
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
+     <li class="nav-item">
+            <a href="/main/" class="nav-link">
+              <i class="fas fa-satellite-dish"></i>
+              Открыть сайт
+            </a>
+      </li>
       <li class="nav-item">
             <a href="/accounts/logout/?next=/accounts/login/" class="nav-link">
               <i class="fas fa-sign-out-alt"></i>
               Выход
-              
             </a>
       </li>
     </ul>
@@ -57,8 +62,9 @@
   <aside class="main-sidebar sidebar-light-maroon elevation-1">
     <!-- Brand Logo -->
     <a href="/management/" class="brand-link text-black text-sm">
-      <img src="{% static 'img/logo.png' %}?ver={% settings_value 'APP_VER' %}" alt="AdminLTE Logo" class="brand-image " style="opacity: .8; margin-left:0;">
-      <span class="brand-text font-weight-light">&nbsp;</span>
+     <img src="{% static 'img/login_logo.png' %}?ver={% settings_value 'APP_VER' %}" alt="AdminLTE Logo" class="brand-image " style="opacity: .8;height: 40px;max-height: 40px;">
+      <span class="brand-text font-weight-light" style="font-size:20px;">Кибрекод</span>
+
     </a>
 
     <!-- Sidebar -->
@@ -131,7 +137,7 @@
             <!--
              Блок   
              -->
-            <li class="nav-item has-treeview menu-is-opening menu-open">
+           <!-- <li class="nav-item has-treeview menu-is-opening menu-open">
             <a href="#" class="nav-link">
               <i class="fas fa-book"></i>
               <p>
@@ -153,11 +159,11 @@
                 </a>
               </li>
             </ul>
-          </li>
+          </li>-->
         <!--
              Блок   
              -->
-            <li class="nav-item has-treeview menu-open">
+           <!-- <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
               <i class="fas fa-book"></i>
               <p>
@@ -179,8 +185,8 @@
                 </a>
               </li>
             </ul>
-          </li>
-              <li class="nav-item has-treeview menu-open">
+          </li>-->
+          <!--    <li class="nav-item has-treeview menu-open">
                 <a href="#" class="nav-link">
                   <i class="fas fa-book"></i>
                   <p>
@@ -202,8 +208,8 @@
                     </a>
                   </li>
             </ul>
-          </li>
-            <li class="nav-item has-treeview menu-open">
+          </li>-->
+          <!--  <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
               <i class="fas fa-book"></i>
               <p>
@@ -225,8 +231,8 @@
                 </a>
               </li>
             </ul>
-          </li>
-           <li class="nav-item has-treeview menu-open">
+          </li>-->
+          <!-- <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
               <i class="fas fa-book"></i>
               <p>
@@ -248,8 +254,8 @@
                 </a>
               </li>
             </ul>
-          </li>
-            <li class="nav-item has-treeview menu-open">
+          </li>-->
+           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
               <i class="fas fa-cog"></i>
               <p>
@@ -275,7 +281,7 @@
             </ul>
             <li class="nav-item">
             <a href="/main/" class="nav-link">
-              <i class="fas fa-sign-out-alt"></i>
+              <i class="fas fa-satellite-dish"></i>
               <p>
                 Открыть сайт
               </p>
