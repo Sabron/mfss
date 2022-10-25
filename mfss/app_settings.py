@@ -5,10 +5,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = False
 
-"""
-    Если True При каждом запуске браузера будет
-    требовать авторизацию 'используются временные куки'
-    """
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 INSTALLED_APPS = [
@@ -20,24 +16,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
     'apps.ops.apps.OpsConfig',
-
     'django_celery_beat', 
 
-    
-    'apps.catalog.apps.CatalogConfig',
+    'apps.catalog.apps.CatalogConfig',		
     'apps.schedulers.apps.SchedulersConfig',
-    #'apps.documents.apps.DocumentsConfig',
     'apps.main.apps.MainConfig',
     'apps.acs.apps.acsConfig',
-    
+    'apps.eps.apps.epsConfig',
 ]
 
 """Информация о приложении """
 SITE_TITLE = u'Многофункциональная система безопасности'
 SITE_TITLE_S = u'МФСБ'
-APP_VER = u'1.0.01.8'
+APP_VER = u'1.0.01.9'
 APP_COPPIRIGHT = u'Многофункциональная система безопасности'
 
 

@@ -2,11 +2,11 @@
 from django.db import models
 from django.urls import reverse #Used to generate URLs by reversing the URL patterns
 from .model_departments import Department
-from .model_positions import Positions
+from .model_positions import Position
 
 
 
-class Workers(models.Model):  # Сотрудники
+class Worker(models.Model):  # Сотрудники
     sex_workers_list = (('m', 'Мужской'),
         ('f', 'Женский'),)
 
@@ -45,7 +45,7 @@ class Workers(models.Model):  # Сотрудники
                                    null=True,
                                    help_text="",
                                    verbose_name="Подразделение")
-    position = models.ForeignKey(Positions,
+    position = models.ForeignKey(Position,
                                  on_delete=models.SET_NULL,
                                  null=True,
                                  help_text="",

@@ -3,20 +3,12 @@ from django.db import models
 from django.urls import reverse #Used to generate URLs by reversing the URL patterns
 
 
-class PositionsManager(models.Manager):
-    def get_by_natural_key(self, name):
-        return self.get(name=name)
-
-
-class Positions(models.Model):  # Должности клиента
+class Position(models.Model):  # Должности клиента
     """
     Модель справочника должности
     """
 
     name = models.CharField(max_length=60, help_text="",default=" ",verbose_name="Наименование")
-    
-    objects=PositionsManager()
-
 
     def __str__(self):
         """

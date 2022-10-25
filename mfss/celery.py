@@ -27,6 +27,11 @@ app.conf.beat_schedule = {
         'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
     },
 
+    'send-send_telegram_message-minute': {
+        'task': 'apps.schedulers.tasks.update_eps',
+        'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
+    },
+
 #    'send-send_telegram_message-minute': {
 #        'task': 'tgbot.tasks.send_telegram_message',
 #        'schedule': crontab(),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight

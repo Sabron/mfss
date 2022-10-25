@@ -22,9 +22,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',    # РЎРІСЏР·С‹РІР°РµС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№, РёСЃРїРѕР»СЊР·СѓСЋС‰РёС… СЃРµСЃСЃРёРё, Р·Р°РїСЂРѕСЃР°РјРё.
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-  
-
-    
 ]
 
 
@@ -38,6 +35,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [TEMPLATES_ROOT,'apps/main/templates',
                     'apps/management/templates',
+                    'apps/eps/templates',
                     ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -73,9 +71,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 DOWNLOAD_URL = '/download/'

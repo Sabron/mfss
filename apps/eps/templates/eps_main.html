@@ -1,0 +1,382 @@
+{% extends "subsystem_base.html" %}
+{% load static %}
+{% load mysettings %}
+
+
+{% block header_link %}
+<link type="text/css" rel="stylesheet" href="{% static '/css/speedometer.css' %}?ver={% settings_value 'APP_VER' %}">
+{% endblock header_link %}
+
+ {% block info_title %}
+    <h5>Система определения местоположения сотрудников фабрики <h5>
+    {% endblock info_title %}
+
+    {% block content %}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <p id="id_time"></p>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row mb">
+                <div class="col-md-12">
+                    <div class="scheme">
+                        <img src="{% static 'img/plan/plan.png' %}" class="img-fluid" alt=" ">
+                        <svg viewBox="0 0 2372 1000">
+                            <!-- Л.К. подачи породы в бункер -->
+                            <polygon data-id="1" data-toggle="modal" data-target="#modal-default-1"
+                                     points="529, 205 531, 199 535, 193 540, 188 545, 183 551, 180 557, 177 565, 177 653, 254 644, 258 642, 265 613, 278"
+                                     fill="#FFDBA4"></polygon>
+                            <!-- Сортировка -->
+                            <polygon data-id="2" data-toggle="modal" data-target="#modal-default-2"
+                                     points="1239, 350 1414, 289 1480, 309 1544, 348 1358, 413 1353, 410 1352, 402 1300, 372"
+                                     fill="#FFDBA4"></polygon>
+                            <!-- Бункер породы -->
+                            <polygon data-id="3" data-toggle="modal" data-target="#modal-default-3"
+                                     points="444, 122 512, 84 584, 118 516, 157"
+                                     fill="#FFDBA4"></polygon>
+                            <!-- Главный корпус -->
+                            <polygon data-id="4" data-toggle="modal" data-target="#modal-default-4"
+                                     points="673, 209 774, 161 875, 140 1157, 266 1058, 290 970, 331 969, 339 966, 340"
+                                     fill="#FFDBA4"></polygon>
+                            <polygon data-id="4" data-toggle="modal" data-target="#modal-default-4"
+                                     points="590, 381 755, 307 924, 384 759, 457"
+                                     fill="#FFDBA4"></polygon>
+                            <polygon data-id="4" data-toggle="modal" data-target="#modal-default-4"
+                                     points="588, 291 674, 252 674, 332"
+                                     fill="#FFDBA4"></polygon>
+                            <!-- Л.К. подачи готовой продукции на склад -->
+                            <polygon data-id="5" data-toggle="modal" data-target="#modal-default-5"
+                                     points="29, 573 97, 540 155, 565 88, 599" fill="#FFDBA4"></polygon>
+                            <polygon data-id="5" data-toggle="modal" data-target="#modal-default-5"
+                                     points="141, 558 156, 565 156, 569 151, 572 152, 597 323, 544 323, 536 352, 528 354, 536 390, 525 584, 528 592, 526 591, 501 592, 478 557, 490 366, 487 336, 496 323, 491 289, 503 284, 507 282, 511 280, 514 260, 520 224, 532 181, 545"
+                                     fill="#FFDBA4"></polygon>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal-default-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Галерея ленточного конвейера подачи породы в бункер</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <a>Количество сотрудников в здании: </a>
+                            <span class="badge bg-primary">15</span>
+                            <br>
+                            <ul class="nav nav-treeview" style="display: block;">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Галерея ленточного конвейера подачи породы в бункер</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Помещение проборазделочной машины</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal-default-2" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Здание сортировки рядового угля</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <a>Количество сотрудников в здании: </a>
+                            <span class="badge bg-primary">15</span>
+                            <br>
+                            <ul class="nav nav-treeview" style="display: block;">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +0,000</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +3,000</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +7,000</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +9,300</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +11,700</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +14,000</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +16,500</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal-default-3" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Здание бункера породы</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <a>Количество сотрудников в здании: </a>
+                            <span class="badge bg-primary">15</span>
+                            <br>
+                            <ul class="nav nav-treeview" style="display: block;">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +4,400</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +11,000</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Операторская</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal-default-4" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Здание главного корпуса</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <a>Количество сотрудников в здании: </a>
+                            <span class="badge bg-primary">15</span>
+                            <br>
+                            <ul class="nav nav-treeview" style="display: block;">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. 0,000</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +3,000; +4,000</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +6,600; +7,800</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +10,200</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +12,600; +14,000; +14,600</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Отм. +15,600</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modal-default-5" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Галерея ленточного конвейера подачи концентрата на склад</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <a>Количество сотрудников в здании: </a>
+                            <span class="badge bg-primary">15</span>
+                            <br>
+                            <ul class="nav nav-treeview" style="display: block;">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        <span>Ленточный конвейер подачи концентрата</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style type="text/css">
+        .scheme {
+            display: inline-block;
+            position: relative;
+            width: 100%;
+        }
+
+            .scheme svg {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+            }
+
+            .scheme polygon {
+                stroke: black;
+                stroke-width: 2;
+            }
+
+                .scheme polygon:hover, #hover {
+                    fill: #ffc70b;
+                    cursor: pointer;
+                }
+
+                .scheme polygon.active {
+                    fill: #FF8C0B !important;
+                    .scheme-popup
+
+        {
+            display: none;
+            border: 3px solid #777;
+            width: 150px;
+            position: absolute;
+            font-size: 14px;
+            line-height: 14px;
+            background: #fff;
+            z-index: 9999;
+            box-shadow: 0 0 10px rgba(0,5,0,0.5);
+            text-align: left;
+        }
+    </style>
+
+    {% endblock %}
+
+    {% block script_footer %}
+
+    <script>
+        function clock() {
+            var d = new Date();
+            var day = d.getDate();
+            var hrs = d.getHours();
+            var min = d.getMinutes();
+            var sec = d.getSeconds();
+
+            var mnt = new Array("января", "февраля", "марта", "апреля", "мая",
+                "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря");
+
+            if (day <= 9) day = "0" + day;
+            if (hrs <= 9) hrs = "0" + hrs;
+            if (min <= 9) min = "0" + min;
+            if (sec <= 9) sec = "0" + sec;
+
+            $("#time").html("Время: " + hrs + ":" + min + ":" + sec + "&nbsp;&nbsp;&nbsp;" +
+                day + " " + mnt[d.getMonth()] + " " + d.getFullYear() + " г.");
+        }
+        setInterval("clock()", 1000);
+
+        $('.scheme-item').hover(
+            function () {
+                $('.scheme polygon[data-id=' + $(this).data('id') + ']').attr('id', 'hover');
+            },
+            function () {
+                $('.scheme polygon[data-id=' + $(this).data('id') + ']').attr('id', '');
+            }
+        );
+
+        // Клик по полигону
+        $('.scheme polygon').click(function () {
+            $('.scheme polygon[data-id=' + $(this).data('id') + ']').attr('class', 'active');
+        });
+
+        $("body").click(function (e) {
+            if ($(e.target).closest(".scheme polygon, .scheme-item").length == 0) {
+                $('.scheme polygon').attr('class', '');
+            }
+        });
+
+
+    </script>
+    {% endblock script_footer %}

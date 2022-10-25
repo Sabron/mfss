@@ -2,18 +2,20 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models.model_positions import Positions
+from .models.model_zones import Zone
+from .models.model_locations import Location
+from .models.model_positions import Position
 from .models.model_departments  import Department
-from .models.model_workers import Workers
+from .models.model_workers import Worker
 
-@admin.register(Positions)
-class PositionsAdmin(admin.ModelAdmin):
+@admin.register(Position)
+class PositionAdmin(admin.ModelAdmin):
     list_display = ('name',)
     fields = ['name']
     search_fields = ('name',)
 
-@admin.register(Workers)
-class WorkersAdmin(admin.ModelAdmin):
+@admin.register(Worker)
+class WorkerAdmin(admin.ModelAdmin):
     list_display = ('name','id','tabnomer', 'sex_workers','department','position','phone')
     search_fields = ('name',)
 
@@ -22,3 +24,13 @@ class DepartmentAdmin(admin.ModelAdmin): #Подразделения
     list_display = ('name',)
     search_fields = ('name',)
     
+@admin.register(Location)
+class LocationAdmin(admin.ModelAdmin): #объекты
+    list_display = ('name','TimeZone','latitude','longitude')
+    search_fields = ('name',)
+
+@admin.register(Zone)
+class ZoneAdmin(admin.ModelAdmin): #Зоны
+    ordering = ('name',)
+    list_display = ('location','name')
+    list_filter = ('location',)
