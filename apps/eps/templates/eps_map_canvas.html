@@ -1,0 +1,140 @@
+{% extends "subsystem_eps.html" %}
+{% load static %}
+{% load mysettings %}
+
+
+{% block header_link %}
+<link type="text/css" rel="stylesheet" href="{% static '/css/speedometer.css' %}?ver={% settings_value 'APP_VER' %}">
+{% endblock header_link %}
+
+{% block info_title %}
+<h5>
+    Система определения местоположения сотрудников фабрики <h5>
+    {% endblock info_title %}
+
+    {% block content %}
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <p id="id_time"></p>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-primary card-outline direct-chat">
+                <div class="card-header">
+                    <!--<div class="card-tools">
+                        <button type="button" class="btn btn-tool" id="#optionsZone" onclick="edit_zone(this.id); return false">
+                            <i class="fa-sharp fa-solid fa-screwdriver-wrench" style="color: blue;"></i> Добавить опасную зону
+                        </button>
+                        <button type="button" class="btn btn-tool" id="#personsOnMap" onclick="persons(this.id); return false">
+                            <i class="fa-solid fa-users" style="color: blue;"></i> Персонал
+                        </button>
+                        <button type="button" class="btn btn-tool" id="#zoneOnMap" onclick="persons(this.id); return false">
+                            <i class="fa-sharp fa-solid fa-triangle-exclamation" style="color: red;"></i> Опасные зоны
+                        </button>
+                    </div>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1" style="padding: 10px 25px 15px">
+                            <div class="d-md-flex">
+                                <div class="p-1 flex-fill" style="overflow: hidden">
+                                    <canvas id='myCanvas' width='900' height='700'></canvas>
+                                    <canvas id='kopi' width='900' height='700'></canvas>
+                                    <canvas id='canvas' width='40' height='50'></canvas>
+                                    <img id='im'  style='display:none;'>
+                                    <div id='inf'>0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+    {% block script_footer %}
+    <script src="https://rawgit.com/kangax/fabric.js/master/dist/fabric.js"></script>
+
+    <script>
+ var и=document.all;
+	const image = new Image();
+	//image.src = 'http://127.0.0.1:8787/static/img/plan/otm_102.png';
+	image.src = '{% static 'img/plan/otm_102.png' %}';
+	image.crossOrigin = "Anonymous";
+
+	var ne=0;   
+	image.onload=function(){    
+			var canvas=document.getElementById('myCanvas');
+			var ctx = canvas.getContext('2d');
+			    ctx.drawImage(image,0,0,900,700);
+ 
+			var canvas2 = document.getElementById('canvas');
+			var ct = canvas2.getContext('2d');
+			tat=ct.getImageData(0,0,40,50);
+			var pux=tat.data; //массив пикселей объекта передвижения
+			tot=ctx.getImageData(40,470,40,50);
+			pix=tot.data;//массив пикселей объекта на картинке передвижения
+			for(s=0,d=50;s<d;s+=1){
+				var o=0;
+				for(n=s*160, m=(s*160)+160; n<m; n+=4){
+					pux[n]=pix[n]; pux[n+1]=pix[n+1];pux[n+2]=pix[n+2]; pux[n+3]=255;
+					if((pix[n]==82)&&( pix[n+1]=89)&&(pix[n+2]=66)){pux[n+3]=0;}
+					pix[n]=82; pix[n+1]=89; pix[n+2]=66;//копирую оюъект с картинки и закрашиваю на рисунке его место.
+					}
+			}
+	ct.putImageData(tat, 0, 0);
+	ctx.putImageData(tot, 40, 470);
+	var can=document.getElementById('kopi');
+	var cx = can.getContext('2d');
+	    cx.drawImage(и.myCanvas,0,0,900,700);
+	и.kopi.style.display='none'
+	}
+
+и.myCanvas.onmousemove=function(evt){
+    
+	var canvas=document.getElementById('myCanvas');
+	var ctx = myCanvas.getContext('2d');
+	trt=ctx.getImageData(0,0,900,700);
+
+	pax=trt.data;
+	y=evt.clientY-30;
+	x=evt.clientX-25;
+    console.log(x+" : "+y) 
+    mm=ctx.getImageData(evt.clientX,evt.clientY,1,1);
+    console.log(mm)
+    red=mm.data[0];
+    green=mm.data[1];
+    blue=mm.data[2];
+    alpha=mm.data[3];
+    console.log(red)
+    console.log(green)
+    console.log(blue)
+    console.log(alpha)
+	if(ne==1){
+		и.myCanvas.width=и.myCanvas.width;
+		ctx.drawImage(и.kopi,0,0,900,700);
+		var t=0;
+		var u1=x*4+y*900*4;//левый верхний угол объекта
+		if((pax[u1-4]==82)&&( pax[u1-3]=89)&&(pax[u1-2]=66))
+			{t++;}
+		else
+			{ne=0; x+=20;y+=20; }
+		var u2=(x+40)*4+(y+50)*900*4;//нижний правый
+		    if((pax[u2+4]==82)&&( pax[u2+5]=89)&&(pax[u2+6]=66)){t++;}else{ne=0; x-=20; y-=20; }
+		var u3=(x+40)*4+y*900*4;//верхний правый
+		    if((pax[u3+4]==82)&&( pax[u3+5]=89)&&(pax[u3+6]=66)){t++;}else{ne=0; x-=20;y+=20;}
+		    if(t<2){x=390;y=500;}
+		     и.inf.innerHTML=x+'--'+y+'--'+t;
+		ctx.drawImage(и.canvas,x,y,40,50);
+	}
+}   
+onmouseup=function(){ne=0}  
+onmousedown=function(){ne=1}
+
+
+    </script>
+    {% endblock script_footer %}

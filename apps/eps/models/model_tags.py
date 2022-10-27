@@ -31,7 +31,16 @@ class Tag(models.Model):  # Датчики
         help_text="",
         default=" ",
         verbose_name="Статус")
-
+    x = models.FloatField(default=0.0,
+        help_text="",
+        verbose_name="x")
+    y = models.FloatField(default=0.0,
+        help_text="",
+        verbose_name="y")
+    z = models.FloatField(default=0.0,
+        help_text="",
+        verbose_name="z")
+  
     def getId(self):
         return self.id
 

@@ -8,7 +8,9 @@ import datetime as DT
 import pytz
 import json
 import maya
-
+import random
+import time
+import traceback
 
 from datetime import datetime, timedelta,date
 from requests.auth import HTTPBasicAuth
@@ -100,7 +102,17 @@ def update_eps():
                     sn=tag['sn'],
                     descr=tag['descr'],
                     origin=tag['origin'],
-                    le_status =tag['le_status'] )
+                    le_status =tag['le_status'],
+                    x = tag['x'],
+                    y = tag['y'],
+                    z = tag['z'],)
+            else:
+                tag_link.le_status =tag['le_status']
+                tag_link.x = tag['x']
+                tag_link.y = tag['y']
+                tag_link.z = tag['z']
+                tag_link.save()
+                
             tag_date_link = TagDate.objects.filter(tag=tag_link).filter(time = tag['time']).first()
             if tag_date_link is None:
                 TagDate.objects.create(
@@ -119,10 +131,36 @@ def update_eps():
     except Exception as err:
         logging.error(traceback.format_exc())
 
+def update_eps_random():
+    try:
+        х=random.uniform(12.1, 30.0)   
+        y=random.uniform(10.1, 20.0)   
+        tag_link = Tag.objects.filter(sn='20005436').first()
+        if tag_link is None:
+                tag_link = Tag.objects.create(
+                    name=tag['sn'],
+                    sn=tag['sn'],
+                    descr=tag['descr'],
+                    origin=tag['origin'],
+                    le_status =tag['le_status'],
+                    x = х,
+                    y = y,
+                    z = 0,)
+        else:
+                #tag_link.le_status =tag['le_status']
+                tag_link.x = х
+                tag_link.y = y
+                tag_link.z = 0
+                tag_link.save()
+                
+    except Exception as err:
+        logging.error(traceback.format_exc())
 
   
 
 if __name__ == "__main__":
     #test_Mfsb()
     #update_acs()
-    update_eps()
+    while True:
+        time.sleep(3) # ��� � 3 �������
+        update_eps_random()

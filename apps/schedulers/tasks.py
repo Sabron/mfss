@@ -1,10 +1,14 @@
 import traceback
 import calendar
 import uuid
+import json
+import maya
+import datetime as DT
 
 from django.db.models import Sum
 
 from datetime import datetime, timedelta, timezone,date
+
 
 from apps.catalog.models.model_workers import Workers
 
@@ -12,6 +16,9 @@ from apps.ops.models.model_mfsb import Mfsb
 from apps.main.models.model_datamfsb import DataMfsb
 from apps.acs.models.model_sensor import AcsSensor
 from apps.acs.models.model_indicators import AcsIndicators
+
+from apps.eps.models.model_tags import Tag
+from apps.eps.models.model_tagdates import TagDate
 
 
 from mfss.celery import app
@@ -92,5 +99,46 @@ def update_ops_date():
             mfsb.check = True
             mfsb.save()
         update_acs()
+    except Exception as err:
+        logging.error(traceback.format_exc())
+
+def update_eps():
+    try:
+        r=requests.post("https://87.103.198.150:56443/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        if r.status_code!=200:
+            return
+        r=requests.get("https://87.103.198.150:56443/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        if r.status_code!=200:
+            return
+        mystr=r.json()
+        for tag in mystr['items']:
+            timezone_date_time_obj = maya.parse(tag['time']).datetime(to_timezone='Europe/Moscow', naive=False)
+            tag_link = Tag.objects.filter(sn=tag['sn']).first()
+            if tag_link is None:
+                tag_link = Tag.objects.create(
+                    name=tag['sn'],
+                    sn=tag['sn'],
+                    descr=tag['descr'],
+                    origin=tag['origin'],
+                    le_status =tag['le_status'] )
+            else:
+                tag_link.le_status =tag['le_status']
+                tag_link.save()
+
+            tag_date_link = TagDate.objects.filter(tag=tag_link).filter(time = tag['time']).first()
+            if tag_date_link is None:
+                TagDate.objects.create(
+                    tag = tag_link,
+                    time = tag['time'],
+                    accuracy = tag['accuracy'],
+                    kinematic = tag['kinematic'],
+                    le_status = tag['le_status'],
+                    motion = tag['motion'],
+                    solution = tag['solution'],
+                    seq = tag['seq'],
+                    source = tag['source'],
+                    x = tag['x'],
+                    y = tag['y'],
+                    z = tag['z'],)
     except Exception as err:
         logging.error(traceback.format_exc())
