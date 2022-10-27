@@ -15,13 +15,26 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.db.models import Avg, Max, Min
 
+from apps.acs.models.model_sensor import AcsSensor
+
 from apps.util import generalmodule
 from sabron.util import logging
 
 
 def get_ajax(request):
     try:
-        data=dict()
+        sensor_list = AcsSensor.objects.filter(active=True).all().order_by('value')
+        data = dict()
+        data.update(status=1)
+        data.update(id_acs=False)
+        for sensor in sensor_list:
+            value = sensor.value / sensor.ratio
+            if value>=sensor.critical_value:
+                data.update(id_acs=True)
+                data.update(acs_name=sensor.name)
+                data.update(acs_id=sensor.id)
+                break
+        return generalmodule.ReturnJson(200,data)
     except Exception as err:
         logging.error(traceback.format_exc())
         data=dict()

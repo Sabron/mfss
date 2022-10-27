@@ -117,7 +117,7 @@
               </div>
               <div class="widget-user-image">
                 <a href="/acs/"type="button" class="img-circle elevation-2">
-                    <img class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
+                    <img id="acs_img" class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
                 </a>
               </div>
               <div class="card-footer">
@@ -290,5 +290,50 @@
     <script src="{% static 'lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
     <!-- AdminLTE App -->
     <script src="{% static 'lte/dist/js/adminlte.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<script>
+		function show()
+		{
+		cmd = 'refresh';
+		var img_ok = '{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}';
+		var img_err = '{% static 'img/error-status.webp' %}?ver={% settings_value 'APP_VER' %}';
+
+        $.ajax({
+            type: 'GET', // метод отправки
+            url: window.location.pathname+'ajax/', // путь к обработчику
+            data: {
+                "cmd": cmd
+            },
+            // dataType: 'text',
+			success: function (data) {
+				if (data.status == 1) {
+					if (data.id_acs) {
+                        $('#acs_img').attr('src', img_err);
+                        swal.fire({
+                          icon: 'error',
+                          title: 'Датчик <'+data.acs_id+'> в критической зоне',
+                          toast: true,
+                          position: 'top-end',
+                          showConfirmButton: false,
+                          timer: 1000
+                        })
+
+					}else{
+                        $('#acs_img').attr('src', img_ok);
+                    }
+
+				}
+            },
+            error: function (dataerr) {
+                 console.log('Ошибка выполнение команды :'+dataerr)
+            }
+        });
+		}
+
+		$(document).ready(function(){
+			setInterval('show()',1000);
+		});
+
+</script>
+
 </body>
 </html>
