@@ -9,7 +9,7 @@ from django.db.models import Sum
 from datetime import datetime, timedelta, timezone,date
 
 
-from apps.catalog.models.model_workers import Workers
+#from apps.catalog.models.model_workers import Workers
 
 from apps.ops.models.model_mfsb import Mfsb
 from apps.main.models.model_datamfsb import DataMfsb
