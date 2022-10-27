@@ -3,6 +3,8 @@ import calendar
 import uuid
 import json
 import datetime as DT
+import requests
+import requests.exceptions as rex
 
 from django.db.models import Sum
 
