@@ -199,8 +199,13 @@ def update_eps_anchors():
         logging.error(traceback.format_exc())
   
 
+def update_acs_test():
+    data_mfsb = DataMfsb.objects.filter(name='MKON_BUNKER1.AQED_16_CO2_Otm_14700.CO2_Otm_14700').filter(check=False).order_by('date').all()
+    print(data_mfsb)
+    for data in data_mfsb:
+        print(str(data.date)+' : '+data.name)
 if __name__ == "__main__":
-    update_acs()
+    update_acs_test()
     #update_acs()
     #update_eps()
     #update_eps_anchors()
