@@ -7,6 +7,7 @@ import requests
 import requests.exceptions as rex
 
 from django.db.models import Sum
+from requests.auth import HTTPBasicAuth
 
 from datetime import datetime, timedelta, timezone,date
 
