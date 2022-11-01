@@ -7,7 +7,7 @@ import uuid
 import datetime as DT
 import pytz
 import json
-import maya
+#import maya
 import random
 import time
 import traceback
@@ -95,7 +95,7 @@ def update_eps():
             return
         mystr=r.json()
         for tag in mystr['items']:
-            timezone_date_time_obj = maya.parse(tag['time']).datetime(to_timezone='Europe/Moscow', naive=False)
+            #timezone_date_time_obj = maya.parse(tag['time']).datetime(to_timezone='Europe/Moscow', naive=False)
             tag_link = Tag.objects.filter(sn=tag['sn']).first()
             if tag_link is None:
                 tag_link = Tag.objects.create(
