@@ -146,6 +146,7 @@ def sensor_ajax(request):
             now = datetime.now()
             start_date = now - timedelta(hours=0, minutes=1)
             sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('-date_time')
+            print(sensor_list)
             m_sensor = []
             for sensor in sensor_list:
                 sensor_dict = dict()
