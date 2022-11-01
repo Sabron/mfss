@@ -432,15 +432,15 @@
             },
             // dataType: 'text',
 			success: function (data) {
-                console.log(data)
                 for (index = data.length - 1; index >= 0; --index) {
                     
                         left_x = data[index].x*(1014/42)
                         top_y = (829 - data[index].y*(1014/42))
-                        marker.set({ left: left_x, top: top_y });
-                        textGroup_marker.set({ left: left_x + 30 * 0.5, top: top_y - 20 * 0.5 });
+                        //marker.set({ left: left_x, top: top_y });
+                        //textGroup_marker.set({ left: left_x + 30 * 0.5, top: top_y - 20 * 0.5 });
                         //textGroup_marker.set({ left: left_x , top: top_y});
-                        canvas.renderAll();
+                        //canvas.renderAll();
+                        correct_move(left_x,top_y)
                         //check_inside_zone(left_x, top_y)
 
                      }
