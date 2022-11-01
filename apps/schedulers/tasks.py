@@ -106,50 +106,49 @@ def update_ops_date():
 @app.task(ignore_result=True)
 def update_eps():
     try:
-        p =1
-        #r=requests.post("https://192.168.10.5/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
-        #if r.status_code!=200:
-        #    print(r.status_code)
-        #    return
-        #r=requests.get("https://192.168.10.5/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
-        #if r.status_code!=200:
-        #    print(r.status_code)
-        #    return
-        #mystr=r.json()
-        #for tag in mystr['items']:
-        #    #timezone_date_time_obj = maya.parse(tag['time']).datetime(to_timezone='Europe/Moscow', naive=False)
-        #    tag_link = Tag.objects.filter(sn=tag['sn']).first()
-        #    if tag_link is None:
-        #        tag_link = Tag.objects.create(
-        #            name=tag['sn'],
-        #            sn=tag['sn'],
-        #            descr=tag['descr'],
-        #            origin=tag['origin'],
-        #            le_status =tag['le_status'],
-        #            x = tag['x'],
-        #            y = tag['y'],
-        #            z = tag['z'],)
-        #    else:
-        #        tag_link.le_status =tag['le_status']
-        #        tag_link.x = tag['x']
-        #        tag_link.y = tag['y']
-        #        tag_link.z = tag['z']
-        #        tag_link.save()
-        #        
-        #    tag_date_link = TagDate.objects.filter(tag=tag_link).filter(time = tag['time']).first()
-        #    if tag_date_link is None:
-        #        TagDate.objects.create(
-        #            tag = tag_link,
-        #            time = tag['time'],
-        #            accuracy = tag['accuracy'],
-        #            kinematic = tag['kinematic'],
-        #            le_status = tag['le_status'],
-        #            motion = tag['motion'],
-        #            solution = tag['solution'],
-        #            seq = tag['seq'],
-        #            source = tag['source'],
-        #            x = tag['x'],
-        #            y = tag['y'],
-        #            z = tag['z'],)
+        r=requests.post("https://192.168.10.5/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        if r.status_code!=200:
+            print(r.status_code)
+            return
+        r=requests.get("https://192.168.10.5/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        if r.status_code!=200:
+            print(r.status_code)
+            return
+        mystr=r.json()
+        for tag in mystr['items']:
+            #timezone_date_time_obj = maya.parse(tag['time']).datetime(to_timezone='Europe/Moscow', naive=False)
+            tag_link = Tag.objects.filter(sn=tag['sn']).first()
+            if tag_link is None:
+                tag_link = Tag.objects.create(
+                    name=tag['sn'],
+                    sn=tag['sn'],
+                    descr=tag['descr'],
+                    origin=tag['origin'],
+                    le_status =tag['le_status'],
+                    x = tag['x'],
+                    y = tag['y'],
+                    z = tag['z'],)
+            else:
+                tag_link.le_status =tag['le_status']
+                tag_link.x = tag['x']
+                tag_link.y = tag['y']
+                tag_link.z = tag['z']
+                tag_link.save()
+                
+            tag_date_link = TagDate.objects.filter(tag=tag_link).filter(time = tag['time']).first()
+            if tag_date_link is None:
+                TagDate.objects.create(
+                    tag = tag_link,
+                    time = tag['time'],
+                    accuracy = tag['accuracy'],
+                    kinematic = tag['kinematic'],
+                    le_status = tag['le_status'],
+                    motion = tag['motion'],
+                    solution = tag['solution'],
+                    seq = tag['seq'],
+                    source = tag['source'],
+                    x = tag['x'],
+                    y = tag['y'],
+                    z = tag['z'],)
     except Exception as err:
         logging.error(traceback.format_exc())
