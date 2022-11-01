@@ -101,7 +101,7 @@ def update_ops_date():
             mfsb.check = True
             mfsb.save()
         update_acs()
-        #Mfsb.objects.using('mfsb').filter(check=True).delete()
+        Mfsb.objects.using('mfsb').filter(check=True).delete()
     except Exception as err:
         logging.error(traceback.format_exc())
 
