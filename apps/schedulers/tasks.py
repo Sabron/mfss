@@ -103,6 +103,7 @@ def update_ops_date():
     except Exception as err:
         logging.error(traceback.format_exc())
 
+@app.task(ignore_result=True)
 def update_eps():
     try:
         p =1
