@@ -198,16 +198,25 @@ def update_eps_anchors():
     except Exception as err:
         logging.error(traceback.format_exc())
   
+def update_ops_date():
+    try:
+        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
+        for mfsb in mfsb_list:
+            datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+            if datd_mfsb is None:
+                DataMfsb.objects.create(
+                    date=mfsb.date,
+                    name=mfsb.name,
+                    values=mfsb.values,
+                    check=mfsb.check)
+            mfsb.check = True
+            mfsb.save()
+        update_acs()
+    except Exception as err:
+        logging.error(traceback.format_exc())
 
-def update_acs_test():
-    DataMfsb.objects.filter(check=True).order_by('date').delete()
-    data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
-    print(data_mfsb)
-    for data in data_mfsb:
-        print(str(data.date)+' : '+data.name)
-        logging.message(str(data.date)+' : '+data.name)
 if __name__ == "__main__":
-    update_acs_test()
+    update_ops_date()
     #update_acs()
     #update_eps()
     #update_eps_anchors()
