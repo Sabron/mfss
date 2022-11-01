@@ -96,6 +96,7 @@ def update_eps():
             print(r.status_code)
             return
         mystr=r.json()
+        print(mystr)
         for tag in mystr['items']:
             #timezone_date_time_obj = maya.parse(tag['time']).datetime(to_timezone='Europe/Moscow', naive=False)
             tag_link = Tag.objects.filter(sn=tag['sn']).first()
