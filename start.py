@@ -57,7 +57,7 @@ def update_acs():
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
     for data in data_mfsb:
         print(str(data.date)+' : '+data.name)
-        sensor_link = AcsSensor.objects.filter(name=data.name).filter(active=True).first()
+        sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
         print(str(sensor_link))
         if sensor_link is not None:
             Acs_Indicators = AcsIndicators.objects.create(
