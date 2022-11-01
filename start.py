@@ -55,6 +55,7 @@ from sabron.util import logging
 def update_acs():
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
+    print(data_mfsb)
     for data in data_mfsb:
         print(str(data.date)+' : '+data.name)
         sensor_link = AcsSensor.objects.filter(name=data.name).filter(active=True).first()
