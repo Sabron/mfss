@@ -398,32 +398,6 @@
         }*/
     };
 
-function updateDims() {
-    var dims = marker._parseDimensions(),
-        prevDims = marker.prevDims || {},
-        leftDiff = dims.left - (prevDims.left || 0),
-        topDiff = dims.top - (prevDims.top || 0);
-
-    path.setWidth(dims.width);
-    path.setHeight(dims.height);
-
-    if (dims.left < 0) {
-        marker.pathOffset.x = marker.width/2 + dims.left;
-        marker.left = marker.left + leftDiff;
-    } else {
-        marker.pathOffset.x = marker.width/2;
-    }
-
-    if (dims.top < 0) {
-        marker.pathOffset.y = marker.height/2 + dims.top;
-        marker.top = marker.top + topDiff;
-    } else {
-         marker.pathOffset.y = marker.height/2;   
-    }
-
-    marker.prevDims = dims;
-    marker.setCoords();
-}
 
 	function getTag()
 		{
@@ -467,7 +441,6 @@ function updateDims() {
                         marker.set({ left: left_x, top: top_y });
                         textGroup_marker.set({ left: left_x + 30 * 0.5, top: top_y - 20 * 0.5 });
                         canvas.renderAll();
-                        updateDims()
                         //marker.set({ left: left_x, top: top_y });
                         //textGroup_marker.set({ left: left_x + 30 * 0.5, top: top_y - 20 * 0.5 });
                         //textGroup_marker.set({ left: left_x , top: top_y});
