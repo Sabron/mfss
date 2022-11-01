@@ -198,10 +198,10 @@ def update_eps_anchors():
   
 
 if __name__ == "__main__":
-    #test_Mfsb()
+    update_acs()
     #update_acs()
     #update_eps()
-    update_eps_anchors()
+    #update_eps_anchors()
     #while True:
     #    time.sleep(3) # ��� � 3 �������
     #    update_eps_random()
