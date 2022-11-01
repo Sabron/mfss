@@ -89,9 +89,11 @@ def update_eps():
     try:
         r=requests.post("https://192.168.10.5/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
         if r.status_code!=200:
+            print(r.status_code)
             return
         r=requests.get("https://192.168.10.5/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
         if r.status_code!=200:
+            print(r.status_code)
             return
         mystr=r.json()
         for tag in mystr['items']:
