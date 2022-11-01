@@ -203,7 +203,7 @@ def update_ops_date():
         mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
         for mfsb in mfsb_list:
             datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-            print(str(mfsb.date)+' '+str(mfsb.name))
+            print(str(mfsb.date)+' '+str(mfsb.name)+'   : '+datd_mfsb)
             if datd_mfsb is None:
                 DataMfsb.objects.create(
                     date=mfsb.date,
