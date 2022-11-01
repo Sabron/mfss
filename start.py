@@ -30,6 +30,7 @@ from apps.acs.models.model_indicators import AcsIndicators
 
 from apps.eps.models.model_tags import Tag
 from apps.eps.models.model_tagdates import TagDate
+from apps.eps.models.model_anchors import Anchors
 
 
 from django.contrib.auth.models import User
@@ -160,12 +161,47 @@ def update_eps_random():
     except Exception as err:
         logging.error(traceback.format_exc())
 
+def update_eps_anchors():
+    try:
+        r=requests.post("https://192.168.10.5/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        if r.status_code!=200:
+            return
+        r=requests.get("https://192.168.10.5/CFG-API/monitor/anchors",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        if r.status_code!=200:
+            return
+        mystr=r.json()
+        for anchor in mystr['items']:
+            anchor_link = Anchors.objects.filter(sn=anchor['sn']).first()
+            if anchor_link is None:
+                  anchor_link = Anchors.objects.create(rls_id = anchor['id'],
+                                                       sn = anchor['sn'],
+                                                       origin = anchor['origin'],
+                                                       disabled = anchor['disabled'],
+                                                       descr = anchor['descr'],
+                                                       label = anchor['label'],
+                                                       x = anchor['x'],
+                                                       y = anchor['y'],
+                                                       z = anchor['z'],
+                                                       device_type = anchor['device_type'],
+                                                       status = anchor['status'],
+                                                       ip_address = anchor['ip_address'],
+                                                       coap_resource = anchor['coap_resource'],
+                                                       subscribed = anchor['subscribed'],
+                                                       message_time = anchor['message_time'],
+                                                       status_time = anchor['status_time'],
+                                                       total_packets = anchor['total_packets'],
+                                                       invalid_packets = anchor['invalid_packets'])
+  
+
+    except Exception as err:
+        logging.error(traceback.format_exc())
   
 
 if __name__ == "__main__":
     #test_Mfsb()
     #update_acs()
-    update_eps()
+    #update_eps()
+    update_eps_anchors()
     #while True:
     #    time.sleep(3) # ��� � 3 �������
     #    update_eps_random()
