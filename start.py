@@ -200,7 +200,7 @@ def update_eps_anchors():
   
 
 def update_acs_test():
-    data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
+    data_mfsb = DataMfsb.objects.filter(name='MKON_SORTIROVKA.AQED_2_CO2_Otm_18000.SN_CO2_Otm_18000').filter(check=False).order_by('date').all()
     print(data_mfsb)
     for data in data_mfsb:
         print(str(data.date)+' : '+data.name)
