@@ -70,7 +70,11 @@ class AcsSensor(models.Model):  # Датчики
     critical_value_to = models.FloatField(default=0.0,
         help_text="",
         verbose_name="Критический показатель до")
-        
+    connect_time = models.DateTimeField(
+        default=datetime.now,
+        blank=True,
+        verbose_name="Последнее подключение")
+     
 
     def getId(self):
         return self.id

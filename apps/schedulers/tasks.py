@@ -40,6 +40,7 @@ def update_acs():
                 sensor = sensor_link,
                 value = data.values)
             sensor_link.value = data.values
+            sensor_link.connect_time =data.date
             sensor_link.save()
             data.check = True
             data.save()
