@@ -105,10 +105,10 @@ def update_ops_date():
 
 def update_eps():
     try:
-        r=requests.post("https://87.103.198.150:56443/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        r=requests.post("https://192.168.10.5/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
         if r.status_code!=200:
             return
-        r=requests.get("https://87.103.198.150:56443/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        r=requests.get("https://192.168.10.5/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
         if r.status_code!=200:
             return
         mystr=r.json()

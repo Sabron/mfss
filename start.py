@@ -84,12 +84,13 @@ def test_Mfsb():
         mfsb.check = True
         mfsb.save()
         update_acs()
+
 def update_eps():
     try:
-        r=requests.post("https://87.103.198.150:56443/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        r=requests.post("https://192.168.10.5/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
         if r.status_code!=200:
             return
-        r=requests.get("https://87.103.198.150:56443/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        r=requests.get("https://192.168.10.5/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
         if r.status_code!=200:
             return
         mystr=r.json()
@@ -161,6 +162,7 @@ def update_eps_random():
 if __name__ == "__main__":
     #test_Mfsb()
     #update_acs()
-    while True:
-        time.sleep(3) # ��� � 3 �������
-        update_eps_random()
+    update_eps()
+    #while True:
+    #    time.sleep(3) # ��� � 3 �������
+    #    update_eps_random()
