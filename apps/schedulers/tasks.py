@@ -104,12 +104,14 @@ def update_ops_date():
         logging.error(traceback.format_exc())
 
 def update_eps():
-    try:
+   try:
         r=requests.post("https://192.168.10.5/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
         if r.status_code!=200:
+            print(r.status_code)
             return
         r=requests.get("https://192.168.10.5/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
         if r.status_code!=200:
+            print(r.status_code)
             return
         mystr=r.json()
         for tag in mystr['items']:
@@ -121,11 +123,17 @@ def update_eps():
                     sn=tag['sn'],
                     descr=tag['descr'],
                     origin=tag['origin'],
-                    le_status =tag['le_status'] )
+                    le_status =tag['le_status'],
+                    x = tag['x'],
+                    y = tag['y'],
+                    z = tag['z'],)
             else:
                 tag_link.le_status =tag['le_status']
+                tag_link.x = tag['x']
+                tag_link.y = tag['y']
+                tag_link.z = tag['z']
                 tag_link.save()
-
+                
             tag_date_link = TagDate.objects.filter(tag=tag_link).filter(time = tag['time']).first()
             if tag_date_link is None:
                 TagDate.objects.create(
