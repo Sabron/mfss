@@ -104,7 +104,7 @@ def update_ops_date():
         logging.error(traceback.format_exc())
 
 def update_eps():
-   try:
+    try:
         r=requests.post("https://192.168.10.5/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
         if r.status_code!=200:
             print(r.status_code)
