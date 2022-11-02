@@ -100,7 +100,7 @@ function drawFrame() {
         type: 'POST', // метод отправки
         url: window.location.pathname + 'ajax/', // путь к обработчику
         success: function (data) {
-            console.log(data)
+            //console.log(data)
             for (index = data.length - 1; index >= 0; --index) {
                 left_x = data[index].x
                 top_y = data[index].y
@@ -124,7 +124,7 @@ window.onload = function () {
     context = canvas.getContext("2d");
     getTag() 
     // Обновляем холст через 0.02 секунды
-    setInterval("drawFrame()", 1000);
+    setInterval("drawFrame()", 100);
 }
 
 //addMarker({ x: 10 * (1014 / 42), y: (829 - 20 * (1014 / 42)), name: 'ff' });
