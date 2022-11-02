@@ -39,10 +39,8 @@ function addTag(name) {
         textGroup_marker = new fabric.Group([background, textObject], {
             scaleX: 0.5,
             scaleY: 0.5,
-            //left: tag.left + 30 * 0.5, 
-            //top: tag.top - 20 * 0.5 
-            left: tag.left -24 , 
-            top: tag.top - 26 
+            left: tag.left + 30 * 0.5, 
+            top: tag.top - 20 * 0.5 
         });
 
         canvas.add(tag);
