@@ -47,7 +47,7 @@ def get_ajax(request):
                 #y =829 - (int(tag.y)+random.randint(1,5))*(1014/42)
                 x = int(int(tag.x)*22)
                 #y =792 - int(int(tag.y)*22)
-                y =750 - int(int(tag.y)*22)
+                y =770 - int(int(tag.y)*22)
                 ds = int(mas[x][y])
                 if ds==0:
                     continue
