@@ -124,7 +124,7 @@ window.onload = function () {
     context = canvas.getContext("2d");
     getTag() 
     // Обновляем холст через 0.02 секунды
-    setInterval("drawFrame()", 100);
+    setInterval("drawFrame()", 500);
 }
 
 //addMarker({ x: 10 * (1014 / 42), y: (829 - 20 * (1014 / 42)), name: 'ff' });
