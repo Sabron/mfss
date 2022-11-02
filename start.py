@@ -89,11 +89,11 @@ def test_Mfsb():
 
 def update_eps():
     try:
-        r=requests.post("https://192.168.10.5/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        r=requests.post("https://87.103.198.150:56443/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
         if r.status_code!=200:
             print(r.status_code)
             return
-        r=requests.get("https://192.168.10.5/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        r=requests.get("https://87.103.198.150:56443/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
         if r.status_code!=200:
             print(r.status_code)
             return
@@ -219,7 +219,7 @@ def update_ops_date():
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #print(sensor_list)
-    update_ops_date()
+    update_eps()
     #update_acs()
     #update_eps()
     #update_eps_anchors()
