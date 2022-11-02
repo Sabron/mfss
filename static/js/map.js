@@ -39,8 +39,10 @@ function addTag(name) {
         textGroup_marker = new fabric.Group([background, textObject], {
             scaleX: 0.5,
             scaleY: 0.5,
-            left: tag.left - 55 * 0.5, 
-            top: tag.top - 50 * 0.5 
+            //left: tag.left + 30 * 0.5, 
+            //top: tag.top - 20 * 0.5 
+            left: tag.left -24 , 
+            top: tag.top - 26 
         });
 
         canvas.add(tag);
@@ -107,7 +109,8 @@ function drawFrame() {
                 tag = tags.get(data[index].name)
                 tag_name = tags_name.get(data[index].name)
                 tag.set({ left: left_x, top: top_y })
-                tag_name.set({ left: left_x + 30 * 0.5, top: top_y - 20 * 0.5 })
+                //tag_name.set({ left: left_x + 30 * 0.5, top: top_y - 20 * 0.5 })
+                tag_name.set({ left: left_x - 24, top: top_y - 26 })
                 canvas.renderAll();
             }
         },

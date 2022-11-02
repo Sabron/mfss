@@ -29,7 +29,7 @@ from sabron.util import logging
 def get_ajax(request):
     try:
         if request.method == "POST":
-            #settings.BASE_DIR+'/static/img//plan/inver/otm_102_zone.png'
+            #print(settings.BASE_DIR+'/static/img//plan/inver/otm_102_zone.png')
             img = Image.open(settings.BASE_DIR+'/static/img//plan/inver/otm_102_zone.png')
             x,y= img.size
             mas = np.eye(x, y)
@@ -48,6 +48,8 @@ def get_ajax(request):
                 x = int(int(tag.x)*22)
                 #y =792 - int(int(tag.y)*22)
                 y =770 - int(int(tag.y)*22)
+                print(x)
+                print(y)
                 ds = int(mas[x][y])
                 if ds==0:
                     continue
