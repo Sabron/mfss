@@ -40,7 +40,7 @@ def get_ajax(request):
                         mas[xx][yy] = 1
                     else:
                         mas[xx][yy] = 0
-            Tag_list = Tag.objects.all().order_by('name')
+            Tag_list = Tag.objects.filter(le_status ='HEALTH').all().order_by('name')
             m_sensor = []
             for tag in Tag_list:
                 #x = (int(tag.x)+random.randint(1,5))*(1014 / 42)
@@ -75,7 +75,7 @@ def get_ajax(request):
 def get_tag(request):
     try:
         if request.method == "POST":
-            Tag_list = Tag.objects.all().order_by('name')
+            Tag_list = Tag.objects.filter(le_status ='HEALTH').all().order_by('name')
             m_sensor = []
             for tag in Tag_list:
                 tag_dict = dict()
