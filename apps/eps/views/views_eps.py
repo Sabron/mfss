@@ -48,8 +48,6 @@ def get_ajax(request):
                 x = int(int(tag.x)*22)
                 #y =792 - int(int(tag.y)*22)
                 y =770 - int(int(tag.y)*22)
-                print(x)
-                print(y)
                 ds = int(mas[x][y])
                 if ds==0:
                     continue
