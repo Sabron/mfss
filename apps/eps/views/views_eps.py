@@ -31,7 +31,7 @@ def get_ajax(request):
                 #x = (int(tag.x)+random.randint(1,5))*(1014 / 42)
                 #y =829 - (int(tag.y)+random.randint(1,5))*(1014/42)
                 x = int(int(tag.x)*22)
-                y =829 - int(int(tag.y)*22)
+                y =792 - int(int(tag.y)*22)
                 tag_dict = dict()
                 tag_dict.update(id=tag.id)
                 tag_dict.update(name=tag.name)
