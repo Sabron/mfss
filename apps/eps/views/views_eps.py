@@ -3,6 +3,10 @@ import traceback
 import requests
 import random
 
+from PIL import Image
+import numpy as np
+
+
 from datetime import datetime,timedelta
 from requests.auth import HTTPBasicAuth
 from django.conf import settings
@@ -25,13 +29,28 @@ from sabron.util import logging
 def get_ajax(request):
     try:
         if request.method == "POST":
+            #settings.BASE_DIR+'/static/img//plan/inver/otm_102_zone.png'
+            img = Image.open(settings.BASE_DIR+'/static/img//plan/inver/otm_102_zone.png')
+            x,y= img.size
+            mas = np.eye(x, y)
+            for xx in range(0,x):
+                for yy in range(0,y):
+                    p = img.getpixel((xx,yy))
+                    if p[1]!=0:
+                        mas[xx][yy] = 1
+                    else:
+                        mas[xx][yy] = 0
             Tag_list = Tag.objects.all().order_by('name')
             m_sensor = []
             for tag in Tag_list:
                 #x = (int(tag.x)+random.randint(1,5))*(1014 / 42)
                 #y =829 - (int(tag.y)+random.randint(1,5))*(1014/42)
                 x = int(int(tag.x)*22)
-                y =792 - int(int(tag.y)*22)
+                #y =792 - int(int(tag.y)*22)
+                y =789 - int(int(tag.y)*22)
+                ds = int(mas[x][y])
+                if ds==0:
+                    continue
                 tag_dict = dict()
                 tag_dict.update(id=tag.id)
                 tag_dict.update(name=tag.name)

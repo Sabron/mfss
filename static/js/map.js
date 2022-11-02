@@ -100,6 +100,7 @@ function drawFrame() {
         type: 'POST', // метод отправки
         url: window.location.pathname + 'ajax/', // путь к обработчику
         success: function (data) {
+            console.log(data)
             for (index = data.length - 1; index >= 0; --index) {
                 left_x = data[index].x
                 top_y = data[index].y
