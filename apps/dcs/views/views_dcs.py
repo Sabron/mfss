@@ -78,7 +78,9 @@ def MainIndexDefault(request):
         m_sensor = []
         for sensor in sensor_list:
             if sensor.ratio == 0:
-                ratio =1
+                ratio = 1
+            else:
+                ratio = sensor.ratio
             str_value=str(sensor.value / ratio).replace(',','.')
             sensor_dict = dict()
             sensor_dict.update(sensor=sensor)
