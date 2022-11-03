@@ -22,7 +22,8 @@ from sabron.util import logging
 
 
 def get_ajax(request):
-    try:
+    try: 
+        #TODO
         sensor_list = AcsSensor.objects.filter(active=True).all().order_by('value')
         data = dict()
         data.update(status=1)

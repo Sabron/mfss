@@ -18,6 +18,8 @@ from apps.ops.models.model_mfsb import Mfsb
 from apps.main.models.model_datamfsb import DataMfsb
 from apps.acs.models.model_sensor import AcsSensor
 from apps.acs.models.model_indicators import AcsIndicators
+from apps.dcs.models.model_sensor import DcsSensor
+from apps.dcs.models.model_indicators import DcsIndicators
 
 from apps.eps.models.model_tags import Tag
 from apps.eps.models.model_tagdates import TagDate
@@ -43,6 +45,23 @@ def update_acs():
             sensor_link.save()
             data.check = True
             data.save()
+
+def update_dcs():
+    sensor_list = DcsSensor.objects.values('tag').order_by('tag').distinct()
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
+    for data in data_mfsb:
+        sensor_link = DcsSensor.objects.filter(tag=data.name).filter(active=True).first()
+        if sensor_link is not None:
+            Acs_Indicators = DcsIndicators.objects.create(
+                date_time =data.date,
+                sensor = sensor_link,
+                value = data.values)
+            sensor_link.value = data.values
+            sensor_link.connect_time =data.date
+            sensor_link.save()
+            data.check = True
+            data.save()
+
  
 
 def end_moth(old_date,mes):
@@ -101,7 +120,7 @@ def update_ops_date():
             mfsb.check = True
             mfsb.save()
         update_acs()
-        #Mfsb.objects.using('mfsb').filter(check=True).delete()
+        update_dcs()
     except Exception as err:
         logging.error(traceback.format_exc())
 

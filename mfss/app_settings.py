@@ -24,12 +24,13 @@ INSTALLED_APPS = [
     'apps.main.apps.MainConfig',
     'apps.acs.apps.acsConfig',
     'apps.eps.apps.epsConfig',
+    'apps.dcs.apps.dcsConfig',
 ]
 
 """Информация о приложении """
 SITE_TITLE = u'Многофункциональная система безопасности'
 SITE_TITLE_S = u'МФСБ'
-APP_VER = u'1.0.02.8'
+APP_VER = u'1.0.03.1'
 APP_COPPIRIGHT = u'Многофункциональная система безопасности'
 
 

@@ -16,6 +16,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 
 from . import views_acs
+from . import views_dcs
 
 from sabron.util import logging
 from apps.util import generalmodule
@@ -34,6 +35,8 @@ def main_index(request):
         if 'module' in param:
             if param['module']=='acs':
                 return views_acs.main_index(request)
+            if param['module']=='dcs':
+                return views_dcs.main_index(request)
 
 
         context = generalmodule.get_context_template()
