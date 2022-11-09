@@ -25,6 +25,16 @@ INSTALLED_APPS = [
     'apps.acs.apps.acsConfig',
     'apps.eps.apps.epsConfig',
     'apps.dcs.apps.dcsConfig',
+
+
+    # The general purpose templates
+    #'django_adminlte',
+
+    # Optional: Skin for the admin interface
+    #'django_adminlte_theme',
+
+    # Any apps which need to have their templates overridden by adminlte
+    #'django.contrib.admin',
 ]
 
 """Информация о приложении """
