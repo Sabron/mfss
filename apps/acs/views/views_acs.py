@@ -154,11 +154,13 @@ def sensor_ajax(request):
                 sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
                         date_value=TruncMinute('date_time')).values('date_time','date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
             else:
-                strftime = "%d-%m %H:%M"
-                sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
-                        date_value=TruncHour('date_time')).values('date_value', 'date_value','value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
+                strftime = "%H:%M"
+                #sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
+                #        date_value=TruncHour('date_time')).values('date_value', 'date_value','value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
+                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_value').distinct('date_value')
             m_sensor = []
             data_list =list()
+            count = 0
             for sensor in sensor_list:
                 #logging.message(sensor)
                 data = sensor['date_value'].strftime(strftime)
@@ -170,6 +172,9 @@ def sensor_ajax(request):
                 #sensor_dict.update(date_time=sensor['date_value'].strftime("%d-%m %H:%M:%S"))
                 sensor_dict.update(value=sensor['value'] / sensor['sensor__ratio'])
                 m_sensor.append(sensor_dict)
+                count = count+1
+                if count > 30:
+                    return generalmodule.ReturnJson(200,m_sensor) 
             return generalmodule.ReturnJson(200,m_sensor) 
     except Exception as err:
         logging.error(traceback.format_exc())
