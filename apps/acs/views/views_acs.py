@@ -144,19 +144,23 @@ def sensor_ajax(request):
         if request.method == "GET":
             sensor_dict = dict()
             param = request.GET.dict()
-            sensor = AcsSensor.objects.filter(id=param['id']).first()
+            strftime = "%H:%M:%S"
             if param['sensor_type'] == 'sec':
                 sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
                         date_value=TruncSecond('date_time')).values('date_time', 'date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
             elif param['sensor_type'] == 'min':
-                sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(date_value=TruncMinute('date_time')).values('date_time','date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
+                strftime = "%H:%M"
+                sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
+                        date_value=TruncMinute('date_time')).values('date_time','date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
             else:
-                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_value').annotate(date_value=TruncHour('date_time')).annotate(zn_value =Max('value')).values('date_value','zn_value', 'value', 'sensor__ratio').distinct()[:30]
+                strftime = "%H:%M"
+                sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
+                        date_value=TruncHour('date_time')).annotate(zn_value =Max('value')).values('date_value','zn_value', 'value', 'sensor__ratio').order_by('-date_value').distinct()[:30]
             m_sensor = []
             for sensor in sensor_list:
-                logging.message(sensor)
+                #logging.message(sensor)
                 sensor_dict = dict()
-                sensor_dict.update(date_time=sensor['date_value'].strftime("%H:%M:%S"))
+                sensor_dict.update(date_time=sensor['date_value'].strftime(strftime))
                 #sensor_dict.update(date_time=sensor['date_value'].strftime("%d-%m %H:%M:%S"))
                 sensor_dict.update(value=sensor['value'] / sensor['sensor__ratio'])
                 m_sensor.append(sensor_dict)
