@@ -13,7 +13,9 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.db.models import Avg, Max, Min
-
+from django.db.models.functions import (
+    TruncDate, TruncDay, TruncHour, TruncMinute, TruncSecond,
+)
 
 from apps.acs.models.model_indicators import AcsIndicators
 from apps.acs.models.model_sensor import AcsSensor
@@ -139,19 +141,21 @@ def SensorList(request):
 @never_cache
 def sensor_ajax(request):
     try:
-        if request.method == "POST":
+        if request.method == "GET":
             sensor_dict = dict()
-            param = request.POST.dict()
+            param = request.GET.dict()
             sensor = AcsSensor.objects.filter(id=param['id']).first()
-            now = datetime.now()
-            start_date = now - timedelta(hours=0, minutes=1)
-            sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('-date_time')
-            print(sensor_list)
+            if param['sensor_type'] == 'sec':
+                sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(date_value=TruncSecond('date_time')).values('date_time', 'date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
+            elif param['sensor_type'] == 'min':
+                sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(date_value=TruncMinute('date_time')).values('date_time','date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
+            else:
+                sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(date_value=TruncHour('date_time')).values('date_time','date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
             m_sensor = []
             for sensor in sensor_list:
                 sensor_dict = dict()
-                sensor_dict.update(date_time=sensor.date_time.strftime("%H:%M:%S"))
-                sensor_dict.update(value=sensor.value / sensor.sensor.ratio)
+                sensor_dict.update(date_time=sensor['date_value'].strftime("%H:%M:%S"))
+                sensor_dict.update(value=sensor['value'] / sensor['sensor__ratio'])
                 m_sensor.append(sensor_dict)
             return generalmodule.ReturnJson(200,m_sensor) 
     except Exception as err:

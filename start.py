@@ -219,7 +219,7 @@ def update_ops_date():
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #print(sensor_list)
-    update_eps()
+    test_Mfsb()
     #update_acs()
     #update_eps()
     #update_eps_anchors()

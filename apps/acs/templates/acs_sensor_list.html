@@ -30,15 +30,23 @@
         <div class="row">
 <div class="col-md-6">
            <!-- LINE CHART -->
-            <div class="card card-info">
+            <div class="card ">
+               <input id="sensor_type" type="hidden" name="sensor_type" value="sec">
               <div class="card-header">
                 <h3 class="card-title">График изменения [{{sensor.name}}]</h3>
                 <input id="sensor_id" type="hidden" value="{{sensor.id}}" name="sensor_id">
-
                 <div class="card-tools">
-                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
+                    <ul class="nav nav-pills ml-auto">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#" onclick="setparametrs('sec')" data-toggle="tab">Сек.</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#" onclick="setparametrs('min')" data-toggle="tab">Мин.</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#" onclick="setparametrs('hour')" data-toggle="tab">Час</a>
+                    </li>
+                  </ul>
                 </div>
               </div>
               <div class="card-body">
@@ -52,7 +60,7 @@
             <!-- /.card -->
      </div>
     <div class="col-md-6">
-            <div class="card card-info">
+            <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Показания датчиков [{{sensor.name}}]</h3>
                 <div class="card-tools">
@@ -143,28 +151,28 @@ const myChart = new Chart(ctx, {
 		function show()
 		{
 		cmd = 'refresh';
-        id=document.getElementById('sensor_id').value
+        id = document.getElementById('sensor_id').value
+        sensor_type = document.getElementById('sensor_type').value
         $.ajax({
-            type: 'POST', // метод отправки
+            type: 'GET', // метод отправки
             url: window.location.pathname+'sensor_ajax/', // путь к обработчику
             data: {
                 "cmd": cmd,
-                "id":id
+                "id": id,
+                "sensor_type": sensor_type,
             },
             // dataType: 'text',
 			success: function (data) {
                     myChart.data.labels=[]
                     myChart.data.datasets[0].data = []
                     str_table = ''
-				    start = 0
-				for (index = data.length - 1; index >= 0; --index) {
+                    start = 0
+                    length = data.length-1
+                for (index = length; index >= 0; --index) {
                         start=start+1
                         myChart.data.labels.push(data[index].date_time);
                         myChart.data.datasets[0].data.push(data[index].value);
-                    if (start < 5) {
-                        //str_table = str_table + '<tr><td>' + (data.length-index) + '.</td><td>' + data[data.length-index].date_time + '</td><td>' + data[data.length-index].value + '</td></tr>'
-
-                    }
+                        str_table = str_table + '<tr><td>' + (data.length-index) + '.</td><td>' + data[length-index].date_time + '</td><td>' + data[length-index].value + '</td></tr>'
                 }
 
                 myChart.update();
@@ -176,8 +184,14 @@ const myChart = new Chart(ctx, {
             }
         });
 		}
-	
+
+    function setparametrs(p) {
+        document.getElementById('sensor_type').setAttribute('value', p);
+        show()
+    }
+
     $(function () {
+        show()
 		setInterval('show()',2000);
 
 /*
