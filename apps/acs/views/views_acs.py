@@ -148,17 +148,17 @@ def sensor_ajax(request):
             strftime = "%H:%M:%S"
             if param['sensor_type'] == 'sec':
                 strftime = "%H:%M:%S"
-                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time','value')[:100]
+                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:100]
                 #sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
                 #        date_value=TruncSecond('date_time')).values('date_time', 'date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
             elif param['sensor_type'] == 'min':
                 strftime = "%H:%M"
-                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time','value')[:3600]
+                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:3600]
                 #sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
                 #        date_value=TruncMinute('date_time')).values('date_time','date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
             else:
                 strftime = "%H:00"
-                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time','value')[:120000]
+                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:120000]
                 #sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
                 #        date_value=TruncHour('date_time')).values('date_value', 'date_value','value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
                 #sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')
