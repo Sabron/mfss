@@ -158,7 +158,8 @@ const myChart = new Chart(ctx, {
             url: window.location.pathname+'sensor_ajax/', // путь к обработчику
             data: {
                 "cmd": cmd,
-                "id":id
+                "id": id,
+                "sensor_type": sensor_type,
             },
             // dataType: 'text',
 			success: function (data) {
