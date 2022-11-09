@@ -153,6 +153,7 @@ def sensor_ajax(request):
                 sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(date_value=TruncHour('date_time')).values('date_time','date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
             m_sensor = []
             for sensor in sensor_list:
+                logging.message(sensor)
                 sensor_dict = dict()
                 sensor_dict.update(date_time=sensor['date_value'].strftime("%H:%M:%S"))
                 sensor_dict.update(value=sensor['value'] / sensor['sensor__ratio'])
