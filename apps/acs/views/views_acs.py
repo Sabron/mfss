@@ -177,7 +177,7 @@ def sensor_ajax(request):
                 #    if count > 30:
                 #        return generalmodule.ReturnJson(200,m_sensor) 
                 #return generalmodule.ReturnJson(200,m_sensor)
-            sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:500]
+            sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:5000]
             m_sensor = []
             data_list =list()
             count = 0
