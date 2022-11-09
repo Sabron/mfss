@@ -155,7 +155,8 @@ def sensor_ajax(request):
                         date_value=TruncMinute('date_time')).values('date_time','date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
             else:
                 strftime = "%d-%m %H:%M"
-                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time').annotate(
+                data_list=AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')
+                sensor_list = data_list.annotate(
                         date_value=TruncHour('date_time')).values('date_value', 'date_value','value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
             m_sensor = []
             for sensor in sensor_list:
