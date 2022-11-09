@@ -146,7 +146,7 @@ def sensor_ajax(request):
     try:
         if request.method == "GET":
             sensor_dict = dict()
-            param = request.POST.dict()
+            param = request.GET.dict()
             sensor = DcsSensor.objects.filter(id=param['id']).first()
             strftime = "%H:%M:%S"
             if param['sensor_type'] == 'sec':
