@@ -144,6 +144,7 @@ def sensor_ajax(request):
         if request.method == "GET":
             sensor_dict = dict()
             param = request.GET.dict()
+            sensor = AcsSensor.objects.filter(id=param['id']).first()
             strftime = "%H:%M:%S"
             if param['sensor_type'] == 'sec':
                 sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
