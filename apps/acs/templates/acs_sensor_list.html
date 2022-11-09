@@ -170,7 +170,6 @@ const myChart = new Chart(ctx, {
                     length = data.length-1
                 for (index = length; index >= 0; --index) {
                     start = start + 1
-                    console.log(data[index].date_time)
                         myChart.data.labels.push(data[index].date_time);
                         myChart.data.datasets[0].data.push(data[index].value);
                         str_table = str_table + '<tr><td>' + (data.length-index) + '.</td><td>' + data[length-index].date_time + '</td><td>' + data[length-index].value + '</td></tr>'
