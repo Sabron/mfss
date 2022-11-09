@@ -151,7 +151,7 @@ def sensor_ajax(request):
             elif param['sensor_type'] == 'min':
                 sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(date_value=TruncMinute('date_time')).values('date_time','date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
             else:
-                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_value').annotate(date_value=TruncHour('date_time'),zn_value =Max('value')).values('date_value','zn_value', 'value', 'sensor__ratio').distinct()[:30]
+                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_value').annotate(date_value=TruncHour('date_time'),zn_value =Max('value')).annotate(zn_value =Max('value')).values('date_value','zn_value', 'value', 'sensor__ratio').distinct()[:30]
             m_sensor = []
             for sensor in sensor_list:
                 logging.message(sensor)
