@@ -218,60 +218,14 @@ const myChart = new Chart(ctx, {
 
     function setparametrs(p) {
         document.getElementById('sensor_type').setAttribute('value', p);
-         //myChart.data.labels=[]
-         //myChart.data.datasets[0].data = []
-         myChart.clear();
-        //show()
+        myChart.data.labels=[]
+        myChart.data.datasets[0].data = []
+        myChart.clear();
     }
 
     $(function () {
         show()
         setInterval('show()', 2000);
-
-/*
-  $.validator.setDefaults({
-    submitHandler: function () {
-      alert( "Form successful submitted!" );
-    }
-  });
-  $('#quickForm').validate({
-    rules: {
-      DataStart: {
-        required: true,
-        email: true,
-      },
-      DataStop: {
-        required: true,
-        minlength: 5
-      },
-      terms: {
-        required: true
-      },
-    },
-    messages: {
-      DataStart: {
-        required: "Please enter a email address",
-        email: "Please enter a valid email address"
-      },
-      DataStop: {
-        required: "Please provide a password",
-        minlength: "Your password must be at least 5 characters long"
-      },
-      terms: "Please accept our terms"
-    },
-    errorElement: 'span',
-    errorPlacement: function (error, element) {
-      error.addClass('invalid-feedback');
-      element.closest('.form-group').append(error);
-    },
-    highlight: function (element, errorClass, validClass) {
-      $(element).addClass('is-invalid');
-    },
-    unhighlight: function (element, errorClass, validClass) {
-      $(element).removeClass('is-invalid');
-    }
-  });*/
-
     })
 
 
