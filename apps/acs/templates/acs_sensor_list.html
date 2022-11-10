@@ -220,7 +220,7 @@ const myChart = new Chart(ctx, {
         document.getElementById('sensor_type').setAttribute('value', p);
         myChart.data.labels=[]
         myChart.data.datasets[0].data = []
-        myChart.clear();
+        myChart.update();
     }
 
     $(function () {
