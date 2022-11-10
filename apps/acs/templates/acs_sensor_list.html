@@ -33,7 +33,7 @@
             <div class="card ">
                <input id="sensor_type" type="hidden" name="sensor_type" value="sec">
               <div class="card-header">
-                <h3 class="card-title">График изменения </h3>
+                <h3 class="card-title">График изменения ({{sensor.unit}})</h3>
                 <input id="sensor_id" type="hidden" value="{{sensor.id}}" name="sensor_id">
                 <div class="card-tools">
                     <ul class="nav nav-pills ml-auto">
@@ -58,6 +58,40 @@
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
+       <!-- <div class="card ">
+              <div class="card-header">
+                <h3 class="card-title">Скачать показания </h3>
+                <div class="card-tools">
+
+                </div>
+                </div> 
+                  <form id="quickForm"class="form-horizontal">
+                      {% csrf_token %}
+                <div class="card-body"> 
+                    <div class="form-group row">
+                    <label for="id_DataStart" class="col-sm-2 col-form-label">Начало периода</label>
+                    <div class="col-sm-10">
+                      <input name="DataStart" class="datepicker form-control" id="id_DataStart" type="date" placeholder="Дата начала" value="{{form.DataStart}}" >
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                    <label for="id_DataStop" class="col-sm-2 col-form-label">Конец периода</label>
+                    <div class="col-sm-10">
+                      <input name="DataStop" class="datepicker form-control" id="id_DataStop"   type="date" placeholder="Дата конца" value="{{form.DataStop}}">
+                    </div>
+                    </div>
+                    <div id="reportPanelBody">
+                    </div>
+                </div>
+                      </form>
+                <div class="card-footer">
+                    
+                  <button onclick="reportdownload()" class="btn btn-primary">Скачать</button>
+                </div>
+                     
+        </div>-->
+            <!-- /.card -->
+
      </div>
     <div class="col-md-6">
             <div class="card">
@@ -172,7 +206,7 @@ const myChart = new Chart(ctx, {
                     start = start + 1
                         myChart.data.labels.push(data[index].date_time);
                         myChart.data.datasets[0].data.push(data[index].value);
-                        str_table = str_table + '<tr><td>' + (data.length-index) + '.</td><td>' + data[length-index].date_time + '</td><td>' + data[length-index].value + '</td></tr>'
+                        str_table = str_table + '<tr><td>' + (data.length-index) + '.</td><td>' + data[length-index].date_time + '</td><td>' + data[length-index].value + ' ({{sensor.unit}})</td></tr>'
                 }
 
                 myChart.update();
@@ -192,87 +226,94 @@ const myChart = new Chart(ctx, {
 
     $(function () {
         show()
-		setInterval('show()',2000);
+        setInterval('show()', 2000);
 
 /*
-   //--------------
-    //- AREA CHART -
-    //--------------
-
-    // Get context with jQuery - using jQuery's .get() method.
-    var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
-
-    var areaChartData = {
-      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label               : 'Digital Goods',
-          backgroundColor     : 'rgba(60,141,188,0.9)',
-          borderColor         : 'rgba(60,141,188,0.8)',
-          pointRadius          : false,
-          pointColor          : '#3b8bba',
-          pointStrokeColor    : 'rgba(60,141,188,1)',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : [28, 48, 40, 19, 86, 27, 90]
-        },
-        {
-          label               : 'Electronics',
-          backgroundColor     : 'rgba(210, 214, 222, 1)',
-          borderColor         : 'rgba(210, 214, 222, 1)',
-          pointRadius         : false,
-          pointColor          : 'rgba(210, 214, 222, 1)',
-          pointStrokeColor    : '#c1c7d1',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : [65, 59, 80, 81, 56, 55, 40]
-        },
-      ]
+  $.validator.setDefaults({
+    submitHandler: function () {
+      alert( "Form successful submitted!" );
     }
-
-    var areaChartOptions = {
-      maintainAspectRatio : false,
-      responsive : true,
-      legend: {
-        display: false
+  });
+  $('#quickForm').validate({
+    rules: {
+      DataStart: {
+        required: true,
+        email: true,
       },
-      scales: {
-        xAxes: [{
-          gridLines : {
-            display : false,
-          }
-        }],
-        yAxes: [{
-          gridLines : {
-            display : false,
-          }
-        }]
-      }
+      DataStop: {
+        required: true,
+        minlength: 5
+      },
+      terms: {
+        required: true
+      },
+    },
+    messages: {
+      DataStart: {
+        required: "Please enter a email address",
+        email: "Please enter a valid email address"
+      },
+      DataStop: {
+        required: "Please provide a password",
+        minlength: "Your password must be at least 5 characters long"
+      },
+      terms: "Please accept our terms"
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.form-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
     }
+  });*/
 
-    // This will get the first returned node in the jQuery collection.
-    new Chart(areaChartCanvas, {
-      type: 'line',
-      data: areaChartData,
-      options: areaChartOptions
     })
 
-    //-------------
-    //- LINE CHART -
-    //--------------
-    var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
-    var lineChartOptions = $.extend(true, {}, areaChartOptions)
-    var lineChartData = $.extend(true, {}, areaChartData)
-    lineChartData.datasets[0].fill = false;
-    lineChartData.datasets[1].fill = false;
-    lineChartOptions.datasetFill = false
 
-    var lineChart = new Chart(lineChartCanvas, {
-      type: 'line',
-      data: lineChartData,
-      options: lineChartOptions
-    })
-*/
-  })
+
+	 function reportdownload() {
+		 $("#reportPanelBody").html('<div class="overlay" style="height:60vh;"> <i class="fa fa-refresh fa-spin"></i></div>')
+
+			var DataStart = $("#id_DataStart").val();
+			var DataStop = $("#id_DataStop").val();
+		    cmd = 'refresh';
+            id = document.getElementById('sensor_id').value
+            sensor_type = document.getElementById('sensor_type').value
+
+			if (!!DataStart) {
+				$.ajax({
+					type: 'POST', // метод отправки
+					url: window.location.pathname+'sensor_ajax/', // путь к обработчику,
+					data: {
+						"DataStart": DataStart,
+						"DataStop": DataStop,
+                        "cmd": cmd,
+                        "id": id,
+                        'sensor_type':sensor_type,
+					},
+					success: function (data) {
+						document.getElementById('reportPanel').style.height = '';
+						$("#reportPanelBody").html(data); // при успешном получении ответа от сервера, заносим полученные данные в элемент с классом answer
+					},
+					error: function (dataerr) {
+						$("#reportPanelBody").html(dataerr); // при успешном получении ответа от сервера, заносим полученные данные в элемент с классом answer
+
+					}
+				});
+
+			}
+
+
+		 }
+
+
+
+
+
 </script>
 {% endblock script_footer %}
