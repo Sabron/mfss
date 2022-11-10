@@ -38,43 +38,27 @@
 
     <div class="wrapper">
 
-        <!-- Navbar -->
+       <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-light navbar-light navbar-fixed-top text-sm" style='position:sticky; top:0px; left;0;'>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    {% block info_title %}
-
-                    {% endblock info_title %}
-
+                        {% block info_title %}
+                             
+                        {% endblock info_title %}
+                    
                 </li>
             </ul>    <!-- Right navbar links -->
+            
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Messages Dropdown Menu -->
+                        
+                        <li class="nav-item dropdown mr-3 lead">
+                                <h6 class="m-1" id="time" ></h6>
+                        </li>
 
-            <ul class="navbar-nav ml-auto">
-                <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown mr-3 lead">
-                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-user-circle mr-2 "></i>
-                        {{user}}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item" href="/dashboard/profile/">
-                            <i class="fas fa-id-card"></i>
-                            Профиль
-                        </a>
-                        <a class="dropdown-item" href="/password_reset/">
-                            <i class="fas fa-cog"></i>
-                            Параметры
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="/accounts/logout/?next=/accounts/login/" class="dropdown-item">
-                            <i class="fas fa-sign-out-alt"></i>
-                            Выход
-                        </a>
-                    </div>
-                </li>
-
-            </ul>
+                    </ul>
         </nav>
+
         <!-- /.navbar -->
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-light-maroon">
@@ -102,7 +86,7 @@
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
-                                        <span class="badge bg-primary">15</span>
+                                        <span class="badge bg-primary"></span>
                                         <p>
                                             Главный корпус
                                             <i class="fas fa-angle-left right"></i>
@@ -110,12 +94,12 @@
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
-                                            <a href="map/" class="nav-link">
+                                            <a href="/eps/map/" class="nav-link">
                                                 <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                                                <p>Отм. 0,000</p>
+                                                <p>Отм. +10,200</p>
                                             </a>
                                         </li>
-                                        <li class="nav-item">
+                                       <!-- <li class="nav-item">
                                             <a href="/l" class="nav-link">
                                                 <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
                                                 <p>Отм. +3,000; +4,000</p>
@@ -144,7 +128,7 @@
                                                 <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
                                                 <p>Отм. +15,600</p>
                                             </a>
-                                        </li>
+                                        </li>-->
                                     </ul>
                                 </li>
                              <!--   <li class="nav-item">
@@ -307,6 +291,33 @@
     <script src="{% static 'lte/plugins/chart.js/Chart.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 
     <script src="{% static 'js/main.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <script>
+        function clock() {
+    var d = new Date();
+    var day = d.getDate();
+    var hrs = d.getHours();
+    var min = d.getMinutes();
+    var sec = d.getSeconds();
+
+    var mnt = new Array("января", "февраля", "марта", "апреля", "мая",
+    "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря");
+
+    if (day <= 9) day="0" + day;
+    if (hrs <= 9) hrs="0" + hrs;
+    if (min <=9 ) min="0" + min;
+    if (sec <= 9) sec="0" + sec;
+
+    $("#time").html("Время: " + hrs + ":" + min + ":" + sec + "&nbsp;&nbsp;&nbsp;" +
+    day + " " + mnt[d.getMonth()] + " " + d.getFullYear() + " г.");
+    }
+
+		$(document).ready(function(){
+            clock()
+            setInterval("clock()",1000);
+		});
+
+
+        </script>
     {% block script_footer %}
 
     {% endblock script_footer %}
