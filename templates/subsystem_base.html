@@ -51,8 +51,9 @@
             
                     <ul class="navbar-nav ml-auto">
                         <!-- Messages Dropdown Menu -->
+                        
                         <li class="nav-item dropdown mr-3 lead">
-                                {{user}}
+                                <h6 class="m-1" id="time" ></h6>
                         </li>
 
                     </ul>
@@ -122,7 +123,36 @@
     <script src="{% static 'lte/plugins/chart.js/Chart.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 
     <script src="{% static 'js/main.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+
+    <script>
+        function clock() {
+    var d = new Date();
+    var day = d.getDate();
+    var hrs = d.getHours();
+    var min = d.getMinutes();
+    var sec = d.getSeconds();
+
+    var mnt = new Array("января", "февраля", "марта", "апреля", "мая",
+    "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря");
+
+    if (day <= 9) day="0" + day;
+    if (hrs <= 9) hrs="0" + hrs;
+    if (min <=9 ) min="0" + min;
+    if (sec <= 9) sec="0" + sec;
+
+    $("#time").html("Время: " + hrs + ":" + min + ":" + sec + "&nbsp;&nbsp;&nbsp;" +
+    day + " " + mnt[d.getMonth()] + " " + d.getFullYear() + " г.");
+    }
+
+		$(document).ready(function(){
+            clock()
+            setInterval("clock()",1000);
+		});
+
+
+        </script>
     {% block script_footer %}
+
 
     {% endblock script_footer %}
 </body>

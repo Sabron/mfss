@@ -42,12 +42,11 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <!-- Navbar Search -->
+                <h6 class="m-13" id="time" style="margin-top: 10px;"></h6>
+                <!-- Navbar Search-->
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                        <i class="fas fa-search"></i>
-                    </a>
                     <div class="navbar-search-block">
+                        <h6 class="m-1" id="time" style="color: gray"></h6>
                         <form class="form-inline">
                             <div class="input-group input-group-sm">
                                 <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
@@ -285,6 +284,27 @@
     <!-- AdminLTE App -->
     <script src="{% static 'lte/dist/js/adminlte.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 <script>
+
+    function clock() {
+    var d = new Date();
+    var day = d.getDate();
+    var hrs = d.getHours();
+    var min = d.getMinutes();
+    var sec = d.getSeconds();
+
+    var mnt = new Array("января", "февраля", "марта", "апреля", "мая",
+    "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря");
+
+    if (day <= 9) day="0" + day;
+    if (hrs <= 9) hrs="0" + hrs;
+    if (min <=9 ) min="0" + min;
+    if (sec <= 9) sec="0" + sec;
+
+    $("#time").html("Время: " + hrs + ":" + min + ":" + sec + "&nbsp;&nbsp;&nbsp;" +
+    day + " " + mnt[d.getMonth()] + " " + d.getFullYear() + " г.");
+    }
+    
+
 		function show()
 		{
         console.log($('#acs_img').src)
@@ -326,8 +346,10 @@
 		}
 
 		$(document).ready(function(){
+            clock()
             show()
 			setInterval('show()',1000);
+            setInterval("clock()",1000);
 		});
 
 </script>
