@@ -53,8 +53,8 @@ def get_ajax(request):
                 y =770 - int(int(tag['y'])*22)
                 ds = int(settings.MAS[x][y])
                 #print(x,y)
-                #if ds==0:
-                #    continue
+                if ds==0:
+                    continue
                 tag_dict = dict()
                 tag_dict.update(id=tag['sn'])
                 tag_dict.update(name=str(tag['sn']))
