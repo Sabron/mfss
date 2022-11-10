@@ -33,7 +33,7 @@
 <link type="text/css" rel="stylesheet" href="{% static '/css/main.css' %}?ver={% settings_value 'APP_VER' %}">
 
 </head>
-<body class="sidebar-collapse">
+<body class="sidebar-collapse layout-footer-fixed">
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -287,6 +287,7 @@
 <script>
 		function show()
 		{
+        console.log($('#acs_img').src)
 		cmd = 'refresh';
 		var img_ok = '{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}';
 		var img_err = '{% static 'img/error-status.webp' %}?ver={% settings_value 'APP_VER' %}';
@@ -301,16 +302,17 @@
 			success: function (data) {
 				if (data.status == 1) {
 					if (data.id_acs) {
+                        
                         $('#acs_img').attr('src', img_err);
                         swal.fire({
                           icon: 'error',
-                          title: 'Датчик <'+data.acs_id+'> в критической зоне',
+                          title: 'Аэрогазовый контроль <br>Датчик <'+data.acs_id+'> в критической зоне',
                           toast: true,
-                          position: 'top-end',
+                          position: 'left-end',
                           showConfirmButton: false,
                           timer: 1000
                         })
-
+    
 					}else{
                         $('#acs_img').attr('src', img_ok);
                     }
@@ -324,6 +326,7 @@
 		}
 
 		$(document).ready(function(){
+            show()
 			setInterval('show()',1000);
 		});
 
