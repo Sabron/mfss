@@ -52,13 +52,13 @@ def get_ajax(request):
                 x = int(int(tag['x'])*22)
                 y =770 - int(int(tag['y'])*22)
                 ds = int(settings.MAS[x][y])
-                print(x,y)
-                if ds==0:
-                    continue
+                #print(x,y)
+                #if ds==0:
+                #    continue
                 tag_dict = dict()
                 tag_dict.update(id=tag['sn'])
-                tag_dict.update(name=tag['sn'])
-                tag_dict.update(sn=tag['sn'])
+                tag_dict.update(name=str(tag['sn']))
+                tag_dict.update(sn=str(tag['sn']))
                 #tag_dict.update(le_status=tag.le_status)
                 tag_dict.update(x=x)
                 tag_dict.update(y=y)
@@ -111,6 +111,39 @@ def get_ajax(request):
 def get_tag(request):
     try:
         if request.method == "POST":
+            #r=requests.get("https://87.103.198.150:56443/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+            r=requests.get("https://192.168.10.5/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+            if r.status_code!=200:
+                #print(r.status_code)
+                return
+            mystr=r.json()
+            m_sensor = []
+            for tag in mystr['items']:
+                x = int(int(tag['x'])*22)
+                y =770 - int(int(tag['y'])*22)
+                tag_dict = dict()
+                tag_dict.update(id=tag['sn'])
+                tag_dict.update(name=str(tag['sn']))
+                tag_dict.update(sn=str(tag['sn']))
+                #tag_dict.update(le_status=tag.le_status)
+                tag_dict.update(x=int(x))
+                tag_dict.update(y=int(y))
+                tag_dict.update(z=int(tag['z']))
+                m_sensor.append(tag_dict)
+            #Tag_list = Tag.objects.filter(le_status ='HEALTH').all().order_by('name')
+            #m_sensor = []
+            #for tag in Tag_list:
+            #    tag_dict = dict()
+            #    tag_dict.update(id=tag.id)
+            #    tag_dict.update(name=tag.name)
+            #    tag_dict.update(sn=tag.sn)
+            #    tag_dict.update(le_status=tag.le_status)
+            #    tag_dict.update(x=int(tag.x))
+            #    tag_dict.update(y=int(tag.y))
+            #    tag_dict.update(z=int(tag.z))
+            #    m_sensor.append(tag_dict)
+            return generalmodule.ReturnJson(200,m_sensor)
+        if request.method == "GET":
             Tag_list = Tag.objects.filter(le_status ='HEALTH').all().order_by('name')
             m_sensor = []
             for tag in Tag_list:

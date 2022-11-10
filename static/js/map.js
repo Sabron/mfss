@@ -100,7 +100,7 @@ function drawFrame() {
         type: 'POST', // метод отправки
         url: window.location.pathname + 'ajax/', // путь к обработчику
         success: function (data) {
-            //console.log(data)
+            
             $("#cont_id").html(data.length)
             for (index = data.length - 1; index >= 0; --index) {
                 left_x = data[index].x
@@ -114,7 +114,7 @@ function drawFrame() {
             }
         },
         error: function (dataerr) {
-            console.log('Ошибка выполнение команды :' + dataerr)
+            console.log('Ошибка выполнение команды error :' + dataerr)
         }
     });
 }
