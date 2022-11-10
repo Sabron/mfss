@@ -199,6 +199,7 @@ const myChart = new Chart(ctx, {
 			success: function (data) {
                     myChart.data.labels=[]
                     myChart.data.datasets[0].data = []
+                    myChart.update();
                     str_table = ''
                     start = 0
                     length = data.length-1
