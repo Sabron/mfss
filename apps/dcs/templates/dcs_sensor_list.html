@@ -184,6 +184,9 @@ const myChart = new Chart(ctx, {
 
    function setparametrs(p) {
         document.getElementById('sensor_type').setAttribute('value', p);
+        myChart.data.labels=[]
+        myChart.data.datasets[0].data = []
+        myChart.update();
     }
 
 
