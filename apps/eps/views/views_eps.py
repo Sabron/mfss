@@ -29,6 +29,42 @@ from sabron.util import logging
 def get_ajax(request):
     try:
         if request.method == "POST":
+            #img = Image.open(settings.BASE_DIR+'/static/img//plan/inver/otm_102_zone.png')
+            #x,y= img.size
+            #mas = np.eye(x, y)
+            #for xx in range(0,x):
+            #    for yy in range(0,y):
+            #        p = img.getpixel((xx,yy))
+            #        if p[1]!=0:
+            #           mas[xx][yy] = 1
+            #       else:
+            #            mas[xx][yy] = 0
+
+            r=requests.get("https://87.103.198.150:56443/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+            if r.status_code!=200:
+                #print(r.status_code)
+                return
+            mystr=r.json()
+            m_sensor = []
+            for tag in mystr['items']:
+                #print(tag)
+                x = int(int(tag['x'])*22)
+                y =770 - int(int(tag['y'])*22)
+                ds = int(settings.MAS[x][y])
+                if ds==0:
+                    continue
+                tag_dict = dict()
+                tag_dict.update(id=tag['sn'])
+                tag_dict.update(name=tag['sn'])
+                tag_dict.update(sn=tag['sn'])
+                #tag_dict.update(le_status=tag.le_status)
+                tag_dict.update(x=x)
+                tag_dict.update(y=y)
+                tag_dict.update(z=int(tag['z']))
+                m_sensor.append(tag_dict)
+            return generalmodule.ReturnJson(200,m_sensor)
+
+        if request.method == "GET":
             #print(settings.BASE_DIR+'/static/img//plan/inver/otm_102_zone.png')
             img = Image.open(settings.BASE_DIR+'/static/img//plan/inver/otm_102_zone.png')
             x,y= img.size

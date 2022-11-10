@@ -93,7 +93,7 @@ def getJobTime(seccond):
 def ReturnJson(code,data):
     httpRespon=HttpResponse();
     httpRespon['Content-Type']='application/json'
-    httpRespon['Cache-Control']='no-cache,no-store'
+    #httpRespon['Cache-Control']='no-cache,no-store'
     httpRespon['charset']='ASCII'
     httpRespon.status_code=code;
     httpRespon.write(json.dumps(data, sort_keys=True, indent=4))

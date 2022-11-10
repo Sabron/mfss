@@ -1,4 +1,6 @@
 import os
+from PIL import Image
+import numpy as np
 
 DEBUG =True
 
@@ -54,3 +56,14 @@ DATABASES = {
         'PORT': '5432',
     },
 }
+
+img = Image.open(BASE_DIR+'/static/img//plan/inver/otm_102_zone.png')
+x,y= img.size
+MAS = np.eye(x, y)
+for xx in range(0,x):
+    for yy in range(0,y):
+        p = img.getpixel((xx,yy))
+        if p[1]!=0:
+            MAS[xx][yy] = 1
+        else:
+            MAS[xx][yy] = 0
