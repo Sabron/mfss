@@ -187,7 +187,7 @@ const myChart = new Chart(ctx, {
         id = document.getElementById('sensor_id').value
         sensor_type = document.getElementById('sensor_type').value
         $.ajax({
-            type: 'GET', // метод отправки
+            type: 'POST', // метод отправки
             url: window.location.pathname+'sensor_ajax/', // путь к обработчику
             data: {
                 "cmd": cmd,

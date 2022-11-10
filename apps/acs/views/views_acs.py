@@ -142,9 +142,9 @@ def SensorList(request):
 @never_cache
 def sensor_ajax(request):
     try:
-        if request.method == "GET":
+        if request.method == "POST":
             sensor_dict = dict()
-            param = request.GET.dict()
+            param = request.POST.dict()
             sensor = AcsSensor.objects.filter(id=param['id']).first()
             strftime = "%H:%M:%S"
             if param['sensor_type'] == 'sec':
