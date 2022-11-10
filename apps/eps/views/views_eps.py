@@ -40,7 +40,8 @@ def get_ajax(request):
             #       else:
             #            mas[xx][yy] = 0
 
-            r=requests.get("https://87.103.198.150:56443/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+            #r=requests.get("https://87.103.198.150:56443/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+            r=requests.get("https://192.168.10.5/CFG-API/monitor/tags",auth=HTTPBasicAuth('system', 'admin'), verify=False)
             if r.status_code!=200:
                 #print(r.status_code)
                 return
@@ -51,6 +52,7 @@ def get_ajax(request):
                 x = int(int(tag['x'])*22)
                 y =770 - int(int(tag['y'])*22)
                 ds = int(settings.MAS[x][y])
+                print(x,y)
                 if ds==0:
                     continue
                 tag_dict = dict()
