@@ -26,7 +26,7 @@ class DepartmentAdmin(admin.ModelAdmin): #Подразделения
     
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin): #объекты
-    list_display = ('name','TimeZone','latitude','longitude')
+    list_display = ('name',)
     search_fields = ('name',)
 
 @admin.register(Zone)

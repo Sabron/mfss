@@ -17,6 +17,8 @@ from django.contrib.auth.models import User
 
 from . import views_acs
 from . import views_dcs
+from . import views_location
+from . import views_zone
 
 from sabron.util import logging
 from apps.util import generalmodule
@@ -36,6 +38,13 @@ def main_index(request):
             if param['module']=='acs':
                 return views_acs.main_index(request)
             if param['module']=='dcs':
+                return views_dcs.main_index(request)
+        if 'catalog' in param:
+            if param['catalog']=='location':
+                return views_location.main_index(request)
+            if param['catalog']=='zone':
+                return views_zone.main_index(request)
+            if param['catalog']=='dcs':
                 return views_dcs.main_index(request)
 
 
