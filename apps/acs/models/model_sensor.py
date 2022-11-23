@@ -3,6 +3,8 @@ from datetime import datetime
 
 from django.db import models
 
+from apps.catalog.models.model_zones import Zone
+
 class AcsSensor(models.Model):  # Датчики
     critical_type_list = (('max', 'Максимальный'),
         ('min', 'Минимальный'),)
@@ -10,6 +12,10 @@ class AcsSensor(models.Model):  # Датчики
     """
     Модель справочника датчиков
     """
+    zone = models.ForeignKey(Zone,
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name="Зона")
     tag = models.CharField(max_length=160,
         help_text="",
         default=" ",

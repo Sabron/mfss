@@ -3,6 +3,7 @@ import traceback
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 
+from django import forms
 from django.db.models import Q
 from django.shortcuts import render
 from django.shortcuts import redirect
@@ -10,6 +11,8 @@ from django.shortcuts import redirect
 from apps.acs.forms.form_asc_sensor import AcsSensorForm
 from apps.acs.models.model_sensor import AcsSensor
 from apps.main.models.model_datamfsb import DataMfsb
+
+from apps.catalog.models.model_zones import Zone
 
 from sabron.util import logging
 from apps.util import generalmodule
@@ -30,6 +33,7 @@ def add_acs(request):
             sensor_list = AcsSensor.objects.values('name').order_by('tag').distinct()
             data_mfsb = DataMfsb.objects.values('name').filter(~Q(name__in=sensor_list)).order_by('name').distinct()
             form =AcsSensorForm()
+            form.fields['zone'] = forms.ModelChoiceField(queryset = Zone.objects.all(),widget=forms.Select(attrs={'class':'form-control select2'})) 
             context = generalmodule.get_context_template()
             context.update({
                 'form':form,
@@ -51,6 +55,7 @@ def edit_acs(request):
             data_mfsb = DataMfsb.objects.values('name').filter(~Q(name__in=sensor_list)).order_by('name').distinct()
             accs_sensor = AcsSensor.objects.get(id=param['id'])
             form = AcsSensorForm(instance=accs_sensor)
+            form.fields['zone'] = forms.ModelChoiceField(queryset = Zone.objects.all(),widget=forms.Select(attrs={'class':'form-control select2'})) 
             context = generalmodule.get_context_template()
             context.update({
                 'mt':'save',
@@ -71,7 +76,7 @@ def save_acs(request):
         if request.method == "POST":
             accs_sensor = AcsSensor.objects.get(id=param['id'])
             form = AcsSensorForm(request.POST,instance=accs_sensor)
-            print(form.is_valid())
+            print(form)
             for field in form:
                 print("Field Error:", field.name,  field.errors)
 
@@ -88,7 +93,7 @@ def save_acs(request):
 def open_type(request,get_parm):
     try:
         context = generalmodule.get_context_template()
-        accs_sensor_list = AcsSensor.objects.all().order_by("name")
+        accs_sensor_list = AcsSensor.objects.all().order_by("zone").order_by("name")
         sensor_count_active = AcsSensor.objects.filter(active=True).all().count()
         sensor_count = accs_sensor_list.count()
         sensor_count_noactive = sensor_count - sensor_count_active;

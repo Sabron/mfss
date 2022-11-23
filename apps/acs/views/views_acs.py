@@ -78,10 +78,13 @@ def MainIndexDefault(request):
      if request.method == "GET":
         sensor_list = AcsSensor.objects.filter(active=True).all().order_by('name')
         m_sensor = []
+        m_zone = []
         for sensor in sensor_list:
             str_value=str(sensor.value / sensor.ratio).replace(',','.')
             sensor_dict = dict()
+            sensor_dict.update(zone=sensor.zone)
             sensor_dict.update(sensor=sensor)
+            sensor_dict.update(name=sensor.name)
             sensor_dict.update(value=sensor.value / sensor.ratio)
             sensor_dict.update(str_value=str_value)
             sensor_dict.update(critical_value=sensor.critical_value)
@@ -107,10 +110,13 @@ def MainIndexDefault(request):
                     color = 'bg-danger'
             sensor_dict.update(color=color)
             m_sensor.append(sensor_dict)
+            if sensor.zone not in m_zone:
+                m_zone.append(sensor.zone)
         context = {
               'updatepage':True,
               'sensor_list':sensor_list,
               'm_sensor':m_sensor,
+              'm_zone':m_zone,
                 }
         return render(request, 'acs_main.html',context) 
 

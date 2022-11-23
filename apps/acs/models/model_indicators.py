@@ -16,7 +16,7 @@ class AcsIndicators(models.Model):  # Показания датчиков
     sensor = models.ForeignKey(AcsSensor,
         on_delete=models.SET_NULL,
         null=True,
-        verbose_name="Датчики")
+        verbose_name="Датчик")
     value = models.FloatField(default=0.0,
         help_text="",
         verbose_name="Показание")

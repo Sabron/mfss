@@ -139,12 +139,13 @@
                                         <thead>
                                             <tr role="row">
                                                 <th> </th>
+                                                <th>Зона</th>
                                                 <th>ТЭГ</th>
                                                 <th>Наименование</th>
                                                 <th>Ед. измерения</th>
                                                 <th>Авария</th>
                                                 <th>Максимальное</th>
-                                                <th>Активность</th>
+                                                <th>V</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -154,6 +155,16 @@
                                                 <td style="width:10px;">
                                                 
                                                 </td">
+                                                <td>
+                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                        {% csrf_token %}
+                                                        <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
+                                                            {{ catalog.zone }}
+                                                        </a>
+                                                        <input type="hidden" value="{{catalog.id}}" name="id">
+                                                    </form>                                                
+                                                
+                                                </td>
                                                 <td>
                                                     <form action="./?module=acs&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}

@@ -32,7 +32,7 @@ class AcsSensorForm(forms.ModelForm):
 
     class Meta:
         model=AcsSensor
-        fields = ('id','tag','name','critical_value',
+        fields = ('id','zone','tag','name','critical_value',
                   'critical_type','value','active',
                   'unit','max_value','comments',
                   'ratio','scale','norm_value_from',
