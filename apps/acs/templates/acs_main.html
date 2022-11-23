@@ -30,17 +30,19 @@
                     <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Все</a>
                   </li>
                     {% for zone in m_zone %}
-                        <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-{{zone.id}}}-tab" data-toggle="pill" href="#custom-tabs-three-{{zone.id}}" role="tab" aria-controls="custom-tabs-three-{{zone.id}}" aria-selected="false">{{zone.name}}</a>
-                        </li>
+                        {% if  zone != None %} 
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-{{zone.id}}}-tab" data-toggle="pill" href="#custom-tabs-three-{{zone.id}}" role="tab" aria-controls="custom-tabs-three-{{zone.id}}" aria-selected="false">{{zone.name}}</a>
+                            </li>
+                        {% endif %}
                      {% endfor %}
                 </ul>
               </div>
               <div class="card-body">
                 <div class="tab-content" id="custom-tabs-three-tabContent">
                     {% for zone in m_zone %}
+                        {% if  zone != None %} 
                           <div class="tab-pane fade" id="custom-tabs-three-{{zone.id}}" role="tabpanel" aria-labelledby="custom-tabs-{{zone.id}}-tab">
-                           
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="card">
@@ -112,6 +114,7 @@
                                     </div><!-- /.container-fluid -->
                                 </div>
                           </div>
+                    {% endif %}
                     {% endfor %}
 
 
