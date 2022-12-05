@@ -260,9 +260,9 @@ def test_Mfsb_skada():
                 name=mfsb.name,
                 values=mfsb.values,
                 check=mfsb.check)
-        mfsb.check = True
-        mfsb.save()
-        update_fps()
+        #mfsb.check = True
+        #mfsb.save()
+        #update_fps()
 
 
 
