@@ -252,14 +252,14 @@ def test_Mfsb_skada():
     print('Вывод данных ')
     for mfsb in mfsb_list:
         print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
-        datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-        if datd_mfsb is None:
-            DataMfsbSkada.objects.create(
+        #datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+        #if datd_mfsb is None:
+        #    DataMfsbSkada.objects.create(
                 #date=datetime.now(),
-                date=mfsb.date,
-                name=mfsb.name,
-                values=mfsb.values,
-                check=mfsb.check)
+        #        date=mfsb.date,
+        #        name=mfsb.name,
+        #        values=mfsb.values,
+        #        check=mfsb.check)
         #mfsb.check = True
         #mfsb.save()
         #update_fps()
