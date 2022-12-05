@@ -72,6 +72,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+ENABLE_DECORATOR_LOGGING = os.getenv('ENABLE_DECORATOR_LOGGING', True)
 
 DOWNLOAD_URL = '/download/'
 LOGIN_URL = 'login'

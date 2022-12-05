@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^accounts/logout/', views.user_logout, name='user_logout'),
     url(r'^accounts/', views.user_login, name='user_login'),
 
-
+    url('bot/', include('tgbot.urls')),
 ]
 
 urlpatterns += static(settings.DOWNLOAD_URL, document_root=settings.DOWNLOAD_ROOT)

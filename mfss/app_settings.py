@@ -27,14 +27,7 @@ INSTALLED_APPS = [
     'apps.dcs.apps.dcsConfig',
     'apps.fps.apps.fpsConfig',
 
-    # The general purpose templates
-    #'django_adminlte',
-
-    # Optional: Skin for the admin interface
-    #'django_adminlte_theme',
-
-    # Any apps which need to have their templates overridden by adminlte
-    #'django.contrib.admin',
+    'tgbot.apps.TgbotConfig',
 ]
 
 """Информация о приложении """
