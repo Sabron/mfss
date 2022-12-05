@@ -241,8 +241,10 @@ def update_acs():
 
 
 def test_Mfsb_skada():
+    print('Попытка подключения')
     #mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all();
     mfsb_list = MfsbSkada.objects.using('mfsb_skada').order_by('date').all();
+    print('Данные получены : '+str(mfsb_list))
     for mfsb in mfsb_list:
         print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
         #datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
