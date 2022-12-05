@@ -244,16 +244,32 @@ def test_Mfsb_skada():
     mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all();
     for mfsb in mfsb_list:
         print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
-        datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-        if datd_mfsb is None:
-            DataMfsbSkada.objects.create(
-                date=datetime.now(),
-                name=mfsb.name,
-                values=mfsb.values,
-                check=mfsb.check)
+        #datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+        #if datd_mfsb is None:
+        #    DataMfsbSkada.objects.create(
+        #        date=datetime.now(),
+        #        name=mfsb.name,
+        #        values=mfsb.values,
+        #        check=mfsb.check)
         #mfsb.check = True
         #mfsb.save()
         #update_acs()
+
+def test_Mfsb2():
+    mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
+    for mfsb in mfsb_list:
+        print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
+        #datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+        #if datd_mfsb is None:
+        #    DataMfsb.objects.create(
+        #        date=datetime.now(),
+        #        name=mfsb.name,
+        #        values=mfsb.values,
+        #        check=mfsb.check)
+        #mfsb.check = True
+        #mfsb.save()
+        #update_acs()
+
 
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
@@ -267,3 +283,4 @@ if __name__ == "__main__":
     #    update_eps_random()
 
     test_Mfsb_skada()
+    #test_Mfsb2()
