@@ -166,7 +166,7 @@ def update_ops_skada_date():
                 count_d = count_d+1
             mfsb.check = True
             mfsb.save()
-        logging.message(str(count_d)+' / 5000')
+        #logging.message(str(count_d)+' / 5000')
         update_fps()
     except Exception as err:
         logging.error(traceback.format_exc())
