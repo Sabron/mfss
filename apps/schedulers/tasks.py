@@ -171,6 +171,18 @@ def update_ops_skada_date():
         logging.error(traceback.format_exc())
 
 @app.task(ignore_result=True)
+def auto_ops_delete():
+    try:
+        MfsbSkada.objects.using('mfsb_skada').filter(check=True).delete();
+        Mfsb.objects.using('mfsb').filter(check=True).delete();
+    except Exception as err:
+        logging.error(traceback.format_exc())
+
+
+
+
+
+@app.task(ignore_result=True)
 def update_eps():
     try:
         r=requests.post("https://192.168.10.5/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)

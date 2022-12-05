@@ -26,7 +26,7 @@ app.conf.beat_schedule = {
         'task': 'apps.schedulers.tasks.update_ops_date',
         'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
     },
-    'apps.schedulers.tasks.update_ops_skada_date': {
+    'apps.schedulers.tasks.update_ops_skada_date': { # Получение данных со касада
         'task': 'apps.schedulers.tasks.update_ops_skada_date',
         'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
     },
@@ -40,11 +40,11 @@ app.conf.beat_schedule = {
 #        'task': 'tgbot.tasks.send_telegram_message',
 #        'schedule': crontab(),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
 #    },
-#    'schedulers-auto_checkin': {
-#        'task': 'apps.schedulers.tasks.auto_checkin',
-#        'schedule': crontab(minute=0, hour=19),  # 19:00 по Москве
-#        #'schedule': crontab(minute='*/3'),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
-#    },
+    'schedulers-auto_delete': {
+        'task': 'apps.schedulers.tasks.auto_ops_delete',
+        'schedule': crontab(minute=0, hour=1),  # 01:00 по Москве
+        #'schedule': crontab(minute='*/3'),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
+    },
 #
 #    'schedulers-auto_subscribe_payment': {
 #        'task': 'apps.schedulers.tasks.update_subscribe_payment',
