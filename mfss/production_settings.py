@@ -7,7 +7,7 @@ DEBUG =True
 TIME_ZONE = 'Asia/Krasnoyarsk'
 
 
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN",'')
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN",'1918979100:AAFfzejSMaK_MM_QEFqhqQbG1z7AN50Gexc')
 
 # -----> CELERY
 REDIS_URL = os.getenv('REDIS_URL', 'redis://127.0.0.1:6379')
