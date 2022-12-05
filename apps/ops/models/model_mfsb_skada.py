@@ -10,4 +10,4 @@ class MfsbSkada(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'skada'
+        db_table = 'public.skada'
