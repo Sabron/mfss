@@ -55,6 +55,15 @@ DATABASES = {
         'HOST': '192.168.10.2',
         'PORT': '5432',
     },
+    'mfsb_skada': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mfsb_skada',
+        'USER': 'mfsb_skada',
+        'PASSWORD': 'mfsb',
+        'HOST': '176.197.1.94',
+        'PORT': '5432',
+    },
+
 }
 
 img = Image.open(BASE_DIR+'/static/img//plan/inver/otm_102_zone.png')

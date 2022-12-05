@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'apps.acs.apps.acsConfig',
     'apps.eps.apps.epsConfig',
     'apps.dcs.apps.dcsConfig',
-
+    'apps.fps.apps.fpsConfig',
 
     # The general purpose templates
     #'django_adminlte',

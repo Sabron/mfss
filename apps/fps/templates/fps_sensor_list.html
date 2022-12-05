@@ -1,0 +1,273 @@
+{% extends "subsystem_base.html" %}
+{% load static %}
+{% load mysettings %}
+
+
+{% block header_link %}
+
+{% endblock header_link %}
+
+
+{% block content %}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>{{sensor.name}}</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/fps/">Главная</a></li>
+                    <li class="breadcrumb-item active">{{sensor.name}}</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+<div class="col-md-6">
+           <!-- LINE CHART -->
+            <div class="card ">
+               <input id="sensor_type" type="hidden" name="sensor_type" value="sec">
+              <div class="card-header">
+                <h3 class="card-title">График изменения ({{sensor.unit}})</h3>
+                <input id="sensor_id" type="hidden" value="{{sensor.id}}" name="sensor_id">
+                <div class="card-tools">
+                    <ul class="nav nav-pills ml-auto">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="#" onclick="setparametrs('sec')" data-toggle="tab">Сек.</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#" onclick="setparametrs('min')" data-toggle="tab">Мин.</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#" onclick="setparametrs('hour')" data-toggle="tab">Час</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+
+                <div class="chart"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                  <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 764px;" width="764" height="250" class="chartjs-render-monitor"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+       <!-- <div class="card ">
+              <div class="card-header">
+                <h3 class="card-title">Скачать показания </h3>
+                <div class="card-tools">
+
+                </div>
+                </div> 
+                  <form id="quickForm"class="form-horizontal">
+                      {% csrf_token %}
+                <div class="card-body"> 
+                    <div class="form-group row">
+                    <label for="id_DataStart" class="col-sm-2 col-form-label">Начало периода</label>
+                    <div class="col-sm-10">
+                      <input name="DataStart" class="datepicker form-control" id="id_DataStart" type="date" placeholder="Дата начала" value="{{form.DataStart}}" >
+                    </div>
+                    </div>
+                    <div class="form-group row">
+                    <label for="id_DataStop" class="col-sm-2 col-form-label">Конец периода</label>
+                    <div class="col-sm-10">
+                      <input name="DataStop" class="datepicker form-control" id="id_DataStop"   type="date" placeholder="Дата конца" value="{{form.DataStop}}">
+                    </div>
+                    </div>
+                    <div id="reportPanelBody">
+                    </div>
+                </div>
+                      </form>
+                <div class="card-footer">
+                    
+                  <button onclick="reportdownload()" class="btn btn-primary">Скачать</button>
+                </div>
+                     
+        </div>-->
+            <!-- /.card -->
+
+     </div>
+    <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Показания датчика </h3>
+                <div class="card-tools">
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">№</th>
+                      <th>Дата</th>
+                      <th>Значение</th>  
+                    </tr>
+                  </thead>
+                  <tbody id="table_bo">
+                    {% for sensor in sensor_list %}
+                    <tr>
+                      <td>1.</td>
+                      <td>{{sensor.date_time}}</td>
+                      <td>{{sensor.value}}</td>
+                    </tr>                    
+                     {% endfor %}
+                    </tbody>
+                    </table>
+          </div>
+ 
+
+        </div>
+         </div>
+         
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock %}
+
+{% block script_footer %}
+
+<script>
+
+	
+const ctx = document.getElementById('lineChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+    labels: [
+     ],
+        datasets: [{
+            label: 'Показания датчика',
+            fill: false,
+              data:[
+                    ],  
+            /*backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                /*'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],*/
+            borderColor: 'rgb(54, 162, 235, 1)',
+            /*
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],*/
+
+            //borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+		function show()
+		{
+         myChart.data.labels=[]
+         myChart.data.datasets[0].data = []
+ 		cmd = 'refresh';
+        id = document.getElementById('sensor_id').value
+        sensor_type = document.getElementById('sensor_type').value
+        $.ajax({
+            type: 'POST', // метод отправки
+            url: window.location.pathname+'sensor_ajax/', // путь к обработчику
+            data: {
+                "cmd": cmd,
+                "id": id,
+                "sensor_type": sensor_type,
+            },
+            // dataType: 'text',
+			success: function (data) {
+                     str_table = ''
+                    start = 0
+                    length = data.length-1
+                for (index = length; index >= 0; --index) {
+                    start = start + 1
+                        myChart.data.labels.push(data[index].date_time);
+                        myChart.data.datasets[0].data.push(data[index].value);
+                        str_table = str_table + '<tr><td>' + (data.length-index) + '.</td><td>' + data[length-index].date_time + '</td><td>' + data[length-index].value + ' ({{sensor.unit}})</td></tr>'
+                }
+
+                myChart.update();
+                $("#table_bo").html(str_table)
+                       
+            },
+            error: function (dataerr) {
+                 console.log('Ошибка выполнение команды :'+dataerr)
+            }
+        });
+		}
+
+    function setparametrs(p) {
+        document.getElementById('sensor_type').setAttribute('value', p);
+        myChart.data.labels=[]
+        myChart.data.datasets[0].data = []
+        myChart.update();
+    }
+
+    $(function () {
+        show()
+        setInterval('show()', 2000);
+    })
+
+
+
+	 function reportdownload() {
+		 $("#reportPanelBody").html('<div class="overlay" style="height:60vh;"> <i class="fa fa-refresh fa-spin"></i></div>')
+
+			var DataStart = $("#id_DataStart").val();
+			var DataStop = $("#id_DataStop").val();
+		    cmd = 'refresh';
+            id = document.getElementById('sensor_id').value
+            sensor_type = document.getElementById('sensor_type').value
+
+			if (!!DataStart) {
+				$.ajax({
+					type: 'POST', // метод отправки
+					url: window.location.pathname+'sensor_ajax/', // путь к обработчику,
+					data: {
+						"DataStart": DataStart,
+						"DataStop": DataStop,
+                        "cmd": cmd,
+                        "id": id,
+                        'sensor_type':sensor_type,
+					},
+					success: function (data) {
+						document.getElementById('reportPanel').style.height = '';
+						$("#reportPanelBody").html(data); // при успешном получении ответа от сервера, заносим полученные данные в элемент с классом answer
+					},
+					error: function (dataerr) {
+						$("#reportPanelBody").html(dataerr); // при успешном получении ответа от сервера, заносим полученные данные в элемент с классом answer
+
+					}
+				});
+
+			}
+
+
+		 }
+
+
+
+
+
+</script>
+{% endblock script_footer %}

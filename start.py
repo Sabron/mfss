@@ -24,7 +24,10 @@ from django.conf import settings
 from django.db.models import Sum
 
 from apps.ops.models.model_mfsb import Mfsb
+from apps.ops.models.model_mfsb_skada import MfsbSkada
+
 from apps.main.models.model_datamfsb import DataMfsb
+from apps.main.models.model_datamfsb_skada import DataMfsbSkada
 from apps.acs.models.model_sensor import AcsSensor
 from apps.acs.models.model_indicators import AcsIndicators
 
@@ -216,13 +219,51 @@ def update_ops_date():
     except Exception as err:
         logging.error(traceback.format_exc())
 
+
+def update_acs():
+    sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
+    for data in data_mfsb:
+        print(str(data.date)+' : '+data.name)
+        sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
+        print(str(sensor_link))
+        if sensor_link is not None:
+            Acs_Indicators = AcsIndicators.objects.create(
+                date_time =data.date,
+                sensor = sensor_link,
+                value = data.values)
+            sensor_link.value = data.values
+            sensor_link.connect_time =data.date 
+            sensor_link.save()
+            data.check = True
+            data.save()
+            print(Acs_Indicators)
+
+
+def test_Mfsb_skada():
+    mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all();
+    for mfsb in mfsb_list:
+        print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
+        datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+        if datd_mfsb is None:
+            DataMfsbSkada.objects.create(
+                date=datetime.now(),
+                name=mfsb.name,
+                values=mfsb.values,
+                check=mfsb.check)
+        #mfsb.check = True
+        #mfsb.save()
+        #update_acs()
+
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #print(sensor_list)
-    test_Mfsb()
+    #test_Mfsb()
     #update_acs()
     #update_eps()
     #update_eps_anchors()
     #while True:
     #    time.sleep(3) # ��� � 3 �������
     #    update_eps_random()
+
+    test_Mfsb_skada()

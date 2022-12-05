@@ -1,0 +1,102 @@
+{% extends "subsystem_base.html" %}
+{% load static %}
+{% load mysettings %}
+
+
+{% block header_link %}
+
+{% endblock header_link %}
+
+
+{% block content %}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <p id="id_time"></p>
+          </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+      <div class="container-fluid">
+        <div class="row">
+<div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Показания датчиков</h3>
+
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body p-0">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="width: 10px">id</th>
+                      <th>Датчик</th>
+                      <th>Прогресс</th>
+                      <th style="width: 40px">Показание</th>
+                      <th style="width: 40px">ПДК</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for sensor in m_sensor %}
+                    <tr>
+                      <td>{{sensor.sensor.id}}</td>
+                      <td><a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a></td>
+                      <td id="{{sensor.sensor.id}}_pecent">
+                        <div class="progress progress-xs progress-striped active">
+                          <div class="progress-bar {{sensor.color}}" style="width: {{sensor.value}} %"></div>
+                        </div>
+
+                      </td>
+                      <td id="{{sensor.sensor.id}}_value"><span class="badge {{sensor.color}}">{{sensor.value}} {{sensor.unit}}</span></td>
+                      <td><span class="badge ">{{sensor.critical_value}} {{sensor.unit}}</span></td>
+                    </tr>                    
+                     {% endfor %}
+                    </tbody>
+                    </table>
+          </div>
+ 
+
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+</section>
+
+{% endblock %}
+
+{% block script_footer %}
+	<script>
+		function show()
+		{
+		cmd = 'refresh';
+        $.ajax({
+            type: 'POST', // метод отправки
+            url: window.location.pathname+'ajax/', // путь к обработчику
+            data: {
+                "cmd": cmd
+            },
+            // dataType: 'text',
+			success: function (data) {
+                for (index = data.length - 1; index >= 0; --index) {
+					str_pecent = "<div class='progress progress-xs progress-striped active'><div class='progress-bar " + data[index].color + " 'style=width:" + Math.floor(data[index].pecent_value) + "%></div></div>";
+					$("#" + data[index].sensor_id + "_pecent").html(str_pecent)
+
+					str_value = "<span class='badge " + data[index].color + "'>" + data[index].value + " " + data[index].unit + "</span>";
+					$("#" + data[index].sensor_id + "_value").html(str_value)
+                    var seconds = new Date().getTime() / 1000;
+                    //$("#id_time").html(seconds)
+                }
+            },
+            error: function (dataerr) {
+                 console.log('Ошибка выполнение команды :'+dataerr)
+            }
+        });
+		}
+	
+		$(document).ready(function(){
+			show();
+			setInterval('show()',1000);
+		});
+	</script>
+{% endblock script_footer %}
