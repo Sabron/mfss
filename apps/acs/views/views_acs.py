@@ -127,7 +127,6 @@ def SensorList(request):
     try:
         if request.method == "GET":
             param = request.GET.dict()
-            print(param)
             sensor = AcsSensor.objects.filter(id=param['id']).first()
             now = datetime.now()
             start_date = now - timedelta(hours=0, minutes=0)

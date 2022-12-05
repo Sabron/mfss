@@ -76,10 +76,6 @@ def save_acs(request):
         if request.method == "POST":
             accs_sensor = AcsSensor.objects.get(id=param['id'])
             form = AcsSensorForm(request.POST,instance=accs_sensor)
-            print(form)
-            for field in form:
-                print("Field Error:", field.name,  field.errors)
-
         if form.is_valid():
             accs_sensor = form.save(commit=False)
             accs_sensor.save()

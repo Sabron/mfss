@@ -86,7 +86,6 @@ def location_add(request):
                 'form':form,
                 'mt':'add',
                  })
-            print('add')
             return render(request, 'location_add.html',context)
     except Exception as err:
         logging.error(traceback.format_exc())

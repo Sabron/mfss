@@ -71,10 +71,6 @@ def save_dcs(request):
         if request.method == "POST":
             accs_sensor = DcsSensor.objects.get(id=param['id'])
             form = DcsSensorForm(request.POST,instance=accs_sensor)
-            print(form.is_valid())
-            for field in form:
-                print("Field Error:", field.name,  field.errors)
-
         if form.is_valid():
             accs_sensor = form.save(commit=False)
             accs_sensor.save()

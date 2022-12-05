@@ -25,7 +25,6 @@ from apps.util import generalmodule
 @never_cache
 def zone_list(request): # Список клиентов
     try:
-        print('list')
         param=request.GET.dict()
         clients=Zone.objects.order_by("name").all()
         paginator = Paginator(clients, 50)
@@ -89,7 +88,6 @@ def zone_add(request):
                 'form':form,
                 'mt':'add',
                  })
-            print('add')
             return render(request, 'zone_add.html',context)
     except Exception as err:
         logging.error(traceback.format_exc())
@@ -130,7 +128,6 @@ def zone_save(request):
 @never_cache
 def cmd_manager(request,get_parm):
     try:
-        print(cmd_manager)
         if get_parm['cmd']=='add':
             return zone_add(request)
         if get_parm['cmd']=='list':
@@ -149,10 +146,8 @@ def cmd_manager(request,get_parm):
 @never_cache
 def main_index(request):
     try:
-        print('main')
         if request.method == "GET":
             param=request.GET.dict()
-            print(param)
             if 'cmd' in param:
                 return cmd_manager(request,param)
         if request.method == "POST":
