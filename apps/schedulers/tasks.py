@@ -153,6 +153,7 @@ def update_ops_date():
 def update_ops_skada_date():
     try:
         mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all()[:5000];
+        count_d = 0
         for mfsb in mfsb_list:
             datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
             if datd_mfsb is None:
@@ -161,8 +162,11 @@ def update_ops_skada_date():
                     name=mfsb.name,
                     values=mfsb.values,
                     check=mfsb.check)
+            else:
+                count_d = count_d+1
             mfsb.check = True
             mfsb.save()
+        logging.message(str(count_d)+' / 5000')
         update_fps()
     except Exception as err:
         logging.error(traceback.format_exc())
