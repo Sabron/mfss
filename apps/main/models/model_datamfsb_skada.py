@@ -8,7 +8,7 @@ class DataMfsbSkada(models.Model):
         blank=True,
         verbose_name="Время значения")
     name = models.CharField(
-        max_length=150,
+        max_length=450,
         default=" ",
         blank=True,
         null=True,

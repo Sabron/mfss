@@ -255,7 +255,8 @@ def test_Mfsb_skada():
         datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
         if datd_mfsb is None:
             DataMfsbSkada.objects.create(
-                date=datetime.now(),
+                #date=datetime.now(),
+                date=mfsb.date,
                 name=mfsb.name,
                 values=mfsb.values,
                 check=mfsb.check)
