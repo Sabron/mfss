@@ -34,6 +34,25 @@ from mfss.celery import app
 from sabron.util import logging    
 
 
+def update_fps():
+    sensor_list = FpsSensor.objects.values('tag').order_by('tag').distinct()
+    data_mfsb = DataMfsbSkada.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
+    for data in data_mfsb:
+        print(str(data.date)+' : '+data.name)
+        sensor_link = FpsSensor.objects.filter(tag=data.name).filter(active=True).first()
+        print(str(sensor_link))
+        if sensor_link is not None:
+            Acs_Indicators = FpsIndicators.objects.create(
+                date_time =data.date,
+                sensor = sensor_link,
+                value = data.values)
+            sensor_link.value = data.values
+            sensor_link.connect_time =data.date 
+            sensor_link.save()
+            data.check = True
+            data.save()
+            print(Acs_Indicators)
+
 def update_acs():
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
@@ -142,8 +161,7 @@ def update_ops_skada_date():
                     check=mfsb.check)
             mfsb.check = True
             mfsb.save()
-        #update_acs()
-        #update_dcs()
+        update_fps()
     except Exception as err:
         logging.error(traceback.format_exc())update_ops_skada_date
 
