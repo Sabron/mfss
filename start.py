@@ -242,8 +242,8 @@ def update_acs():
 
 def test_Mfsb_skada():
     print('Попытка подключения')
-    #mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all();
-    mfsb_list = MfsbSkada.objects.using('mfsb_skada').order_by('date').all();
+    mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all()[:10];
+    #mfsb_list = MfsbSkada.objects.using('mfsb_skada').order_by('date').all();
     print('Данные получены : '+str(mfsb_list))
     print('Вывод данных ')
     for mfsb in mfsb_list:
