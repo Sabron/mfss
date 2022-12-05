@@ -165,7 +165,7 @@ def update_ops_skada_date():
             mfsb.save()
         update_fps()
     except Exception as err:
-        logging.error(traceback.format_exc())update_ops_skada_date
+        logging.error(traceback.format_exc())
 
 @app.task(ignore_result=True)
 def update_eps():
