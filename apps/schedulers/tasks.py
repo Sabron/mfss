@@ -22,8 +22,13 @@ from apps.main.models.model_datamfsb_skada import DataMfsbSkada
 
 from apps.acs.models.model_sensor import AcsSensor
 from apps.acs.models.model_indicators import AcsIndicators
+
 from apps.dcs.models.model_sensor import DcsSensor
 from apps.dcs.models.model_indicators import DcsIndicators
+
+from apps.fps.models.model_sensor import FpsSensor
+from apps.fps.models.model_indicators import FpsIndicators
+
 
 from apps.eps.models.model_tags import Tag
 from apps.eps.models.model_tagdates import TagDate
@@ -38,9 +43,7 @@ def update_fps():
     sensor_list = FpsSensor.objects.values('tag').order_by('tag').distinct()
     data_mfsb = DataMfsbSkada.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
     for data in data_mfsb:
-        print(str(data.date)+' : '+data.name)
         sensor_link = FpsSensor.objects.filter(tag=data.name).filter(active=True).first()
-        print(str(sensor_link))
         if sensor_link is not None:
             Acs_Indicators = FpsIndicators.objects.create(
                 date_time =data.date,
@@ -51,7 +54,6 @@ def update_fps():
             sensor_link.save()
             data.check = True
             data.save()
-            print(Acs_Indicators)
 
 def update_acs():
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
