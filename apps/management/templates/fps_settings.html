@@ -11,12 +11,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Система аэрогазового контроля</h1>
+                <h1>Противопожарная защита</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/management/">Главная</a></li>
-                    <li class="breadcrumb-item active">Система аэрогазового контроля</li>
+                    <li class="breadcrumb-item active">Противопожарная защита</li>
                 </ol>
             </div>
         </div>
@@ -35,9 +35,9 @@
                   <img class="profile-user-img img-fluid img-circle" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User profile picture">
                 </div>
 
-                <h3 class="profile-username text-center">Система аэрогазового контроля</h3>
+                <h3 class="profile-username text-center">Противопожарная защита</h3>
 
-                <p class="text-muted text-center">(АГК)</p>
+                <p class="text-muted text-center">(ППЗ)</p>
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
@@ -101,7 +101,7 @@
                             <div class="col-md-12">
                                  <div class="card">
                                      <div class="card-header text-sm">
-                       <a href="./?module=acs&t=list&cmd=add" type="button" class="btn bg-gradient-primary float-left" style="margin-right:20px;">Добавить</a>
+                       <a href="./?module=fps&t=list&cmd=add" type="button" class="btn bg-gradient-primary float-left" style="margin-right:20px;">Добавить</a>
                         {% block pagination %}
                         {% if is_paginated %}
                         <ul class="pagination pagination no-margin text-sm">
@@ -156,7 +156,7 @@
                                                 
                                                 </td">
                                                 <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                    <form action="./?module=fps&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
                                                             {{ catalog.zone }}
@@ -166,7 +166,7 @@
                                                 
                                                 </td>
                                                 <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                    <form action="./?module=fps&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
                                                             {{ catalog.tag }}
@@ -176,7 +176,7 @@
                                                 
                                                 </td>
                                                 <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_contact_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                    <form action="./?module=fps&t=param&cmd=edit" id="frm_contact_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_contact_{{catalog.id}}').submit(); return false;">
                                                             {{ catalog.name }}
@@ -186,7 +186,7 @@
                                                 
                                                 </td>
                                                 <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_contact_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                    <form action="./?module=fps&t=param&cmd=edit" id="frm_contact_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_contact_{{catalog.id}}').submit(); return false;">
                                                             {{ catalog.unit }}
@@ -196,7 +196,7 @@
                                                 
                                                 </td>
                                                <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                    <form action="./?module=fps&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_adress_{{catalog.id}}').submit(); return false;">
                                                             {{catalog.critical_value}}
@@ -206,7 +206,7 @@
                                                 
                                                 </td>
                                                <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                    <form action="./?module=fps&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_adress_{{catalog.id}}').submit(); return false;">
                                                             {{catalog.max_value}}
@@ -215,7 +215,7 @@
                                                     </form>                                                
                                                 
                                                 </td>                                                <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                    <form action="./?module=fps&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_adress_{{catalog.id}}').submit(); return false;">
                                                             {% if catalog.active %} 
@@ -249,7 +249,7 @@
 
                   </div>
                   <!-- /.tab-pane -->
-                  <div class="tab-pane " id="settings2">
+                  <div class="tab-pane " id="settings3">
                     <form class="form-horizontal">
                       <div class="form-group row">
                         <label for="inputName" class="col-sm-2 col-form-label">Name</label>

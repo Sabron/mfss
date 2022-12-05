@@ -147,27 +147,17 @@
             <!-- /.widget-user -->
           </div>
 
-           <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-3" style="background: rgba(0,0,0,0.1); opacity: 0.4;" >
-            <!-- Widget: user widget style 1 -->
+           <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 col-xxl-3">
             <div class="card card-widget widget-user shadow">
-            <div class="ribbon-wrapper ribbon-xl">
-                   <div class="ribbon bg-danger text-lg">
-                          Не доступно
-                        </div>
-              </div>
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header bg-info">
                 <h3 class="widget-user-username">Противопожарная защита</h3>
                 <h5 class="widget-user-desc">(ППЗ)</h5>
               </div>
               <div class="widget-user-image">
-                <img class="img-circle elevation-2" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
-                <!--<a href="/"type="button" class="img-circle elevation-2">
-                    <button type="submit" class="btn-circle"></button>
-
-                </a>-->
-
-                
+                <a href="/fps/"type="button" class="img-circle elevation-2">
+                    <img id="fps_img" class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
+                </a>
               </div>
               <div class="card-footer">
 

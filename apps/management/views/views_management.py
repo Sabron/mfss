@@ -16,6 +16,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 
 from . import views_acs
+from . import views_fps
 from . import views_dcs
 from . import views_location
 from . import views_zone
@@ -37,6 +38,8 @@ def main_index(request):
         if 'module' in param:
             if param['module']=='acs':
                 return views_acs.main_index(request)
+            if param['module']=='fps':
+                return views_fps.main_index(request)
             if param['module']=='dcs':
                 return views_dcs.main_index(request)
         if 'catalog' in param:
