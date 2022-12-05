@@ -26,6 +26,10 @@ app.conf.beat_schedule = {
         'task': 'apps.schedulers.tasks.update_ops_date',
         'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
     },
+    'apps.schedulers.tasks.update_ops_skada_date': {
+        'task': 'apps.schedulers.tasks.update_ops_skada_date',
+        'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
+    },
 
     'apps.schedulers.tasks.update_eps': {
         'task': 'apps.schedulers.tasks.update_eps',

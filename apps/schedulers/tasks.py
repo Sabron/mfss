@@ -15,7 +15,11 @@ from datetime import datetime, timedelta, timezone,date
 #from apps.catalog.models.model_workers import Workers
 
 from apps.ops.models.model_mfsb import Mfsb
+from apps.ops.models.model_mfsb_skada import MfsbSkada
+
 from apps.main.models.model_datamfsb import DataMfsb
+from apps.main.models.model_datamfsb_skada import DataMfsbSkada
+
 from apps.acs.models.model_sensor import AcsSensor
 from apps.acs.models.model_indicators import AcsIndicators
 from apps.dcs.models.model_sensor import DcsSensor
@@ -123,6 +127,25 @@ def update_ops_date():
         update_dcs()
     except Exception as err:
         logging.error(traceback.format_exc())
+
+@app.task(ignore_result=True)
+def update_ops_skada_date():
+    try:
+        mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all()[:1000];
+        for mfsb in mfsb_list:
+            datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+            if datd_mfsb is None:
+                DataMfsbSkada.objects.create(
+                    date=mfsb.date,
+                    name=mfsb.name,
+                    values=mfsb.values,
+                    check=mfsb.check)
+            mfsb.check = True
+            mfsb.save()
+        #update_acs()
+        #update_dcs()
+    except Exception as err:
+        logging.error(traceback.format_exc())update_ops_skada_date
 
 @app.task(ignore_result=True)
 def update_eps():

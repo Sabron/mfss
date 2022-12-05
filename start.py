@@ -31,6 +31,10 @@ from apps.main.models.model_datamfsb_skada import DataMfsbSkada
 from apps.acs.models.model_sensor import AcsSensor
 from apps.acs.models.model_indicators import AcsIndicators
 
+from apps.fps.models.model_sensor import FpsSensor
+from apps.fps.models.model_indicators import FpsIndicators
+
+
 from apps.eps.models.model_tags import Tag
 from apps.eps.models.model_tagdates import TagDate
 from apps.eps.models.model_anchors import Anchors
@@ -220,15 +224,17 @@ def update_ops_date():
         logging.error(traceback.format_exc())
 
 
-def update_acs():
-    sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
-    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
+
+
+def update_fps():
+    sensor_list = FpsSensor.objects.values('tag').order_by('tag').distinct()
+    data_mfsb = DataMfsbSkada.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
     for data in data_mfsb:
         print(str(data.date)+' : '+data.name)
-        sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
+        sensor_link = FpsSensor.objects.filter(tag=data.name).filter(active=True).first()
         print(str(sensor_link))
         if sensor_link is not None:
-            Acs_Indicators = AcsIndicators.objects.create(
+            Acs_Indicators = FpsIndicators.objects.create(
                 date_time =data.date,
                 sensor = sensor_link,
                 value = data.values)
@@ -239,26 +245,23 @@ def update_acs():
             data.save()
             print(Acs_Indicators)
 
-
 def test_Mfsb_skada():
     print('Попытка подключения')
     mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all()[:10];
-    #mfsb_list = MfsbSkada.objects.using('mfsb_skada').order_by('date').all();
     print('Данные получены : '+str(mfsb_list))
     print('Вывод данных ')
     for mfsb in mfsb_list:
-        print('Данные : '+str(mfsb))
-        #print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
-        #datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-        #if datd_mfsb is None:
-        #    DataMfsbSkada.objects.create(
-        #        date=datetime.now(),
-        #        name=mfsb.name,
-        #        values=mfsb.values,
-        #        check=mfsb.check)
-        #mfsb.check = True
-        #mfsb.save()
-        #update_acs()
+        print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
+        datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+        if datd_mfsb is None:
+            DataMfsbSkada.objects.create(
+                date=datetime.now(),
+                name=mfsb.name,
+                values=mfsb.values,
+                check=mfsb.check)
+        mfsb.check = True
+        mfsb.save()
+        update_fps()
 
 
 
