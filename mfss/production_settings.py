@@ -60,7 +60,7 @@ DATABASES = {
         'NAME': 'mfsb_skada',
         'USER': 'mfsb_skada',
         'PASSWORD': 'mfsb',
-        'HOST': '176.197.1.94',
+        'HOST': '192.168.10.2',
         'PORT': '5432',
     },
 
