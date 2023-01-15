@@ -151,8 +151,8 @@
             <div class="card card-widget widget-user shadow">
               <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header bg-info">
-                <h3 class="widget-user-username">Противопожарная защита</h3>
-                <h5 class="widget-user-desc">(ППЗ)</h5>
+                <h3 class="widget-user-username">Система контроля пожарным водоснабжением</h3>
+                <h5 class="widget-user-desc"></h5>
               </div>
               <div class="widget-user-image">
                 <a href="/fps/"type="button" class="img-circle elevation-2">
@@ -177,8 +177,8 @@
               </div>
                   <!-- Add the bg color to the header using any of the bg-* classes -->
               <div class="widget-user-header bg-info">
-                <h3 class="widget-user-username">Система контроля пожарным водоснабжением</h3>
-                <h5 class="widget-user-desc"></h5>
+                <h3 class="widget-user-username">Противопожарная защита</h3>
+                <h5 class="widget-user-desc">(ППЗ)</h5>
               </div>
               <div class="widget-user-image">
                 <a type="" class="img-circle elevation-2">
@@ -260,8 +260,10 @@
         <!-- Main Footer -->
         <footer class="main-footer">
             <strong>{% settings_value 'APP_COPPIRIGHT' %} </strong>
+       {% settings_value 'AUTHOR' %}
+       - {% settings_value 'APP_VEK' %}     		
             <div class="float-right d-none d-sm-inline-block">
-                <b>Версия :</b> {% settings_value 'APP_VER' %}
+                <b>Версия :</b> {% settings_value 'APP_VER' %} 
             </div>
         </footer>
     </div>

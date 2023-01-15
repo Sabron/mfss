@@ -9,6 +9,7 @@ from django.shortcuts import redirect
 
 from apps.dcs.forms.form_dsc_sensor import DcsSensorForm
 from apps.dcs.models.model_sensor import DcsSensor
+from apps.dcs.models.model_indicators import DcsIndicators
 from apps.main.models.model_datamfsb import DataMfsb
 
 from sabron.util import logging
@@ -40,6 +41,22 @@ def add_dcs(request):
     except Exception as err:
         logging.error(traceback.format_exc())
         return redirect('/management/?module=dcs&t=param')
+
+@login_required(login_url='/')
+@never_cache
+def delete_dcs(request):
+    try:
+        param=request.POST.dict()
+        if request.method == "POST":
+            dcs_sensor = DcsSensor.objects.get(id=param['id'])
+            DcsIndicators.objects.filter(sensor = dcs_sensor).delete()
+            dcs_sensor.delete()
+            return generalmodule.ReturnJson(200,data)
+    except Exception as err:
+        logging.error(traceback.format_exc())
+        data=dict()
+        data.update(status=-1)
+        return generalmodule.ReturnJson(200,data)
 
 @login_required(login_url='/')
 @never_cache
@@ -111,6 +128,8 @@ def cmd_manager(request,get_parm):
             return save_dcs(request)
         if get_parm['cmd']=='edit':
             return edit_dcs(request)
+        if get_parm['cmd']=='delete':
+            return delete_dcs(request)
         return redirect('/management/module=dcs&t=param')
     except Exception as err:
         logging.error(traceback.format_exc())

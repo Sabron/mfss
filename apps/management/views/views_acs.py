@@ -10,6 +10,7 @@ from django.shortcuts import redirect
 
 from apps.acs.forms.form_asc_sensor import AcsSensorForm
 from apps.acs.models.model_sensor import AcsSensor
+from apps.acs.models.model_indicators import AcsIndicators
 from apps.main.models.model_datamfsb import DataMfsb
 
 from apps.catalog.models.model_zones import Zone
@@ -44,6 +45,22 @@ def add_acs(request):
     except Exception as err:
         logging.error(traceback.format_exc())
         return redirect('/management/?module=acs&t=param')
+
+@login_required(login_url='/')
+@never_cache
+def delete_acs(request):
+    try:
+        param=request.POST.dict()
+        if request.method == "POST":
+            accs_sensor = AcsSensor.objects.get(id=param['id'])
+            AcsIndicators.objects.filter(sensor = accs_sensor).delete()
+            accs_sensor.delete()
+            return generalmodule.ReturnJson(200,data)
+    except Exception as err:
+        logging.error(traceback.format_exc())
+        data=dict()
+        data.update(status=-1)
+        return generalmodule.ReturnJson(200,data)
 
 @login_required(login_url='/')
 @never_cache
@@ -116,6 +133,8 @@ def cmd_manager(request,get_parm):
             return save_acs(request)
         if get_parm['cmd']=='edit':
             return edit_acs(request)
+        if get_parm['cmd']=='delete':
+            return delete_acs(request)
         return redirect('/management/module=acs&t=param')
     except Exception as err:
         logging.error(traceback.format_exc())

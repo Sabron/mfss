@@ -130,9 +130,10 @@
   <!-- /.content-wrapper -->
   <footer class="main-footer text-sm" >
      <strong>{% settings_value 'APP_COPPIRIGHT' %} </strong>
-       
+       {% settings_value 'AUTHOR' %}
+       - {% settings_value 'APP_VEK' %}     		
     <div class="float-right d-none d-sm-inline-block">
-      <b>Версия :</b> {% settings_value 'APP_VER' %}  
+      <b>Версия :</b> {% settings_value 'APP_VER' %}
     </div>
   </footer>
 

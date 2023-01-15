@@ -24,6 +24,10 @@
 </section>
 
 <section class="content text-sm">
+    <form id="list_acs" method="post" class="form-horizontal">
+        {% csrf_token %}
+        <input id="id_acs" type="hidden" value="None" name="id">
+        <input id="cmd" type="hidden" value="None" name="cmd">
     <div class="container-fluid ">
 <div class="row">
           <div class="col-md-3">
@@ -152,9 +156,30 @@
                                             
                                             {% if accs_sensor_list %}
                                             {% for catalog in accs_sensor_list %}
-                                                <td style="width:10px;">
-                                                
-                                                </td">
+                                             <tr id="tr_{{catalog.id}}">
+                                                <td style="width:10px;cursor: pointer;">
+                                                    <a class="action-form" data-target="#large_{{catalog.id}}" data-toggle="modal" style="color:red;" title='Удалить "{{ catalog.name }}"'><i class="far fa-trash-alt"></i></a>
+                                                    <div class="modal fade" id="large_{{catalog.id}}">
+                                                        <div class="modal-dialog">
+                                                          <div class="modal-content bg-danger">
+                                                            <div class="modal-header">
+                                                              <h4 class="modal-title">Внимание</h4>
+                                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                              </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                               <p>Вы действительно хотите удалить: "{{ catalog.name }}" ?</p>
+                                                            </div>
+                                                            <div class="modal-footer justify-content-between">
+                                                              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Отмена</button>
+                                                               <a class="btn btn-outline-light action-form" onclick="delete_sensor({{catalog.id}})"> Удалить </a>
+                                                            </div>
+                                                          </div>
+                                                         </div>
+
+                                                    </div>
+                                                </td>
                                                 <td>
                                                     <form action="./?module=acs&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
@@ -214,7 +239,8 @@
                                                         <input type="hidden" value="{{catalog.id}}" name="id">
                                                     </form>                                                
                                                 
-                                                </td>                                                <td>
+                                                </td>
+                                            <td>
                                                     <form action="./?module=acs&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_adress_{{catalog.id}}').submit(); return false;">
@@ -307,10 +333,42 @@
           <!-- /.col -->
         </div>
     </div><!-- /.container-fluid -->
-
+    </form>
 </section>
 
 {% endblock %}
 
 {% block script_footer %}
+<script>
+	function delete_sensor(id) {
+		                var Rec = $.ajax({
+				                method: 'POST',
+				                url: window.location.pathname+'?module=acs&cmd=delete',
+				                data: {
+                                        id: id,
+                                        cmd:'delete',
+                                      },
+				                success: function (data) {
+									document.getElementById("tr_" + id).remove();
+                                    $('#large_' + id).modal('hide'); 
+									$('body').removeClass('modal-open'); 
+                                    $('body').css({ "height": "auto", "padding-right": "0px" });
+                                    $('.modal-backdrop').remove();
+							        },
+                                error: function (dataerr) {
+                                    $('#large_' + id).modal('hide'); 
+                                    $('body').removeClass('modal-open'); 
+									$('.modal-backdrop').remove();
+  									alert('Ошибка выполнение команды')
+
+                                }
+                                //timeout: 120000
+
+
+                });   
+        return false;
+    
+    }
+
+</script>
 {% endblock script_footer %}

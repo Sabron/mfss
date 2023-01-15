@@ -190,7 +190,7 @@
             <a href="#" class="nav-link">
               <i class="fas fa-book"></i>
               <p>
-                Противопожарная защита
+                Пожарное водоснабжение
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -355,9 +355,9 @@
   <footer class="main-footer text-sm">
         <strong>&copy; {% settings_value 'APP_COPPIRIGHT' %} </strong>
        {% settings_value 'AUTHOR' %}
-
+       - {% settings_value 'APP_VEK' %}     		
     <div class="float-right d-none d-sm-inline">
-            <b>Версия :</b> {% settings_value 'APP_VER' %}  
+            <b>Версия :</b> {% settings_value 'APP_VER' %} 
     </div>
   </footer>
 </div>
@@ -373,7 +373,8 @@
 <script src="{% static 'lte/plugins/select2/js/select2.full.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'lte/dist/js/adminlte.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
-
+<!-- App -->
+<script src="{% static 'js/main.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 {% block script_footer %}
 
 {% endblock script_footer %}

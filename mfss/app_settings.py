@@ -26,14 +26,17 @@ INSTALLED_APPS = [
     'apps.eps.apps.epsConfig',
     'apps.dcs.apps.dcsConfig',
     'apps.fps.apps.fpsConfig',
-
+     #Противопожарная защита
+    'apps.fp.apps.fpConfig',
+     #Телеграмм бот
     'tgbot.apps.TgbotConfig',
 ]
 
 """Информация о приложении """
 SITE_TITLE = u'Многофункциональная система безопасности'
 SITE_TITLE_S = u'МФСБ'
-APP_VER = u'1.0.10.1'
+APP_VER = u'1.0.10.2'
+APP_VEK = u'2022 - 2023 гг'
 APP_COPPIRIGHT = u'Многофункциональная система безопасности'
 
 
