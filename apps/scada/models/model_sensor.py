@@ -12,6 +12,7 @@ class ScadaSensor(models.Model):  # Датчики
     zone = models.ForeignKey(Zone,
         on_delete=models.SET_NULL,
         null=True,
+        blank = True,
         verbose_name="Зона")
     tag = models.CharField(max_length=160,
         help_text="",

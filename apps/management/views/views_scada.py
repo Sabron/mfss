@@ -29,6 +29,7 @@ def edit_scada(request):
             accs_sensor = ScadaSensor.objects.get(id=param['id'])
             form = ScadaSensorForm(instance=accs_sensor)
             form.fields['zone'] = forms.ModelChoiceField(queryset = Zone.objects.all(),widget=forms.Select(attrs={'class':'form-control select2'})) 
+            form.fields['zone'].required = False
             context = generalmodule.get_context_template()
             context.update({
                 'mt':'save',
