@@ -15,7 +15,6 @@ import traceback
 from datetime import datetime, timedelta,date
 from requests.auth import HTTPBasicAuth
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mfss.settings')
-#os.environ.setdefault("PYTHONPATH", "/home/admtime/myapp/")
 django.setup() 
 
 from django.core.files.base import ContentFile
@@ -25,9 +24,16 @@ from django.db.models import Sum
 
 from apps.ops.models.model_mfsb import Mfsb
 from apps.ops.models.model_mfsb_skada import MfsbSkada
+from apps.ops.models.model_mfsb_ppz import MfsbPpz
+from apps.ops.models.model_mfsb_skpv import MfsbSkpv
+
 
 from apps.main.models.model_datamfsb import DataMfsb
 from apps.main.models.model_datamfsb_skada import DataMfsbSkada
+from apps.main.models.model_datamfsb_ppz import DataMfsbPpz
+from apps.main.models.model_datamfsb_skpv import DataMfsbSkpv
+
+
 from apps.acs.models.model_sensor import AcsSensor
 from apps.acs.models.model_indicators import AcsIndicators
 
@@ -39,6 +45,7 @@ from apps.eps.models.model_tags import Tag
 from apps.eps.models.model_tagdates import TagDate
 from apps.eps.models.model_anchors import Anchors
 
+from apps.fp.models.model_code_bolid import CodeBolid
 
 from django.contrib.auth.models import User
 
@@ -228,7 +235,7 @@ def update_ops_date():
 
 def update_fps():
     sensor_list = FpsSensor.objects.values('tag').order_by('tag').distinct()
-    data_mfsb = DataMfsbSkada.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
+    data_mfsb = DataMfsbSkpv.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
     for data in data_mfsb:
         print(str(data.date)+' : '+data.name)
         sensor_link = FpsSensor.objects.filter(tag=data.name).filter(active=True).first()
@@ -252,19 +259,21 @@ def test_Mfsb_skada():
     print('Вывод данных ')
     for mfsb in mfsb_list:
         print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
-        #datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-        #if datd_mfsb is None:
-        #    DataMfsbSkada.objects.create(
-                #date=datetime.now(),
-        #        date=mfsb.date,
-        #        name=mfsb.name,
-        #        values=mfsb.values,
-        #        check=mfsb.check)
-        #mfsb.check = True
-        #mfsb.save()
-        #update_fps()
 
+def upload_code_bolid():
+    file = open('code_bolid.csv', 'r')
+    for line in file: 
+        strLine=str(line).replace('\n','').split(';')
+        code =strLine[0] 
+        name =strLine[1] 
+        if name =='':
+            continue
 
+        link_code=CodeBolid.objects.filter(code=code).first()
+        if link_code is None:
+            new_code = CodeBolid.objects.create(
+                code=code,
+                name=name)
 
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
@@ -277,5 +286,6 @@ if __name__ == "__main__":
     #    time.sleep(3) # ��� � 3 �������
     #    update_eps_random()
 
-    test_Mfsb_skada()
+    #test_Mfsb_skada()
     #test_Mfsb2()
+    upload_code_bolid()

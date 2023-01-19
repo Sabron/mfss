@@ -1,0 +1,248 @@
+{% extends "management_base.html" %}
+{% load static %}
+{% load mysettings %}
+
+{% block header_link %}
+<link rel="stylesheet" href="{% static 'lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}?ver={% settings_value 'APP_VER' %}">
+{% endblock header_link %}
+
+{% block content %}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Коды БОЛИД</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/management/">Главная</a></li>
+                    <li class="breadcrumb-item active">Коды БОЛИД</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content text-sm">
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="col-md-3">
+
+                <!-- Profile Image -->
+                <div class="card card-primary card-outline">
+                    <div class="card-body box-profile">
+                        <div class="text-center">
+                            <img class="profile-user-img img-fluid img-circle" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User profile picture">
+                        </div>
+
+                        <h3 class="profile-username text-center">Коды БОЛИД</h3>
+
+                        <p class="text-muted text-center"></p>
+
+                        <ul class="list-group list-group-unbordered mb-3">
+ 
+                        </ul>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+                <!-- About Me Box -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Описание</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <strong><i class="fas fa-book mr-1"></i>Описание системы</strong>
+
+                        <p class="text-muted">
+                            Система описание и прочее
+                        </p>
+
+                        <hr>
+
+                        <strong><i class="fas fa-map-marker-alt mr-1"></i> Место нахождения</strong>
+
+                        <p class="text-muted">Россия , Кемерово</p>
+
+                        <hr>
+
+                        <strong><i class="far fa-file-alt mr-1"></i> Комментарий</strong>
+
+                        <p class="text-muted">Рабочий комментарий описание</p>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="card card-primary card-outline card-outline-tabs">
+                    <div class="card-header p-0 border-bottom-0">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Коды</a></li>
+                        </ul>
+                    </div><!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="activity">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header text-sm">
+                                                {% block pagination %}
+                                                {% if is_paginated %}
+                                                <ul class="pagination pagination no-margin text-sm">
+                                                    {% if 1 < start_page_list %}
+                                                    <li class="paginate_button page-item" id="mypaginator_next">
+                                                        <a class="page-link" href="?module=clients&page={{start_page_list|add:-1}}" aria-controls="mypaginator" data-dt-idx="{{start_page_list|add:-1}}" style="padding: .3rem .5rem;"><span>..</span></a>
+                                                    </li>
+
+                                                    {% endif %}
+                                                    {% for n in page_list %}
+                                                    {% if n == page_object.number %}
+                                                    <li class="paginate_button page-item active" id="mypaginator_next">
+                                                        <a class="page-link" href="?module=clients&page={{n}}" aria-controls="mypaginator" data-dt-idx="{{n}}" style="padding: .3rem .5rem;"><span>{{n}}</span></a>
+                                                    </li>
+                                                    {% else %}
+                                                    <li class="paginate_button page-item" id="mypaginator_next">
+                                                        <a class="page-link" href="?module=clients&page={{n}}" aria-controls="mypaginator" data-dt-idx="{{n}}" style="padding: .3rem .5rem;"><span>{{n}}</span></a>
+                                                    </li>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% if end_page_list < num_pages %}
+                                                    <li class="paginate_button page-item" id="mypaginator_next">
+                                                        <a class="page-link" href="?module=clients&page={{end_page_list|add:1}}" aria-controls="mypaginator" data-dt-idx="{{end_page_list|add:1}}" style="padding: .3rem .5rem;"><span>..</span></a>
+                                                    </li>
+
+                                                    {% endif %}
+                                                </ul>
+
+                                                {% endif %}
+                                                {% endblock %}
+
+                                            </div> <!-- /.card-header -->
+                                            <div class="card-body table-responsive p-0">
+                                                <table class="table table-bordered table-hover table-head-fixed text-nowrap">
+                                                    <thead>
+                                                        <tr role="row">
+                                                            <th> </th>
+                                                            <th>Код</th>
+                                                            <th>Наименование</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        {% if code_bolid_list %}
+                                                        {% for catalog in code_bolid_list %}
+                                                        <tr id="tr_{{catalog.id}}">
+                                                            <td style="width:10px;cursor: pointer;">
+                                                            </td>
+                                                            <td>
+                                                                {{ catalog.code }}
+                                                            </td>
+                                                            <td>
+                                                                {{ catalog.name }}
+                                                            </td>
+                                                        </tr>
+<!--                                                        <tr id="tr_{{catalog.id}}">
+                                                            <td style="width:10px;cursor: pointer;">
+                                                            </td>
+                                                            <td>
+                                                                <form action="./?module=fp&spr=code_bolid" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                                    {% csrf_token %}
+                                                                    <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
+                                                                        {{ catalog.code }}
+                                                                    </a>
+                                                                    <input type="hidden" value="{{catalog.id}}" name="id">
+                                                                </form>
+
+                                                            </td>
+                                                            <td>
+                                                                <form action="./?module=fp&spr=code_bolid" id="frm_contact_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                                    {% csrf_token %}
+                                                                    <a href="#" onclick="document.getElementById('frm_contact_{{catalog.id}}').submit(); return false;">
+                                                                        {{ catalog.name }}
+                                                                    </a>
+                                                                    <input type="hidden" value="{{catalog.id}}" name="id">
+                                                                </form>
+
+                                                            </td>
+                                                        </tr>-->
+                                                        {% endfor %}
+                                                        {% endif %}
+                                                    </tbody>
+                                                </table>
+                                            </div> <!-- /.card-body -->
+                                        </div> <!-- /.card -->
+                                    </div> <!-- /.col -->
+                                </div><!-- <!-- /.row -->
+
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane " id="settings3">
+                                <form class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="email" class="form-control" id="inputName" placeholder="Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                        <div class="col-sm-10">
+                                            <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button type="submit" class="btn btn-danger">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div><!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+    </div><!-- /.container-fluid -->
+
+</section>
+
+{% endblock %}
+
+{% block script_footer %}
+{% endblock script_footer %}

@@ -18,7 +18,7 @@ from apps.ops.models.model_mfsb import Mfsb
 from apps.ops.models.model_mfsb_skada import MfsbSkada
 
 from apps.main.models.model_datamfsb import DataMfsb
-from apps.main.models.model_datamfsb_skada import DataMfsbSkada
+from apps.main.models.model_datamfsb_skpv import DataMfsbSkpv
 
 from apps.acs.models.model_sensor import AcsSensor
 from apps.acs.models.model_indicators import AcsIndicators
@@ -39,9 +39,9 @@ from mfss.celery import app
 from sabron.util import logging    
 
 
-def update_fps():
+def update_fps(): # Получение данных Системы контроля пожарного водоснабжения
     sensor_list = FpsSensor.objects.values('tag').order_by('tag').distinct()
-    data_mfsb = DataMfsbSkada.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
+    data_mfsb = DataMfsbSkpv.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
     for data in data_mfsb:
         sensor_link = FpsSensor.objects.filter(tag=data.name).filter(active=True).first()
         if sensor_link is not None:
@@ -55,7 +55,7 @@ def update_fps():
             data.check = True
             data.save()
 
-def update_acs():
+def update_acs():# Получение данных Системы Аэрогазовый контроль
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
     for data in data_mfsb:
@@ -71,7 +71,7 @@ def update_acs():
             data.check = True
             data.save()
 
-def update_dcs():
+def update_dcs(): # Получение данных Контроль запыленности
     sensor_list = DcsSensor.objects.values('tag').order_by('tag').distinct()
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
     for data in data_mfsb:
@@ -155,9 +155,9 @@ def update_ops_skada_date():
         mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all()[:5000];
         count_d = 0
         for mfsb in mfsb_list:
-            datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+            datd_mfsb = DataMfsbSkpv.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
             if datd_mfsb is None:
-                DataMfsbSkada.objects.create(
+                DataMfsbSkpv.objects.create(
                     date=mfsb.date,
                     name=mfsb.name,
                     values=mfsb.values,

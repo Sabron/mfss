@@ -10,9 +10,11 @@ from django.shortcuts import redirect
 
 from apps.fps.forms.form_fps_sensor import FpsSensorForm
 from apps.fps.models.model_sensor import FpsSensor
-from apps.main.models.model_datamfsb_skpv import DataMfsbSkpv
+from apps.main.models.model_datamfsb_skada import DataMfsbSkada
 
 from apps.catalog.models.model_zones import Zone
+
+from apps.fp.models.model_code_bolid import CodeBolid
 
 from sabron.util import logging
 from apps.util import generalmodule
@@ -31,7 +33,7 @@ def add_fps(request):
                 return redirect('/management/?module=fps&t=param')
         else:
             sensor_list = FpsSensor.objects.values('name').order_by('tag').distinct()
-            data_mfsb = DataMfsbSkpv.objects.values('name').filter(~Q(name__in=sensor_list)).order_by('name').distinct()
+            data_mfsb = DataMfsbSkada.objects.values('name').filter(~Q(name__in=sensor_list)).order_by('name').distinct()
             form =FpsSensorForm()
             form.fields['zone'] = forms.ModelChoiceField(queryset = Zone.objects.all(),widget=forms.Select(attrs={'class':'form-control select2'})) 
             context = generalmodule.get_context_template()
@@ -52,7 +54,7 @@ def edit_fps(request):
         param=request.POST.dict()
         if request.method == "POST":
             sensor_list = FpsSensor.objects.values('name').order_by('tag').distinct()
-            data_mfsb = DataMfsbSkpv.objects.values('name').filter(~Q(name__in=sensor_list)).order_by('name').distinct()
+            data_mfsb = DataMfsbSkada.objects.values('name').filter(~Q(name__in=sensor_list)).order_by('name').distinct()
             accs_sensor = FpsSensor.objects.get(id=param['id'])
             form = FpsSensorForm(instance=accs_sensor)
             form.fields['zone'] = forms.ModelChoiceField(queryset = Zone.objects.all(),widget=forms.Select(attrs={'class':'form-control select2'})) 
@@ -86,20 +88,14 @@ def save_fps(request):
 
 @login_required(login_url='/')
 @never_cache
-def open_type(request,get_parm):
+def open_code_bolid(request,get_parm):
     try:
         context = generalmodule.get_context_template()
-        accs_sensor_list = FpsSensor.objects.all().order_by("zone").order_by("name")
-        sensor_count_active = FpsSensor.objects.filter(active=True).all().count()
-        sensor_count = accs_sensor_list.count()
-        sensor_count_noactive = sensor_count - sensor_count_active;
+        code_bolid_list = CodeBolid.objects.all().order_by("code")
         context.update({
-            'accs_sensor_list':accs_sensor_list,
-            'sensor_count':sensor_count,
-            'sensor_count_active':sensor_count_active,
-            'sensor_count_noactive':sensor_count_noactive
+            'code_bolid_list':code_bolid_list
                  })
-        return render(request, 'fps_settings.html', context)
+        return render(request, 'fp_code_bolid_list.html', context)
     except Exception as err:
         logging.error(traceback.format_exc())
         return redirect('/management/')
@@ -129,11 +125,11 @@ def main_index(request):
         if request.method == "GET":
             param=request.GET.dict()
             if 'module' in param:
-                if param['module']=='fps':
+                if param['module']=='fp':
                     if 'cmd' in param:
                         return cmd_manager(request,param)
-                    elif 't' in param:
-                        return open_type(request,param)
+                    elif 'spr' in param:
+                        return open_code_bolid(request,param)
                     #else:
                     #    return fps_list(request)
         if request.method == "POST":

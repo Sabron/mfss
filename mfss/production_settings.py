@@ -55,10 +55,26 @@ DATABASES = {
         'HOST': '192.168.10.2',
         'PORT': '5432',
     },
-    'mfsb_skada': {
+    'mfsb_skada': { #Системы контроля работы оборудования
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mfsb_skada',
         'USER': 'mfsb_skada',
+        'PASSWORD': 'mfsb',
+        'HOST': '192.168.10.2',
+        'PORT': '5432',
+    },
+    'mfsb_ppz': { # Противопожарной защиты
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mfsb_ppz',
+        'USER': 'mfsb_ppz',
+        'PASSWORD': 'mfsb',
+        'HOST': '192.168.10.2',
+        'PORT': '5432',
+    },
+    'mfsb_skpv': { # Системы контроля пожарного водоснабжения
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mfsb_skpv',
+        'USER': 'mfsb_skpv',
         'PASSWORD': 'mfsb',
         'HOST': '192.168.10.2',
         'PORT': '5432',
