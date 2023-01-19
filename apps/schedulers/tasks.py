@@ -150,9 +150,9 @@ def update_ops_date():
         logging.error(traceback.format_exc())
 
 @app.task(ignore_result=True)
-def update_ops_skada_date():
+def update_ops_skpv_date():
     try:
-        mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all()[:5000];
+        mfsb_list = MfsbSkpv.objects.using('mfsb_skpv').filter(check=False).order_by('date').all()[:5000];
         count_d = 0
         for mfsb in mfsb_list:
             datd_mfsb = DataMfsbSkpv.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
@@ -174,7 +174,7 @@ def update_ops_skada_date():
 @app.task(ignore_result=True)
 def auto_ops_delete():
     try:
-        MfsbSkada.objects.using('mfsb_skada').filter(check=True).delete();
+        MfsbSkada.objects.using('mfsb_skpv').filter(check=True).delete();
         Mfsb.objects.using('mfsb').filter(check=True).delete();
     except Exception as err:
         logging.error(traceback.format_exc())
