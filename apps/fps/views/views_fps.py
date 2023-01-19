@@ -106,7 +106,7 @@ def MainIndexDefault(request):
             #    if sensor.value / sensor.ratio >= sensor.critical_value:
             #        color = 'bg-danger'
             #else:
-            if sensor.value / sensor.ratio <= sensor.critical_value:
+            if sensor.value / sensor.ratio <= sensor.danger_value_to:
                 color = 'bg-danger'
             sensor_dict.update(color=color)
             m_sensor.append(sensor_dict)
