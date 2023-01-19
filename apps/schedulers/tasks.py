@@ -20,6 +20,7 @@ from apps.ops.models.model_mfsb_skpv import MfsbSkpv
 from apps.ops.models.model_mfsb_ppz import MfsbPpz
 
 from apps.main.models.model_datamfsb import DataMfsb
+from apps.main.models.model_datamfsb_ppz import DataMfsbPpz
 from apps.main.models.model_datamfsb_skpv import DataMfsbSkpv
 from apps.main.models.model_datamfsb_skada import DataMfsbSkada
 
@@ -32,8 +33,13 @@ from apps.dcs.models.model_indicators import DcsIndicators
 from apps.fps.models.model_sensor import FpsSensor
 from apps.fps.models.model_indicators import FpsIndicators
 
+
 from apps.scada.models.model_sensor import ScadaSensor
 from apps.scada.models.model_indicators import ScadaIndicators
+
+from apps.fp.models.model_sensor import FpSensor
+from apps.fp.models.model_indicators import FpIndicators
+from apps.fp.models.model_code_bolid import CodeBolid
 
 
 from apps.eps.models.model_tags import Tag
@@ -56,6 +62,23 @@ def update_fps(): # Получение данных Системы контро�
                 sensor = sensor_link,
                 value = data.values)
             sensor_link.value = data.values
+            sensor_link.connect_time =data.date 
+            sensor_link.save()
+            data.check = True
+            data.save()
+
+def update_fp(): # Получение данных противопожарная защита
+    sensor_list = FpSensor.objects.values('tag').order_by('tag').distinct()
+    data_mfsb = DataMfsbPpz.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
+    for data in data_mfsb:
+        sensor_link = FpSensor.objects.filter(tag=data.name).first()
+        if sensor_link is not None:
+            Acs_Indicators = FpIndicators.objects.create(
+                date_time =data.date,
+                sensor = sensor_link,
+                code = sensor_link.code)
+            code_bolid = CodeBolid.objects.filter(code=data.code).first()
+            sensor_link.code = code_bolid
             sensor_link.connect_time =data.date 
             sensor_link.save()
             data.check = True
@@ -191,6 +214,37 @@ def update_ops_skpv_date():
             mfsb.save()
         #logging.message(str(count_d)+' / 5000')
         update_fps()
+    except Exception as err:
+        logging.error(traceback.format_exc())
+
+@app.task(ignore_result=True)
+def update_ops_ppz_date():
+    try:
+        mfsb_list = MfsbPpz.objects.using('mfsb_ppz').filter(check=False).order_by('date').all()[:5000];
+        count_d = 0
+        for mfsb in mfsb_list:
+            datd_mfsb = DataMfsbPpz.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+            if datd_mfsb is None:
+                DataMfsbPpz.objects.create(
+                    date=mfsb.date,
+                    name=mfsb.name,
+                    code=mfsb.code,
+                    check=mfsb.check)
+            else:
+                count_d = count_d+1
+
+            code_bolid = CodeBolid.objects.filter(code=mfsb.code).first()
+            link_sensor = FpSensor.objects.filter(tag=mfsb.name).first()
+            if link_sensor is None:
+                FpSensor.objects.create(
+                    tag=mfsb.name,
+                    name=mfsb.name,
+                    code = code_bolid,
+                    active=False)
+ 
+            mfsb.check = True
+            mfsb.save()
+        update_fp()
     except Exception as err:
         logging.error(traceback.format_exc())
 

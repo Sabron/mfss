@@ -24,100 +24,10 @@
     <div class="container-fluid">
             <div class="card card-primary card-outline card-tabs">
               <div class="card-header p-0 pt-1 border-bottom-0">
-                <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
-
-                  <li class="nav-item">
-                    <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Все</a>
-                  </li>
-                    {% for zone in m_zone %}
-                        {% if  zone != None %} 
-                            <li class="nav-item">
-                                <a class="nav-link" id="custom-tabs-{{zone.id}}}-tab" data-toggle="pill" href="#custom-tabs-three-{{zone.id}}" role="tab" aria-controls="custom-tabs-three-{{zone.id}}" aria-selected="false">{{zone.name}}</a>
-                            </li>
-                        {% endif %}
-                     {% endfor %}
-                </ul>
               </div>
               <div class="card-body">
                 <div class="tab-content" id="custom-tabs-three-tabContent">
-                    {% for zone in m_zone %}
-                        {% if  zone != None %} 
-                          <div class="tab-pane fade" id="custom-tabs-three-{{zone.id}}" role="tabpanel" aria-labelledby="custom-tabs-{{zone.id}}-tab">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="row">
-                                            {% for sensor in m_sensor %}
-                                                {% if  sensor.zone == zone %} 
-                                                    <div class="col-6 col-md-3 text-center">
-                                                        <div style="display:inline;width:50px;height:50px;">
-                                                            <canvas id="{{sensor.sensor.id}}_value_canvas" class="gauge-speed" style="margin-top:40px;" data-type="radial-gauge" data-width="170"
-                                                                    data-glow="false" data-height="170" data-units="{{sensor.unit}}" data-title="{{sensor.sensor.id}}" data-min-value="0.0"
-                                                                    data-max-value="{{sensor.str_critical_value}}" data-major-ticks="{{sensor.scale}}" data-minor-ticks="10" data-value="{{sensor.str_value}}"
-                                                                    data-stroke-ticks="false" data-highlights='[{ "from": {{sensor.norm_value_from}}, "to": {{sensor.norm_value_to}}, "color": "#4caf50" },
-                                                                         { "from": {{sensor.danger_value_from}}, "to":{{sensor.danger_value_to}} , "color": "#ff9800" },{ "from": {{sensor.critical_value_from}}, "to": {{sensor.critical_value_to}}, "color": "#f44336" }]'
-                                                                    data-color-needle-start="rgba(240, 128, 128, 1)" data-color-needle-end="rgba(255, 160, 122, .9)"
-                                                                    data-value-box="true" data-animation-rule="linear" data-animation-duration="100"
-                                                                    data-needle-shadow="false"></canvas>
-                                                        </div>
-
-                                                        <div class="knob-label"><a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a></div>
-                                                    </div>
-                                                    {% endif %}
-                                                {% endfor %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>                              
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Показания датчиков</h3>
-
-                                            </div>
-                                            <!-- /.card-header -->
-                                            <div class="card-body p-0">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th style="width: 10px">id</th>
-                                                            <th>Датчик</th>
-                                                            <th style="width: 40px">Показание</th>
-                                                            <th style="width: 40px">МДЗ</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for sensor in m_sensor %}
-                                                        {% if  sensor.zone == zone %} 
-                                                        <tr>
-                                                            <td>{{sensor.sensor.id}}</td>
-                                                            <td id="{{sensor.sensor.id}}_pecent">
-                                                                    <div class="progress-group">
-                                                                      <a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a>
-                                                                      <span class="float-right"><b>{{sensor.value}}</b>/{{sensor.max_value}}  {{sensor.unit}}</span>
-                                                                      <div class="progress progress-sm">
-                                                                        <div class="progress-bar {{sensor.color}}" style="width: {{sensor.str_value}}%"></div>
-                                                                      </div>
-                                                                    </div>
-                                                             </td>
-                                                            <td id="{{sensor.sensor.id}}_value"><span class="badge {{sensor.color}}">{{sensor.value}} {{sensor.unit}}</span></td>
-                                                            <td><span class="badge ">{{sensor.critical_value_from}} {{sensor.unit}}</span></td>
-                                                        </tr>
-                                                         {% endif %}
-                                                        {% endfor %}
-                                                    </tbody>
-                                                </table>
-
-                                            </div>
-                                        </div>
-                                        <!-- /.row -->
-                                    </div><!-- /.container-fluid -->
-                                </div>
-                          </div>
-                    {% endif %}
-                    {% endfor %}
-
+        
 
                   <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
                     <div class="row">
@@ -149,7 +59,6 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="card-title">Показания датчиков</h3>
-
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body p-0">
