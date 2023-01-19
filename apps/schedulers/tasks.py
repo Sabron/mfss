@@ -65,7 +65,7 @@ def update_scada(): # Получение данных Системы контр�
     sensor_list = ScadaSensor.objects.values('tag').order_by('tag').distinct()
     data_mfsb = DataMfsbSkada.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
     for data in data_mfsb:
-        sensor_link = ScadaSensor.objects.filter(tag=data.name).filter(active=True).first()
+        sensor_link = ScadaSensor.objects.filter(tag=data.name).first()
         if sensor_link is not None:
             Acs_Indicators = ScadaIndicators.objects.create(
                 date_time =data.date,
