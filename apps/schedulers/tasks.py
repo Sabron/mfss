@@ -21,6 +21,7 @@ from apps.ops.models.model_mfsb_ppz import MfsbPpz
 
 from apps.main.models.model_datamfsb import DataMfsb
 from apps.main.models.model_datamfsb_skpv import DataMfsbSkpv
+from apps.main.models.model_datamfsb_skada import DataMfsbSkada
 
 from apps.acs.models.model_sensor import AcsSensor
 from apps.acs.models.model_indicators import AcsIndicators
@@ -30,6 +31,9 @@ from apps.dcs.models.model_indicators import DcsIndicators
 
 from apps.fps.models.model_sensor import FpsSensor
 from apps.fps.models.model_indicators import FpsIndicators
+
+from apps.scada.models.model_sensor import ScadaSensor
+from apps.scada.models.model_indicators import ScadaIndicators
 
 
 from apps.eps.models.model_tags import Tag
@@ -56,6 +60,23 @@ def update_fps(): # Получение данных Системы контро�
             sensor_link.save()
             data.check = True
             data.save()
+
+def update_scada(): # Получение данных Системы контроля работы оборудования
+    sensor_list = ScadaSensor.objects.values('tag').order_by('tag').distinct()
+    data_mfsb = DataMfsbSkada.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
+    for data in data_mfsb:
+        sensor_link = ScadaSensor.objects.filter(tag=data.name).filter(active=True).first()
+        if sensor_link is not None:
+            Acs_Indicators = ScadaIndicators.objects.create(
+                date_time =data.date,
+                sensor = sensor_link,
+                value = data.values)
+            sensor_link.value = data.values
+            sensor_link.connect_time =data.date 
+            sensor_link.save()
+            data.check = True
+            data.save()
+
 
 def update_acs():# Получение данных Системы Аэрогазовый контроль
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
@@ -172,6 +193,36 @@ def update_ops_skpv_date():
         update_fps()
     except Exception as err:
         logging.error(traceback.format_exc())
+
+@app.task(ignore_result=True)
+def update_ops_scada_date():
+    try:
+        mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all()[:5000];
+        count_d = 0
+        for mfsb in mfsb_list:
+            datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+            if datd_mfsb is None:
+                DataMfsbSkada.objects.create(
+                    date=mfsb.date,
+                    name=mfsb.name,
+                    values=mfsb.values,
+                    check=mfsb.check)
+            else:
+                count_d = count_d+1
+
+            link_sensor = ScadaSensor.objects.filter(tag=mfsb.name).first()
+            if link_sensor is None:
+                ScadaSensor.objects.create(
+                    tag=mfsb.name,
+                    name=mfsb.name,
+                    value=mfsb.values,
+                    active=False)
+            mfsb.check = True
+            mfsb.save()
+        update_scada()
+    except Exception as err:
+        logging.error(traceback.format_exc())
+
 
 @app.task(ignore_result=True)
 def auto_ops_delete():

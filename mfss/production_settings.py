@@ -55,7 +55,7 @@ DATABASES = {
         'HOST': '192.168.10.2',
         'PORT': '5432',
     },
-    'mfsb_skada': { #Системы контроля работы оборудования
+    'mfsb_skada': { # Системы контроля работы оборудования
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mfsb_skada',
         'USER': 'mfsb_skada',

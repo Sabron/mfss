@@ -26,8 +26,12 @@ app.conf.beat_schedule = {
         'task': 'apps.schedulers.tasks.update_ops_date',
         'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
     },
-    'apps.schedulers.tasks.update_ops_skpv_date': { # Получение данных со водоснобжение
+    'apps.schedulers.tasks.update_ops_skpv_date': { # Получение данных со водоснfбжение
         'task': 'apps.schedulers.tasks.update_ops_skpv_date',
+        'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
+    },
+   'apps.schedulers.tasks.update_ops_scada_date': { # Получение данных Системы контроля работы оборудования
+        'task': 'apps.schedulers.tasks.update_ops_scada_date',
         'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
     },
 
