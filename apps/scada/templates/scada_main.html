@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+{% extends "subsystem_base.html" %}
+{% load static %}
+{% load mysettings %}
+
+
+{% block header_link %}
+<link type="text/css" rel="stylesheet" href="{% static '/css/speedometer.css' %}?ver={% settings_value 'APP_VER' %}">
+{% endblock header_link %}
+
+{% block info_title %}
+<h5>
+    Система контроля работы оборудования<h5>
+        {% endblock info_title %}
+
+        {% block content %}
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <p id="id_time"></p>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline card-tabs">
+                    <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-three-tabContent">
+                            <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Показания датчиков</h3>
+
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <div class="card-body p-0">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 10px">id</th>
+                                                            <th>Датчик</th>
+                                                            <th style="width: 40px">Показание</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for sensor in m_sensor %}
+                                                        <tr>
+                                                            <td>{{sensor.sensor.id}}</td>
+                                                            <td><a href="#">{{sensor.sensor}}</a></td>
+                                                            <td><span class="badge ">{{sensor.value}} {{sensor.unit}}</span></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                        <!-- /.row -->
+                                    </div><!-- /.container-fluid -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </section>
+
+
+        {% endblock %}
+
+        {% block script_footer %}
+        <script src="{% static 'js/gauge.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+        <script src="{% static 'js/speedometer.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+        <script>
+            function show() {
+                cmd = 'refresh';
+                $.ajax({
+                    type: 'POST', // метод отправки
+                    url: window.location.pathname + 'ajax/', // путь к обработчику
+                    data: {
+                        "cmd": cmd
+                    },
+                    // dataType: 'text',
+                    success: function (data) {
+                        for (index = data.length - 1; index >= 0; --index) {
+                            str_pecent = "<div class='progress progress-xs progress-striped active'><div class='progress-bar " + data[index].color + " 'style=width:" + Math.floor(data[index].pecent_value) + "%></div></div>";
+                            $("#" + data[index].sensor_id + "_pecent").html(str_pecent)
+
+                            str_value = "<span class='badge " + data[index].color + "'>" + data[index].value + " " + data[index].unit + "</span>";
+                            $("#" + data[index].sensor_id + "_value").html(str_value)
+                            var seconds = new Date().getTime() / 1000;
+                            //$("#id_time").html(seconds)
+                            $("#" + data[index].sensor_id + "_value_canvas").attr('data-value', data[index].value)
+                        }
+                    },
+                    error: function (dataerr) {
+                        console.log('Ошибка выполнение команды :' + dataerr)
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+                show();
+                setInterval('show()', 1000);
+            });
+        </script>
+        {% endblock script_footer %}

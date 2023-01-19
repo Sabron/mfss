@@ -6,9 +6,6 @@ from django.db import models
 from apps.catalog.models.model_zones import Zone
 
 class ScadaSensor(models.Model):  # Датчики
-    critical_type_list = (('max', 'Максимальный'),
-        ('min', 'Минимальный'),)
-
     """
     Модель справочника датчиков
     """

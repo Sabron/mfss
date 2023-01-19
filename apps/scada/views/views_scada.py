@@ -17,8 +17,8 @@ from django.db.models.functions import (
     TruncDate, TruncDay, TruncHour, TruncMinute, TruncSecond,Greatest,
 )
 
-from apps.fps.models.model_indicators import FpsIndicators
-from apps.fps.models.model_sensor import FpsSensor
+from apps.scada.models.model_indicators import ScadaIndicators
+from apps.scada.models.model_sensor import ScadaSensor
 
 
 from apps.util import generalmodule
@@ -44,7 +44,7 @@ def float_range(A, L=None, D=None):
 def get_ajax(request):
     try:
         if request.method == "POST":
-            sensor_list = FpsSensor.objects.filter(active=True).all().order_by('name')
+            sensor_list = ScadaSensor.objects.filter(active=True).all().order_by('name')
             m_sensor = []
             for sensor in sensor_list:
                 sensor_dict = dict()
@@ -76,39 +76,17 @@ def get_ajax(request):
 
 def MainIndexDefault(request):
      if request.method == "GET":
-        sensor_list = FpsSensor.objects.filter(active=True).all().order_by('name')
+        sensor_list = ScadaSensor.objects.filter(active=True).all().order_by('name')
         m_sensor = []
         m_zone = []
         for sensor in sensor_list:
-            str_value=str(sensor.value / sensor.ratio).replace(',','.')
+            str_value=str(sensor.value ).replace(',','.')
             sensor_dict = dict()
             sensor_dict.update(zone=sensor.zone)
             sensor_dict.update(sensor=sensor)
             sensor_dict.update(name=sensor.name)
-            sensor_dict.update(value=sensor.value / sensor.ratio)
+            sensor_dict.update(value=sensor.value)
             sensor_dict.update(str_value=str_value)
-            sensor_dict.update(critical_value=sensor.critical_value)
-            sensor_dict.update(str_critical_value=str(sensor.critical_value).replace(',','.'))
-            sensor_dict.update(unit=sensor.unit)
-            sensor_dict.update(scale=sensor.scale)
-            sensor_dict.update(norm_value_from=str(sensor.norm_value_from).replace(',','.'))
-            sensor_dict.update(norm_value_to=str(sensor.norm_value_to).replace(',','.'))
-            sensor_dict.update(danger_value_from=str(sensor.danger_value_from).replace(',','.'))
-            sensor_dict.update(danger_value_to=str(sensor.danger_value_to).replace(',','.'))
-            sensor_dict.update(critical_value_from=str(sensor.critical_value_from).replace(',','.'))
-            sensor_dict.update(critical_value_to=str(sensor.critical_value_to).replace(',','.'))
-            #sensor.critical_value
-            #color=0 зеленый
-            #color=1 желтый
-            #color=2 красный
-            color = 'bg-success'
-            if sensor.critical_type == 'max':
-                if sensor.value / sensor.ratio >= sensor.critical_value:
-                    color = 'bg-danger'
-            else:
-                if sensor.value / sensor.ratio <= sensor.critical_value:
-                    color = 'bg-danger'
-            sensor_dict.update(color=color)
             m_sensor.append(sensor_dict)
             if sensor.zone not in m_zone:
                 m_zone.append(sensor.zone)
@@ -127,10 +105,10 @@ def SensorList(request):
     try:
         if request.method == "GET":
             param = request.GET.dict()
-            sensor = FpsSensor.objects.filter(id=param['id']).first()
+            sensor = ScadaSensor.objects.filter(id=param['id']).first()
             now = datetime.now()
             start_date = now - timedelta(hours=0, minutes=0)
-            sensor_list = FpsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('-date_time')
+            sensor_list = ScadaIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('-date_time')
             sensor_str = ''
             for sensor_in in sensor_list:
                 sensor_str = sensor_str+str(sensor_in.value).replace(',','.')+','
@@ -150,17 +128,17 @@ def sensor_ajax(request):
         if request.method == "POST":
             sensor_dict = dict()
             param = request.POST.dict()
-            sensor = FpsSensor.objects.filter(id=param['id']).first()
+            sensor = ScadaSensor.objects.filter(id=param['id']).first()
             strftime = "%H:%M:%S"
             if param['sensor_type'] == 'sec':
                 strftime = "%H:%M:%S"
-                sensor_list = FpsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:100]
+                sensor_list = ScadaIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:100]
             elif param['sensor_type'] == 'min':
                 strftime = "%H:%M"
-                sensor_list = FpsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:3600]
+                sensor_list = ScadaIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:3600]
             else:
                 strftime = "%H:00"
-                sensor_list = FpsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:120000]
+                sensor_list = ScadaIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:120000]
             
             m_sensor = []
             data_list =list()
@@ -196,4 +174,5 @@ def MainIndex(request):
     except Exception as err:
         logging.error(traceback.format_exc())
  
+
 

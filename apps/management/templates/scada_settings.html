@@ -145,9 +145,6 @@
                                                 <th>Зона</th>
                                                 <th>ТЭГ</th>
                                                 <th>Наименование</th>
-                                                <th>Ед. измерения</th>
-                                                <th>Авария</th>
-                                                <th>Максимальное</th>
                                                 <th>V</th>
                                             </tr>
                                         </thead>
@@ -157,30 +154,9 @@
                                             {% for catalog in accs_sensor_list %}
                                              <tr id="tr_{{catalog.id}}">
                                                 <td style="width:10px;cursor: pointer;">
-                                                    <a class="action-form" data-target="#large_{{catalog.id}}" data-toggle="modal" style="color:red;" title='Удалить "{{ catalog.name }}"'><i class="far fa-trash-alt"></i></a>
-                                                    <div class="modal fade" id="large_{{catalog.id}}">
-                                                        <div class="modal-dialog">
-                                                          <div class="modal-content bg-danger">
-                                                            <div class="modal-header">
-                                                              <h4 class="modal-title">Внимание</h4>
-                                                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                              </button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                               <p>Вы действительно хотите удалить: "{{ catalog.name }}" ?</p>
-                                                            </div>
-                                                            <div class="modal-footer justify-content-between">
-                                                              <button type="button" class="btn btn-outline-light" data-dismiss="modal">Отмена</button>
-                                                               <a class="btn btn-outline-light action-form" onclick="delete_sensor({{catalog.id}})"> Удалить </a>
-                                                            </div>
-                                                          </div>
-                                                         </div>
-
-                                                    </div>
                                                 </td>
                                                 <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                    <form action="./?module=scada&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
                                                             {{ catalog.zone }}
@@ -190,7 +166,7 @@
                                                 
                                                 </td>
                                                 <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                    <form action="./?module=scada&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
                                                             {{ catalog.tag }}
@@ -200,7 +176,7 @@
                                                 
                                                 </td>
                                                 <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_contact_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                    <form action="./?module=scada&t=param&cmd=edit" id="frm_contact_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_contact_{{catalog.id}}').submit(); return false;">
                                                             {{ catalog.name }}
@@ -209,38 +185,8 @@
                                                     </form>                                                
                                                 
                                                 </td>
-                                                <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_contact_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
-                                                        {% csrf_token %}
-                                                        <a href="#" onclick="document.getElementById('frm_contact_{{catalog.id}}').submit(); return false;">
-                                                            {{ catalog.unit }}
-                                                        </a>
-                                                        <input type="hidden" value="{{catalog.id}}" name="id">
-                                                    </form>                                                
-                                                
-                                                </td>
-                                               <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
-                                                        {% csrf_token %}
-                                                        <a href="#" onclick="document.getElementById('frm_adress_{{catalog.id}}').submit(); return false;">
-                                                            {{catalog.critical_value}}
-                                                        </a>
-                                                        <input type="hidden" value="{{catalog.id}}" name="id">
-                                                    </form>                                                
-                                                
-                                                </td>
-                                               <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
-                                                        {% csrf_token %}
-                                                        <a href="#" onclick="document.getElementById('frm_adress_{{catalog.id}}').submit(); return false;">
-                                                            {{catalog.max_value}}
-                                                        </a>
-                                                        <input type="hidden" value="{{catalog.id}}" name="id">
-                                                    </form>                                                
-                                                
-                                                </td>
-                                            <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                              <td>
+                                                    <form action="./?module=scada&t=param&cmd=edit" id="frm_adress_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_adress_{{catalog.id}}').submit(); return false;">
                                                             {% if catalog.active %} 
