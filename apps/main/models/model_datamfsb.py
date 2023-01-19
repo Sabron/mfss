@@ -24,8 +24,8 @@ class DataMfsb(models.Model):
 
     class Meta:
         unique_together = ('name', 'date')
-        verbose_name = u'показатель датчика'
-        verbose_name_plural = u'показатели датчиков'
+        verbose_name = u'показатель датчика АГК И и КЗ'
+        verbose_name_plural = u'показатели датчиков АГК И и КЗ'
         indexes = [
             models.Index(fields=['date','name',]),
             models.Index(fields=['name',]),
