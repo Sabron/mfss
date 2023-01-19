@@ -16,6 +16,8 @@ from datetime import datetime, timedelta, timezone,date
 
 from apps.ops.models.model_mfsb import Mfsb
 from apps.ops.models.model_mfsb_skada import MfsbSkada
+from apps.ops.models.model_mfsb_skpv import MfsbSkpv
+from apps.ops.models.model_mfsb_ppz import MfsbPpz
 
 from apps.main.models.model_datamfsb import DataMfsb
 from apps.main.models.model_datamfsb_skpv import DataMfsbSkpv
@@ -174,8 +176,10 @@ def update_ops_skpv_date():
 @app.task(ignore_result=True)
 def auto_ops_delete():
     try:
-        MfsbSkada.objects.using('mfsb_skpv').filter(check=True).delete();
+        MfsbSkpv.objects.using('mfsb_skpv').filter(check=True).delete();
         Mfsb.objects.using('mfsb').filter(check=True).delete();
+        MfsbPpz.objects.using('mfsb_ppz').filter(check=True).delete();
+        MfsbSkada.objects.using('mfsb_skada').filter(check=True).delete();
     except Exception as err:
         logging.error(traceback.format_exc())
 
