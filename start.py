@@ -289,3 +289,4 @@ if __name__ == "__main__":
     #test_Mfsb_skada()
     #test_Mfsb2()
     upload_code_bolid()
+    DataMfsbSkada.objects.delete()
