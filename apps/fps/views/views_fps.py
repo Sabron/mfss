@@ -118,7 +118,7 @@ def MainIndexDefault(request):
               'm_sensor':m_sensor,
               'm_zone':m_zone,
                 }
-        return render(request, 'scada_main.html',context) 
+        return render(request, 'fps_main.html',context) 
 
 
 @login_required(login_url='/accounts/login/?next=')
