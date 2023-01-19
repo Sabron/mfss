@@ -86,6 +86,7 @@ def MainIndexDefault(request):
             sensor_dict.update(sensor=sensor)
             sensor_dict.update(name=sensor.name)
             sensor_dict.update(value=sensor.value / sensor.ratio)
+            sensor_dict.update(max_value=sensor.max_value)
             sensor_dict.update(str_value=str_value)
             sensor_dict.update(critical_value=sensor.critical_value)
             sensor_dict.update(str_critical_value=str(sensor.critical_value).replace(',','.'))
