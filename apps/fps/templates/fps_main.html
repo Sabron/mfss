@@ -83,7 +83,6 @@
                                                         <tr>
                                                             <th style="width: 10px">id</th>
                                                             <th>Датчик</th>
-                                                            <th>Прогресс</th>
                                                             <th style="width: 40px">Показание</th>
                                                             <th style="width: 40px">МДЗ</th>
                                                         </tr>
@@ -93,13 +92,15 @@
                                                         {% if  sensor.zone == zone %} 
                                                         <tr>
                                                             <td>{{sensor.sensor.id}}</td>
-                                                            <td><a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a></td>
                                                             <td id="{{sensor.sensor.id}}_pecent">
-                                                                <div class="progress progress-xs progress-striped active">
-                                                                    <div class="progress-bar {{sensor.color}}" style="width: {{sensor.value}}%"></div>
-                                                                </div>
-
-                                                            </td>
+                                                                    <div class="progress-group">
+                                                                      <a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a>
+                                                                      <span class="float-right"><b>{{sensor.value}}</b>/{{sensor.max_value}}  {{sensor.unit}}</span>
+                                                                      <div class="progress progress-sm">
+                                                                        <div class="progress-bar {{sensor.color}}" style="width: {{sensor.str_value}}%"></div>
+                                                                      </div>
+                                                                    </div>
+                                                             </td>
                                                             <td id="{{sensor.sensor.id}}_value"><span class="badge {{sensor.color}}">{{sensor.value}} {{sensor.unit}}</span></td>
                                                             <td><span class="badge ">{{sensor.critical_value_from}} {{sensor.unit}}</span></td>
                                                         </tr>
@@ -213,8 +214,8 @@
             // dataType: 'text',
 			success: function (data) {
                 for (index = data.length - 1; index >= 0; --index) {
-					str_pecent = "<div class='progress progress-xs progress-striped active'><div class='progress-bar " + data[index].color + " 'style=width:" + Math.floor(data[index].pecent_value) + "%></div></div>";
-					$("#" + data[index].sensor_id + "_pecent").html(str_pecent)
+					//str_pecent = "<div class='progress progress-xs progress-striped active'><div class='progress-bar " + data[index].color + " 'style=width:" + Math.floor(data[index].pecent_value) + "%></div></div>";
+					//$("#" + data[index].sensor_id + "_pecent").html(str_pecent)
 
 					str_value = "<span class='badge " + data[index].color + "'>" + data[index].value + " " + data[index].unit + "</span>";
 					$("#" + data[index].sensor_id + "_value").html(str_value)

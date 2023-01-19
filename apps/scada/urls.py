@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^$', views_scada.MainIndex, name='MainIndex'),
     #url(r'^sensor/$', views_fps.SensorList, name='SensorList'),
     #url(r'sensor_ajax/$', views_fps.sensor_ajax, name='sensor_ajax'),
-    #url(r'ajax/$', views_fps.get_ajax, name='get_ajax'),
+    url(r'ajax/$', views_scada.get_ajax, name='get_ajax'),
     
     
     ]

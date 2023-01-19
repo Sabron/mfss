@@ -47,25 +47,14 @@ def get_ajax(request):
             sensor_list = ScadaSensor.objects.filter(active=True).all().order_by('name')
             m_sensor = []
             for sensor in sensor_list:
+                str_value=str(sensor.value ).replace(',','.')
                 sensor_dict = dict()
                 sensor_dict.update(sensor_id=sensor.id)
-                sensor_dict.update(value=sensor.value / sensor.ratio)
-                sensor_dict.update(critical_value=sensor.critical_value)
-                sensor_dict.update(unit=sensor.unit)
-                pecent = ((sensor.value / sensor.ratio) * 100) / sensor.critical_value
-                sensor_dict.update(pecent_value=pecent)
-                #sensor.critical_value
-                #color=0 зеленый
-                #color=1 желтый
-                #color=2 красный
-                color = 'bg-success'
-                if sensor.critical_type == 'max':
-                    if sensor.value / sensor.ratio >= sensor.critical_value:
-                        color = 'bg-danger'
-                else:
-                    if sensor.value / sensor.ratio <= sensor.critical_value:
-                        color = 'bg-danger'
-                sensor_dict.update(color=color)
+                sensor_dict.update(value=int(sensor.value))
+                #sensor_dict.update(sensor=sensor)
+                #sensor_dict.update(name=sensor.name)
+                
+                sensor_dict.update(str_value=str_value)
                 m_sensor.append(sensor_dict)
             return generalmodule.ReturnJson(200,m_sensor)
     except Exception as err:
@@ -85,16 +74,13 @@ def MainIndexDefault(request):
             sensor_dict.update(zone=sensor.zone)
             sensor_dict.update(sensor=sensor)
             sensor_dict.update(name=sensor.name)
-            sensor_dict.update(value=sensor.value)
+            sensor_dict.update(value=int(sensor.value))
             sensor_dict.update(str_value=str_value)
             m_sensor.append(sensor_dict)
-            if sensor.zone not in m_zone:
-                m_zone.append(sensor.zone)
         context = {
               'updatepage':True,
               'sensor_list':sensor_list,
               'm_sensor':m_sensor,
-              'm_zone':m_zone,
                 }
         return render(request, 'scada_main.html',context) 
 
