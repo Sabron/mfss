@@ -285,7 +285,7 @@ def tespp():
             value = sensor.value
             end_date=sensor.connect_time
             param = dict()
-            param.update(sensor_type='min')
+            param.update(sensor_type='sec')
             if param['sensor_type'] == 'sec':
                 strftime = "%H:%M:%S"
                 start_date = end_date - timedelta(seconds=30)
@@ -312,7 +312,7 @@ def tespp():
                     strftimeend = "%d.%m.%Y %H:%M:%S"
                     date_time = start_date + timedelta(seconds=i)
                     start_date_day = date_time
-                    end_date_day = date_time+ timedelta(milliseconds=1000)
+                    end_date_day = date_time+ timedelta(seconds=1000)
                 elif param['sensor_type'] == 'min':
                     strftimeend = "%d.%m.%Y %H:%M"
                     date_time = start_date + timedelta(minutes=i)
