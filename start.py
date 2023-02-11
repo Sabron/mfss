@@ -329,11 +329,14 @@ def tespp():
                 else:
                     value_date =9999999
                 #print(str(start_date_day)+ " : "+str(end_date_day))
+                sensor_dict.update(start_date_day = end_date_day)
                 result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).aggregate(Max('value'))
 
                 #result = sensor_links.filter(date_time__gt=start_date_day).all()
                 #print(result['value__max'])
                 sensor_dict.update(date_time = date_time.strftime(strftime))
+                
+                sensor_dict.update(result = result)
                 if result['value__max'] == None:
                     sensor_dict.update(value = value_old)
                 else:
