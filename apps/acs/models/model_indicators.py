@@ -6,6 +6,10 @@ from django.urls import reverse #Used to generate URLs by reversing the URL patt
 from .model_sensor import AcsSensor
 
 class AcsIndicators(models.Model):  # Показания датчиков
+
+
+    
+    
     """
     Модель справочника датчиков
     """
@@ -20,6 +24,7 @@ class AcsIndicators(models.Model):  # Показания датчиков
     value = models.FloatField(default=0.0,
         help_text="",
         verbose_name="Показание")
+    
 
     def getId(self):
         return self.id

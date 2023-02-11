@@ -76,7 +76,13 @@ def get_ajax(request):
 
 def MainIndexDefault(request):
      if request.method == "GET":
-        sensor_list = AcsSensor.objects.filter(active=True).all().order_by('name')
+        param=request.GET.dict()
+        type = 0
+        myquery =Q(active=True)
+        if 'type' in param:
+            type = param['type']
+            myquery &= Q(type=type)
+        sensor_list = AcsSensor.objects.filter(myquery).all().order_by('name')
         m_sensor = []
         m_zone = []
         for sensor in sensor_list:
@@ -117,6 +123,7 @@ def MainIndexDefault(request):
               'sensor_list':sensor_list,
               'm_sensor':m_sensor,
               'm_zone':m_zone,
+              'type':int(type),
                 }
         return render(request, 'acs_main.html',context) 
 

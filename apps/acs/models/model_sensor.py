@@ -8,6 +8,13 @@ from apps.catalog.models.model_zones import Zone
 class AcsSensor(models.Model):  # Датчики
     critical_type_list = (('max', 'Максимальный'),
         ('min', 'Минимальный'),)
+   
+    type_list = (
+        (0, '< Не определен >'),
+        (1, 'Датчик диоксида углерода (CO2)'),
+        (2, 'Датчик оксида (CO)'),
+        (3, 'Датчик метана (CH4)'),
+    )
 
     """
     Модель справочника датчиков
@@ -15,7 +22,12 @@ class AcsSensor(models.Model):  # Датчики
     zone = models.ForeignKey(Zone,
         on_delete=models.SET_NULL,
         null=True,
+        blank=True,
         verbose_name="Зона")
+    type = models.IntegerField(choices=type_list,
+           blank=True,
+           default=0,
+           verbose_name="Тип датчика") 
     tag = models.CharField(max_length=160,
         help_text="",
         default=" ",
@@ -94,6 +106,7 @@ class AcsSensor(models.Model):  # Датчики
         verbose_name_plural = u'датчики'
         indexes = [models.Index(fields=['tag',]),
             models.Index(fields=['name',]),
+            models.Index(fields=['type',]),
             models.Index(fields=['tag','name',]),]
 
 

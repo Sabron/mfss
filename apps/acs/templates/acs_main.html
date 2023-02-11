@@ -1,4 +1,4 @@
-{% extends "subsystem_base.html" %}
+{% extends "acs_default.html" %}
 {% load static %}
 {% load mysettings %}
 
@@ -8,7 +8,15 @@
 {% endblock header_link %}
 
  {% block info_title %}
-    <h5>Аэрогазовый контроль <h5>  
+  {% if  1 == type %}
+      <h5>Аэрогазовый контроль : Датчики диоксида углерода (CO2)<h5>  
+  {% elif  type == 2 %}
+       <h5>Аэрогазовый контроль : Датчики оксида (CO)  <h5>  
+  {% elif  type == 3 %}
+    <h5>Аэрогазовый контроль : Датчики метана (CH4) <h5>  
+  {% else%}
+    <h5>Аэрогазовый контроль<h5>  
+  {% endif %}
  {% endblock info_title %}
 
 {% block content %}
