@@ -285,7 +285,7 @@ def tespp():
             value = sensor.value
             end_date=sensor.connect_time
             param = dict()
-            param.update(sensor_type='sec')
+            param.update(sensor_type='min')
             if param['sensor_type'] == 'sec':
                 strftime = "%H:%M:%S"
                 start_date = end_date - timedelta(seconds=30)
@@ -313,22 +313,16 @@ def tespp():
                     date_time = start_date + timedelta(seconds=i)
                     start_date_day = date_time
                     end_date_day = date_time+ timedelta(seconds=1)
-                    result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).aggregate(Max('value'))
-                    result1 = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).all()
                 elif param['sensor_type'] == 'min':
                     strftimeend = "%d.%m.%Y %H:%M"
                     date_time = start_date + timedelta(minutes=i)
-                    start_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,0,0)
+                    start_date_day = date_time
                     end_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,date_time.minute,59,9999)
-                    result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).aggregate(Max('value'))
-                    result1 = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).all()
                 else:
                     strftimeend = "%d.%m.%Y %H"
                     date_time = start_date + timedelta(hours=i)
-                    start_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,0,0)
+                    start_date_day = date_time
                     end_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,59,59,9999)
-                    result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).aggregate(Max('value'))
-                    result1 = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).all()
 
                 sensor_dict = dict()
                 #sensor_dict.update(date_max=str(connect_time))
@@ -339,8 +333,7 @@ def tespp():
                     value_date =9999999
                 sensor_dict.update(start_date_day = start_date_day)
                 sensor_dict.update(end_date_day = end_date_day)
-                #result1 = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).all()
-                #result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).aggregate(Max('value'))
+                result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).aggregate(Max('value'))
 
                 #result = sensor_links.filter(date_time__gt=start_date_day).all()
                 #print(result1)
