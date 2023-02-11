@@ -277,13 +277,39 @@ def upload_code_bolid():
 
 
 def tespp():
-     sensor = AcsSensor.objects.filter(id=18).first()
+     sensor = AcsSensor.objects.filter(id=9).first()
+
      end_date=datetime.now()
-     start_date = end_date - timedelta(day=300)
+     start_date = end_date - timedelta(hours=300000)
      print(start_date)
-     sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('-date_time').order_by('-id')
-     for indicator in sensor_links:
-         print(indicator.id)
+     sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('date_time').order_by('id')
+     indicator_last = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time').order_by('id').first()
+     value_last =indicator_last.value / indicator_last.sensor.ratio
+     strftimeend = "%d.%m.%Y %H"
+     add_true = True
+     m_sensor = []
+     value_old = value_last
+     for i in range(30):
+         date_time = start_date + timedelta(hours=i)
+         print(date_time.strftime("%d.%m.%Y %H"))
+         sensor_dict = dict()
+         for indicator in sensor_links:
+              data = indicator.date_time.strftime("%d.%m.%Y %H")
+              if data == date_time:
+                value = indicator.value / indicator.sensor.ratio
+                sensor_dict.update(date_time = data)
+                sensor_dict.update(value = value)
+                add_true = False
+                value_old = value
+                break
+         if add_true:
+            sensor_dict.update(date_time = date_time)
+            sensor_dict.update(value = value_old)
+          
+         m_sensor.append(sensor_dict)
+     #print(sensor_links.count())
+     #for indicator in sensor_links:
+     #    print(indicator.date_time)
 
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
