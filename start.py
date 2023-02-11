@@ -279,9 +279,12 @@ def upload_code_bolid():
 def tespp():
      sensor = AcsSensor.objects.filter(id=18).first()
      end_date=datetime.now()
-     start_date = end_date - timedelta(seconds=30)
-     sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('-date_time')
-     print(sensor_links.count())
+     start_date = end_date - timedelta(day=300)
+     print(start_date)
+     sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('-date_time').order_by('-id')
+     for indicator in sensor_links:
+         print(indicator.id)
+
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #print(sensor_list)
