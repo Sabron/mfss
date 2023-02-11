@@ -304,6 +304,9 @@ def tespp():
             m_sensor = []
             value_old = value_last
             print(sensor_links.count())
+            
+            for link in sensor_links:
+                print(link.date_time +':'+link.value)
             for i in range(31):
                 if param['sensor_type'] == 'sec':
                     strftimeend = "%d.%m.%Y %H:%M:%S"
@@ -340,7 +343,7 @@ def tespp():
                 #result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).aggregate(Max('value'))
 
                 #result = sensor_links.filter(date_time__gt=start_date_day).all()
-                print(result1)
+                #print(result1)
                 sensor_dict.update(date_time = date_time.strftime(strftime))
                 
                 sensor_dict.update(result = result)
