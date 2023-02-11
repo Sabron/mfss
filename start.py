@@ -278,6 +278,7 @@ def upload_code_bolid():
 
 def tespp():
             sensor = AcsSensor.objects.filter(id=18).first()
+            critical_type = sensor.critical_type
             connect_time = sensor.connect_time
             value = sensor.value
             end_date=sensor.connect_time
@@ -314,21 +315,33 @@ def tespp():
                 sensor_dict = dict()
                 sensor_dict.update(date_max=str(connect_time))
                 add_true = True
+                if critical_type =="max":
+                    value_date ==0
+                else:
+                    value_date ==9999999
                 for indicator in sensor_links:
-                    data = indicator.date_time.strftime(strftimeend)
-                    #print(data)
+                    indicator_date_time = indicator.date_time
+                    data = indicator_date_time.strftime(strftimeend)
                     if data == date_time.strftime(strftimeend):
                         value = indicator.value / indicator.sensor.ratio
-                        sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
-                        sensor_dict.update(value = value)
-                        sensor_dict.update(id = indicator.id)
+                        value_date = max(value_date,value)
+                        #value = indicator.value / indicator.sensor.ratio
+                        #sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
+                        #sensor_dict.update(value = value)
+                        #sensor_dict.update(id = indicator.id)
                         add_true = False
-                        value_old = value
-                        break
+                        #value_old = value
+                        #break
+
                 if add_true:
                     sensor_dict.update(date_time = date_time.strftime(strftime))
                     sensor_dict.update(value = value_old)
                     sensor_dict.update(id = -1)
+                else:
+                    sensor_dict.update(date_time = indicator_date_time.strftime(strftime))
+                    sensor_dict.update(value = value_date)
+                    sensor_dict.update(id = -1)
+
                 m_sensor.append(sensor_dict)
             for sensor in m_sensor:
                 print(sensor)
