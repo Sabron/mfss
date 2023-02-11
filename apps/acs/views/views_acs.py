@@ -196,6 +196,7 @@ def sensor_ajax(request):
                     date_time = start_date + timedelta(hours=i)
                 sensor_dict = dict()
                 sensor_dict.update(date_max=str(connect_time))
+                add_true = True
                 for indicator in sensor_links:
                     data = indicator.date_time.strftime(strftimeend)
                     if data == date_time.strftime(strftimeend):
@@ -378,7 +379,6 @@ def sensor_ajax_1(request):
                     if date_max < sensor.date_time:
                         date_max = sensor.date_time
                 data = sensor.date_time.strftime(strftime)
-                print(sensor.date_time)
                 if data in data_list:
                     continue;
                 data_list.append(data)
