@@ -22,6 +22,7 @@ from django.core.files.base import ContentFile
 from django.core.files import File
 from django.conf import settings
 from django.db.models import Sum
+from django.db.models import Max,Min
 
 from apps.ops.models.model_mfsb import Mfsb
 from apps.ops.models.model_mfsb_skada import MfsbSkada
@@ -278,7 +279,7 @@ def upload_code_bolid():
 
 
 def tespp():
-            sensor = AcsSensor.objects.filter(id=9).first()
+            sensor = AcsSensor.objects.filter(id=18).first()
             critical_type = sensor.critical_type
             connect_time = sensor.connect_time
             value = sensor.value
@@ -293,7 +294,7 @@ def tespp():
                 start_date = end_date - timedelta(minutes=30)
             else:
                 strftime = "%H:00"
-                start_date = end_date - timedelta(hours=300000)
+                start_date = end_date - timedelta(hours=30)
             print(str(start_date)+':'+str(end_date))
             sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('date_time').order_by('id')
             indicator_last = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time').first()
@@ -307,12 +308,19 @@ def tespp():
                 if param['sensor_type'] == 'sec':
                     strftimeend = "%d.%m.%Y %H:%M:%S"
                     date_time = start_date + timedelta(seconds=i)
+                    start_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,date_time.minute,date_time.second)
+                    end_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,date_time.minute,date_time.second)
                 elif param['sensor_type'] == 'min':
                     strftimeend = "%d.%m.%Y %H:%M"
                     date_time = start_date + timedelta(minutes=i)
+                    start_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,0,0)
+                    end_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,date_time.minute,59)
                 else:
                     strftimeend = "%d.%m.%Y %H"
                     date_time = start_date + timedelta(hours=i)
+                    start_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,0,0)
+                    end_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,59,59)
+
                 sensor_dict = dict()
                 sensor_dict.update(date_max=str(connect_time))
                 add_true = True
@@ -320,12 +328,22 @@ def tespp():
                     value_date =0
                 else:
                     value_date =9999999
-                start_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hours,0,0)
-                end_date_day = datetime(date_time.year, date_time.month, date_time.day,23,59,59)
-                #result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).all()
-                result = sensor_links.filter(date_time__gt=start_date_day).all()
-                print(str(start_date_day)+ " : "+str(end_date_day))
-                print(result.count())
+                #print(str(start_date_day)+ " : "+str(end_date_day))
+                result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).aggregate(Max('value'))
+
+                #result = sensor_links.filter(date_time__gt=start_date_day).all()
+                #print(result['value__max'])
+                sensor_dict.update(date_time = date_time.strftime(strftime))
+                if result['value__max'] == None:
+                    sensor_dict.update(value = value_old)
+                else:
+                    sensor_dict.update(value = result['value__max'])
+
+                #nax_rezult = result.aggregate(Max('value'))
+                
+                #print(result.count())
+                #print(nax_rezult)
+                #print(connect_time)
                 #for indicator in sensor_links:
                 #    indicator_date_time = indicator.date_time
                 #    if indicator_date_time >date_time:
@@ -355,8 +373,8 @@ def tespp():
                 #    sensor_dict.update(id = -1)
 
                 m_sensor.append(sensor_dict)
-            #for sensor in m_sensor:
-                #print(sensor)
+            for sensor in m_sensor:
+                print(sensor)
             #print(str(sensor.date_time)+' : '+str(sensor.value))
      #print(sensor_links.count())
      #for indicator in sensor_links:
