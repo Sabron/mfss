@@ -280,7 +280,7 @@ def tespp():
      sensor = AcsSensor.objects.filter(id=9).first()
 
      end_date=datetime.now()
-     start_date = end_date - timedelta(hours=300000)
+     start_date = end_date - timedelta(hours=30)
      print(start_date)
      sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('date_time').order_by('id')
      indicator_last = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time').order_by('id').first()
@@ -295,6 +295,7 @@ def tespp():
          sensor_dict = dict()
          for indicator in sensor_links:
               data = indicator.date_time.strftime("%d.%m.%Y %H")
+              print(data)
               if data == date_time:
                 value = indicator.value / indicator.sensor.ratio
                 sensor_dict.update(date_time = data)
