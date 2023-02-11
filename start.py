@@ -290,5 +290,5 @@ if __name__ == "__main__":
     #test_Mfsb2()
     #upload_code_bolid()
     #DataMfsbSkada.objects.all().delete()
-    DataMfsb = DataMfsb.objects.all()
+    DataMfsb = AcsIndicators.objects.all()
     print(DataMfsb.count())
