@@ -279,7 +279,7 @@ def upload_code_bolid():
 
 
 def tespp():
-            sensor = AcsSensor.objects.filter(id=9).first()
+            sensor = AcsSensor.objects.filter(id=18).first()
             critical_type = sensor.critical_type
             connect_time = sensor.connect_time
             value = sensor.value
@@ -337,7 +337,8 @@ def tespp():
                 if result['value__max'] == None:
                     sensor_dict.update(value = value_old)
                 else:
-                    sensor_dict.update(value = result['value__max'])
+                    value_old = result['value__max']/sensor.ratio
+                    sensor_dict.update(value = result['value__max']/sensor.ratio)
 
                 #nax_rezult = result.aggregate(Max('value'))
                 
