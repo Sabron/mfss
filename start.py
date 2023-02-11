@@ -316,7 +316,7 @@ def tespp():
                 sensor_dict.update(date_max=str(connect_time))
                 add_true = True
                 if critical_type =="max":
-                    value_date ==0
+                    value_date =0
                 else:
                     value_date =9999999
                 for indicator in sensor_links:
@@ -324,7 +324,10 @@ def tespp():
                     data = indicator_date_time.strftime(strftimeend)
                     if data == date_time.strftime(strftimeend):
                         value = indicator.value / indicator.sensor.ratio
-                        value_date = max(value_date,value)
+                        if critical_type =="max":
+                            value_date = max(value_date,value)
+                        else:
+                            value_date = min(value_date,value)
                         #value = indicator.value / indicator.sensor.ratio
                         #sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
                         #sensor_dict.update(value = value)
