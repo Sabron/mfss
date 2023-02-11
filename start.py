@@ -320,9 +320,9 @@ def tespp():
                 else:
                     value_date =9999999
                 for indicator in sensor_links:
-                    if data >date_time:
-                        break
                     indicator_date_time = indicator.date_time
+                    if indicator_date_time >date_time:
+                        break
                     data = indicator_date_time.strftime(strftimeend)
                     
                     if data == date_time.strftime(strftimeend):
