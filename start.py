@@ -324,7 +324,6 @@ def tespp():
                     if indicator_date_time >date_time:
                         break
                     data = indicator_date_time.strftime(strftimeend)
-                    print(data)
                     if data == date_time.strftime(strftimeend):
                         value = indicator.value / indicator.sensor.ratio
                         if critical_type =="max":
