@@ -184,6 +184,8 @@ const myChart = new Chart(ctx, {
                     start = 0
                     length = data.length-1
                 console.log(length) 
+                console.log(myChart.data.labels.length) 
+                console.log(myChart.data.datasets[0].data.length) 
                 for (index = 0; index <= length; ++index) {
                     start = start + 1
                         myChart.data.labels.push(data[index].date_time);
