@@ -283,7 +283,7 @@ def tespp():
             value = sensor.value
             end_date=sensor.connect_time
             param = dict()
-            param.update(sensor_type='sec')
+            param.update(sensor_type='hour')
             if param['sensor_type'] == 'sec':
                 strftime = "%H:%M:%S"
                 start_date = end_date - timedelta(seconds=30)
