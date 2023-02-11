@@ -188,10 +188,27 @@ def sensor_ajax(request):
                 sensor_dict = dict()
                 sensor_dict.update(date_max=str(connect_time))
                 if i<count:
-                    indikator = sensor_list[i]
-                    value=indikator.value / indikator.sensor.ratio
-                    sensor_dict.update(date_time=indikator.date_time.strftime(strftime))
-                    sensor_dict.update(value=value)
+                    if param['sensor_type'] == 'sec':
+                        indicator = sensor_list[i]
+                        value = indicator.value / indicator.sensor.ratio
+                        sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
+                        sensor_dict.update(value = value)
+                    elif param['sensor_type'] == 'min':
+                        date_time = end_date - timedelta(minutes=i)
+                        for indicator in sensor_links:
+                            if indicator.date_time.minute == date_time.minute:
+                                value = indicator.value / indicator.sensor.ratio
+                                sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
+                                sensor_dict.update(value = value)
+                                break;
+                    else:
+                        date_time = end_date - timedelta(minutes=i)
+                        for indicator in sensor_links:
+                            if indicator.date_time.hour == date_time.hour:
+                                value = indicator.value / indicator.sensor.ratio
+                                sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
+                                sensor_dict.update(value = value)
+                                break;
                 else:
                     if param['sensor_type'] == 'sec':
                         date_time = end_date - timedelta(seconds=i)
@@ -200,8 +217,8 @@ def sensor_ajax(request):
                     else:
                         date_time = end_date - timedelta(hours=i)
                     print(date_time)
-                    sensor_dict.update(date_time=date_time.strftime(strftime))
-                    sensor_dict.update(value=value_last)
+                    sensor_dict.update(date_time = date_time.strftime(strftime))
+                    sensor_dict.update(value = value_last)
                 m_sensor.append(sensor_dict)
             return generalmodule.ReturnJson(200,m_sensor)
             #strftime = "%H:%M:%S"
