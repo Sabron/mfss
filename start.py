@@ -322,7 +322,7 @@ def tespp():
                     end_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,59,59)
 
                 sensor_dict = dict()
-                sensor_dict.update(date_max=str(connect_time))
+                #sensor_dict.update(date_max=str(connect_time))
                 add_true = True
                 if critical_type =="max":
                     value_date =0
