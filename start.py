@@ -306,7 +306,7 @@ def tespp():
             print(sensor_links.count())
             
             for link in sensor_links:
-                print(link.date_time +':'+link.value)
+                print(str(link.date_time) +':'+str(link.value))
             for i in range(31):
                 if param['sensor_type'] == 'sec':
                     strftimeend = "%d.%m.%Y %H:%M:%S"
