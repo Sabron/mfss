@@ -44,7 +44,13 @@ def float_range(A, L=None, D=None):
 def get_ajax(request):
     try:
         if request.method == "POST":
-            sensor_list = AcsSensor.objects.filter(active=True).all().order_by('name')
+            param=request.GET.dict()
+            type = 0
+            myquery =Q(active=True)
+            if 'type' in param:
+                type = param['type']
+                myquery &= Q(type=type)
+            sensor_list = AcsSensor.objects.filter(myquery).all().order_by('name')
             m_sensor = []
             for sensor in sensor_list:
                 sensor_dict = dict()

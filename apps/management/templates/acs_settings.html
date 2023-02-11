@@ -30,7 +30,7 @@
         <input id="cmd" type="hidden" value="None" name="cmd">
     <div class="container-fluid ">
 <div class="row">
-          <div class="col-md-3">
+          <div class="col-md-2">
 
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
@@ -90,7 +90,7 @@
             <!-- /.card -->
           </div>
           <!-- /.col -->
-          <div class="col-md-9">
+          <div class="col-md-10">
             <div class="card card-primary card-outline card-outline-tabs">
               <div class="card-header p-0 border-bottom-0">
                 <ul class="nav nav-tabs">
@@ -144,9 +144,9 @@
                                             <tr role="row">
                                                 <th> </th>
                                                 <th>Зона</th>
-                                                <th>ТЭГ</th>
                                                 <th>Наименование</th>
-                                                <th>Ед. измерения</th>
+                                                <th>Тип датчика</th>
+                                                <th>Ед.</th>
                                                 <th>Авария</th>
                                                 <th>Максимальное</th>
                                                 <th>V</th>
@@ -191,16 +191,6 @@
                                                 
                                                 </td>
                                                 <td>
-                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
-                                                        {% csrf_token %}
-                                                        <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
-                                                            {{ catalog.tag }}
-                                                        </a>
-                                                        <input type="hidden" value="{{catalog.id}}" name="id">
-                                                    </form>                                                
-                                                
-                                                </td>
-                                                <td>
                                                     <form action="./?module=acs&t=param&cmd=edit" id="frm_contact_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_contact_{{catalog.id}}').submit(); return false;">
@@ -210,6 +200,25 @@
                                                     </form>                                                
                                                 
                                                 </td>
+                                                <td>
+                                                    <form action="./?module=acs&t=param&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                        {% csrf_token %}
+                                                        <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
+                                                              {% if  1 == catalog.type %}
+                                                                  <h6>Диоксида углерода (CO2)<h6>  
+                                                              {% elif  catalog.type == 2 %}
+                                                                   <h6>Оксида (CO)  <h6>  
+                                                              {% elif  catalog.type == 3 %}
+                                                                <h6>Метана (CH4) <h6>  
+                                                              {% else%}
+                                                                <h6 style="color:red">< не определен ><h6>  
+                                                              {% endif %}
+                                                        </a>
+                                                        <input type="hidden" value="{{catalog.id}}" name="id">
+                                                    </form>                                                
+                                                
+                                                </td>
+
                                                 <td>
                                                     <form action="./?module=acs&t=param&cmd=edit" id="frm_contact_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
                                                         {% csrf_token %}

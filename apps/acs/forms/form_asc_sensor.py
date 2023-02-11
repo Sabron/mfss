@@ -8,8 +8,16 @@ class AcsSensorForm(forms.ModelForm):
         ('max', 'Максимальный'),
         ('min', 'Минимальный'),
     )
+    type_list = (
+        (0, '< Не определен >'),
+        (1, 'Датчик диоксида углерода (CO2)'),
+        (2, 'Датчик оксида (CO)'),
+        (3, 'Датчик метана (CH4)'),
+    )
+
     name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','autofocus':'','placeholder':'Наименование'})) 
     critical_value = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
+    type = forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control select2','autofocus':''}), choices=type_list)
     ratio = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
     max_value = forms.FloatField(widget=forms.TextInput(attrs={'class':'form-control','type':'number','step':'0.1','autofocus':'',})) 
     critical_type = forms.ChoiceField(
@@ -38,6 +46,6 @@ class AcsSensorForm(forms.ModelForm):
                   'ratio','scale','norm_value_from',
                   'norm_value_to','danger_value_from',
                   'danger_value_to','critical_value_from',
-                  'critical_value_to',)
+                  'critical_value_to','type',)
 
 
