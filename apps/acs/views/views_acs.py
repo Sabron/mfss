@@ -178,37 +178,38 @@ def sensor_ajax(request):
                 start_date = end_date - timedelta(hours=30)
             
             sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('date_time').order_by('id')
-            indicator_last = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time').first()
-            value_last =indicator_last.value / indicator_last.sensor.ratio
             strftimeend = "%d.%m.%Y %H"
-            add_true = True
             m_sensor = []
-            value_old = value_last
+            value_old = 0
             for i in range(31):
                 if param['sensor_type'] == 'sec':
                     strftimeend = "%d.%m.%Y %H:%M:%S"
                     date_time = start_date + timedelta(seconds=i)
+                    start_date_day = date_time
+                    end_date_day = date_time+ timedelta(milliseconds=1000)
                 elif param['sensor_type'] == 'min':
                     strftimeend = "%d.%m.%Y %H:%M"
                     date_time = start_date + timedelta(minutes=i)
+                    start_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,date_time.minute,0)
+                    end_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,date_time.minute,59,9999)
                 else:
                     strftimeend = "%d.%m.%Y %H"
                     date_time = start_date + timedelta(hours=i)
+                    start_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,0,0)
+                    end_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,59,59,9999)
                 sensor_dict = dict()
                 sensor_dict.update(date_max=str(connect_time))
-                add_true = True
-                for indicator in sensor_links:
-                    data = indicator.date_time.strftime(strftimeend)
-                    if data == date_time.strftime(strftimeend):
-                        value = indicator.value / indicator.sensor.ratio
-                        sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
-                        sensor_dict.update(value = value)
-                        add_true = False
-                        value_old = value
-                        break
-                if add_true:
-                    sensor_dict.update(date_time = date_time.strftime(strftime))
+                if critical_type =="max":
+                    value_date =0
+                else:
+                    value_date =9999999
+                result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).aggregate(Max('value'))
+                sensor_dict.update(date_time = date_time.strftime(strftime))
+                if result['value__max'] == None:
                     sensor_dict.update(value = value_old)
+                else:
+                    value_old = result['value__max']/sensor.ratio
+                    sensor_dict.update(value = result['value__max']/sensor.ratio)
                 m_sensor.append(sensor_dict)
             return generalmodule.ReturnJson(200,m_sensor)
             #for i in range(30):
