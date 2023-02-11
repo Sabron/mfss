@@ -280,7 +280,7 @@ def tespp():
             sensor = AcsSensor.objects.filter(id=18).first()
             connect_time = sensor.connect_time
             value = sensor.value
-            end_date=datetime.now()
+            end_date=sensor.connect_time
             param = dict()
             param.update(sensor_type='sec')
             if param['sensor_type'] == 'sec':

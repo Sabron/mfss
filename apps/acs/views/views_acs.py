@@ -166,7 +166,7 @@ def sensor_ajax(request):
             sensor = AcsSensor.objects.filter(id=param['id']).first()
             connect_time = sensor.connect_time
             value = sensor.value
-            end_date=datetime.now()
+            end_date=sensor.connect_time
             if param['sensor_type'] == 'sec':
                 strftime = "%H:%M:%S"
                 start_date = end_date - timedelta(seconds=30)
