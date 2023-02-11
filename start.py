@@ -295,7 +295,7 @@ def tespp():
          sensor_dict = dict()
          for indicator in sensor_links:
               data = indicator.date_time.strftime("%d.%m.%Y %H")
-              if data == date_time:
+              if data == date_time.strftime("%d.%m.%Y %H"):
                 value = indicator.value / indicator.sensor.ratio
                 print(str(data) + ' - ' + str(value))
                 sensor_dict.update(date_time = data)

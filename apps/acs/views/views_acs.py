@@ -198,7 +198,7 @@ def sensor_ajax(request):
                 sensor_dict.update(date_max=str(connect_time))
                 for indicator in sensor_links:
                     data = indicator.date_time.strftime(strftimeend)
-                    if data == date_time:
+                    if data == date_time.strftime(strftimeend):
                         value = indicator.value / indicator.sensor.ratio
                         sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
                         sensor_dict.update(value = value)
