@@ -318,16 +318,17 @@ def tespp():
                     data = indicator.date_time.strftime(strftimeend)
                     #print(data)
                     if data == date_time.strftime(strftimeend):
-                        
                         value = indicator.value / indicator.sensor.ratio
                         sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
                         sensor_dict.update(value = value)
+                        sensor_dict.update(id = indicator.id)
                         add_true = False
                         value_old = value
                         break
                 if add_true:
                     sensor_dict.update(date_time = date_time.strftime(strftime))
                     sensor_dict.update(value = value_last)
+                    sensor_dict.update(id = -1)
                 m_sensor.append(sensor_dict)
             for sensor in m_sensor:
                 print(sensor)
