@@ -277,7 +277,7 @@ def upload_code_bolid():
 
 
 def tespp():
-            sensor = AcsSensor.objects.filter(id=11).first()
+            sensor = AcsSensor.objects.filter(id=18).first()
             connect_time = sensor.connect_time
             value = sensor.value
             end_date=datetime.now()
