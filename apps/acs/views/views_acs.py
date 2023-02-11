@@ -181,34 +181,44 @@ def sensor_ajax(request):
             indicator_last = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time').first()
             value_last =indicator_last.value / indicator_last.sensor.ratio
             sensor_list = list(sensor_links)
-            count = sensor_links.count()
+            if param['sensor_type'] == 'sec':
+                data_list =list()
+                sensor_data = list()
+                for indicator in sensor_links:
+                    data = indicator.date_time.strftime("%d.%m.%Y %H:%M:%S")
+                    if data in data_list:
+                        continue;
+                    data_list.append(data)
+                    sensor_data.append(indicator)
+            elif param['sensor_type'] == 'min':
+                data_list =list()
+                sensor_data = list()
+                for indicator in sensor_links:
+                    data = indicator.date_time.strftime("%d.%m.%Y %H:%M")
+                    if data in data_list:
+                        continue;
+                    data_list.append(data)
+                    sensor_data.append(indicator)
+            else:
+                data_list =list()
+                sensor_data = list()
+                for indicator in sensor_links:
+                    data = indicator.date_time.strftime("%d.%m.%Y %H")
+                    if data in data_list:
+                        continue;
+                    data_list.append(data)
+                    sensor_data.append(indicator)
             m_sensor = []
             data_list =list()
+            count = len(sensor_data)
             for i in range(30):
                 sensor_dict = dict()
                 sensor_dict.update(date_max=str(connect_time))
                 if i<count:
-                    if param['sensor_type'] == 'sec':
-                        indicator = sensor_list[i]
+                        indicator = sensor_data[i]
                         value = indicator.value / indicator.sensor.ratio
                         sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
                         sensor_dict.update(value = value)
-                    elif param['sensor_type'] == 'min':
-                        date_time = end_date - timedelta(minutes=i)
-                        for indicator in sensor_links:
-                            if indicator.date_time.minute == date_time.minute:
-                                value = indicator.value / indicator.sensor.ratio
-                                sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
-                                sensor_dict.update(value = value)
-                                break;
-                    else:
-                        date_time = end_date - timedelta(minutes=i)
-                        for indicator in sensor_links:
-                            if indicator.date_time.hour == date_time.hour:
-                                value = indicator.value / indicator.sensor.ratio
-                                sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
-                                sensor_dict.update(value = value)
-                                break;
                 else:
                     if param['sensor_type'] == 'sec':
                         date_time = end_date - timedelta(seconds=i)
@@ -216,7 +226,6 @@ def sensor_ajax(request):
                         date_time = end_date - timedelta(minutes=i)
                     else:
                         date_time = end_date - timedelta(hours=i)
-                    print(date_time)
                     sensor_dict.update(date_time = date_time.strftime(strftime))
                     sensor_dict.update(value = value_last)
                 m_sensor.append(sensor_dict)
