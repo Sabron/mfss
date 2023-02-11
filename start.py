@@ -278,7 +278,7 @@ def upload_code_bolid():
 
 def tespp():
      sensor = AcsSensor.objects.filter(id=19).first()
-
+     critical_type_list = AcsSensor.critical_type
      end_date=datetime.now()
      start_date = end_date - timedelta(hours=30)
      print(start_date)
@@ -288,24 +288,34 @@ def tespp():
      strftimeend = "%d.%m.%Y %H"
      add_true = True
      m_sensor = []
-     value_old = value_last
+     
      for i in range(30):
          date_time = start_date + timedelta(hours=i)
          print(date_time.strftime("%d.%m.%Y %H"))
          sensor_dict = dict()
+         value_old = 0
          for indicator in sensor_links:
+              if indicator.date_time>date_time:
+                  break
               data = indicator.date_time.strftime("%d.%m.%Y %H")
               if data == date_time.strftime("%d.%m.%Y %H"):
                 value = indicator.value / indicator.sensor.ratio
-                print(str(data) + ' - ' + str(value))
-                sensor_dict.update(date_time = data)
-                sensor_dict.update(value = value)
+                if critical_type_list =='max':
+                    value_old = max(value_old,value)
+                else:
+                    value_old = min(value_old,value)
+                #print(str(data) + ' - ' + str(value))
+                #sensor_dict.update(date_time = data)
+                #sensor_dict.update(value = value)
                 add_true = False
-                value_old = value
-                break
+                #value_old = value
+                #break
          if add_true:
             sensor_dict.update(date_time = date_time)
-            sensor_dict.update(value = value_old)
+            sensor_dict.update(value = value_last)
+         else:
+            sensor_dict.update(date_time = data)
+            sensor_dict.update(value = value_last)
           
          m_sensor.append(sensor_dict)
      #print(sensor_links.count())
