@@ -275,6 +275,30 @@ def upload_code_bolid():
                 code=code,
                 name=name)
 
+
+def tespp():
+     sensor = AcsSensor.objects.filter(id=9).first()
+     end_date=datetime.now()
+     start_date = end_date - timedelta(seconds=30)
+     print(start_date)
+     sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('-date_time')
+     indicator_last = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time').first()
+     print(indicator_last.date_time)
+     value_last =indicator_last.value / indicator_last.sensor.ratio
+     sensor_list = list(sensor_links)
+     count = sensor_links.count()
+     for i in range(30):
+         if i<count:
+            indikator = sensor_list[i]
+            value=indikator.value / indikator.sensor.ratio
+            print(str(indikator.date_time)+ ' '+str(value))
+         else:
+
+            date_time = end_date - timedelta(seconds=1+i)
+            print(str(date_time)+ ' '+str(value_last))
+     #for indikator in sensor_list:
+     #   value=sensor.value / indikator.sensor.ratio
+     #   print(str(indikator.date_time)+ ' '+str(value))
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #print(sensor_list)
@@ -290,5 +314,5 @@ if __name__ == "__main__":
     #test_Mfsb2()
     #upload_code_bolid()
     #DataMfsbSkada.objects.all().delete()
-    DataMfsb = AcsIndicators.objects.all()
-    print(DataMfsb.count())
+    tespp()
+    

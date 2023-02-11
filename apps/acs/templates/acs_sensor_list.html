@@ -13,7 +13,8 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>{{sensor.name}}</h1>
+                <h1 id="sensorname">{{sensor.name}}</h1>
+                <h6 id="maxdate"style="color:darkcyan"></h6>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -57,42 +58,7 @@
               </div>
               <!-- /.card-body -->
             </div>
-            <!-- /.card -->
-       <!-- <div class="card ">
-              <div class="card-header">
-                <h3 class="card-title">Скачать показания </h3>
-                <div class="card-tools">
-
-                </div>
-                </div> 
-                  <form id="quickForm"class="form-horizontal">
-                      {% csrf_token %}
-                <div class="card-body"> 
-                    <div class="form-group row">
-                    <label for="id_DataStart" class="col-sm-2 col-form-label">Начало периода</label>
-                    <div class="col-sm-10">
-                      <input name="DataStart" class="datepicker form-control" id="id_DataStart" type="date" placeholder="Дата начала" value="{{form.DataStart}}" >
-                    </div>
-                    </div>
-                    <div class="form-group row">
-                    <label for="id_DataStop" class="col-sm-2 col-form-label">Конец периода</label>
-                    <div class="col-sm-10">
-                      <input name="DataStop" class="datepicker form-control" id="id_DataStop"   type="date" placeholder="Дата конца" value="{{form.DataStop}}">
-                    </div>
-                    </div>
-                    <div id="reportPanelBody">
-                    </div>
-                </div>
-                      </form>
-                <div class="card-footer">
-                    
-                  <button onclick="reportdownload()" class="btn btn-primary">Скачать</button>
-                </div>
-                     
-        </div>-->
-            <!-- /.card -->
-
-     </div>
+       </div>
     <div class="col-md-6">
             <div class="card">
               <div class="card-header">
@@ -179,6 +145,24 @@ const myChart = new Chart(ctx, {
     }
 });
 
+    function intime(d) {
+    var day = d.getDate();
+    var hrs = d.getHours();
+    var min = d.getMinutes();
+    var sec = d.getSeconds();
+
+    var mnt = new Array("января", "февраля", "марта", "апреля", "мая",
+    "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря");
+
+    if (day <= 9) day="0" + day;
+    if (hrs <= 9) hrs="0" + hrs;
+    if (min <=9 ) min="0" + min;
+    if (sec <= 9) sec="0" + sec;
+
+    return "Дата последнего показания : " + hrs + ":" + min + ":" + sec + "&nbsp;&nbsp;&nbsp;" +
+    day + " " + mnt[d.getMonth()] + " " + d.getFullYear() + " г."
+    }
+
 		function show()
 		{
          myChart.data.labels=[]
@@ -199,11 +183,13 @@ const myChart = new Chart(ctx, {
                      str_table = ''
                     start = 0
                     length = data.length-1
+                console.log(length) 
                 for (index = length; index >= 0; --index) {
                     start = start + 1
                         myChart.data.labels.push(data[index].date_time);
                         myChart.data.datasets[0].data.push(data[index].value);
                         str_table = str_table + '<tr><td>' + (data.length-index) + '.</td><td>' + data[length-index].date_time + '</td><td>' + data[length-index].value + ' ({{sensor.unit}})</td></tr>'
+                        $("#maxdate").html(intime(new Date(data[index].date_max)));
                 }
 
                 myChart.update();

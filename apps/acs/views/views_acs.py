@@ -164,6 +164,118 @@ def sensor_ajax(request):
             sensor_dict = dict()
             param = request.POST.dict()
             sensor = AcsSensor.objects.filter(id=param['id']).first()
+            connect_time = sensor.connect_time
+            value = sensor.value
+            end_date=datetime.now()
+            if param['sensor_type'] == 'sec':
+                strftime = "%H:%M:%S"
+                start_date = end_date - timedelta(seconds=30)
+            elif param['sensor_type'] == 'min':
+                strftime = "%H:%M"
+                start_date = end_date - timedelta(minutes=30)
+            else:
+                strftime = "%H:00"
+                start_date = end_date - timedelta(hours=30)
+            
+            sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('-date_time')
+            indicator_last = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time').first()
+            value_last =indicator_last.value / indicator_last.sensor.ratio
+            sensor_list = list(sensor_links)
+            count = sensor_links.count()
+            m_sensor = []
+            data_list =list()
+            for i in range(30):
+                sensor_dict = dict()
+                sensor_dict.update(date_max=str(connect_time))
+                if i<count:
+                    indikator = sensor_list[i]
+                    value=indikator.value / indikator.sensor.ratio
+                    sensor_dict.update(date_time=indikator.date_time.strftime(strftime))
+                    sensor_dict.update(value=value)
+                else:
+                    if param['sensor_type'] == 'sec':
+                        date_time = end_date - timedelta(seconds=i)
+                    elif param['sensor_type'] == 'min':
+                        date_time = end_date - timedelta(minutes=i)
+                    else:
+                        date_time = end_date - timedelta(hours=i)
+                    print(date_time)
+                    sensor_dict.update(date_time=date_time.strftime(strftime))
+                    sensor_dict.update(value=value_last)
+                m_sensor.append(sensor_dict)
+            return generalmodule.ReturnJson(200,m_sensor)
+            #strftime = "%H:%M:%S"
+            #if param['sensor_type'] == 'sec':
+            #    strftime = "%H:%M:%S"
+            #    sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:100]
+                #sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
+                #        date_value=TruncSecond('date_time')).values('date_time', 'date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
+            #elif param['sensor_type'] == 'min':
+            #    strftime = "%H:%M"
+            #    sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:3600]
+                #sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
+                #        date_value=TruncMinute('date_time')).values('date_time','date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
+            #else:
+            #    strftime = "%H:00"
+            #    sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:120000]
+                #sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
+                #        date_value=TruncHour('date_time')).values('date_value', 'date_value','value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
+                #sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')
+                #m_sensor = []
+                #data_list =list()
+                #count = 0
+                #for sensor in sensor_list:
+                    #logging.message(sensor)
+                #    data = sensor.date_time.strftime(strftime)
+                #    if data in data_list:
+                #        continue;
+                #    data_list.append(data)
+                #    sensor_dict = dict()
+                #    sensor_dict.update(date_time=sensor.date_time.strftime(strftime))
+                    #sensor_dict.update(date_time=sensor['date_value'].strftime("%d-%m %H:%M:%S"))
+                #    sensor_dict.update(value=sensor.value / sensor.sensor.ratio)
+                #    m_sensor.append(sensor_dict)
+                #    count = count+1
+                #    if count > 30:
+                #        return generalmodule.ReturnJson(200,m_sensor) 
+                #return generalmodule.ReturnJson(200,m_sensor)
+            
+           # m_sensor = []
+           # data_list =list()
+           # count = 0
+           # date_max =0
+           # for sensor in sensor_list:
+           #     if date_max == 0:
+           #         date_max = sensor.date_time
+           #     else: 
+           #         if date_max < sensor.date_time:
+           #             date_max = sensor.date_time
+           #     data = sensor.date_time.strftime(strftime)
+           #     print(sensor.date_time)
+           #     if data in data_list:
+           #         continue;
+           #     data_list.append(data)
+           #     sensor_dict = dict()
+           #     sensor_dict.update(date_time=sensor.date_time.strftime(strftime))
+           #     sensor_dict.update(value=sensor.value / sensor.sensor.ratio)
+           #     sensor_dict.update(date_max=str(date_max))
+           #     m_sensor.append(sensor_dict)
+           #     count = count+1
+           #     if count > 30:
+           #         return generalmodule.ReturnJson(200,m_sensor) 
+           # return generalmodule.ReturnJson(200,m_sensor) 
+    except Exception as err:
+        logging.error(traceback.format_exc())
+
+
+@login_required(login_url='/accounts/login/?next=')
+@never_cache
+def sensor_ajax_1(request):
+    try:
+        if request.method == "POST":
+            sensor_dict = dict()
+            param = request.POST.dict()
+            sensor = AcsSensor.objects.filter(id=param['id']).first()
             strftime = "%H:%M:%S"
             if param['sensor_type'] == 'sec':
                 strftime = "%H:%M:%S"
@@ -203,16 +315,22 @@ def sensor_ajax(request):
             m_sensor = []
             data_list =list()
             count = 0
+            date_max =0
             for sensor in sensor_list:
-                #logging.message(sensor)
+                if date_max == 0:
+                    date_max = sensor.date_time
+                else: 
+                    if date_max < sensor.date_time:
+                        date_max = sensor.date_time
                 data = sensor.date_time.strftime(strftime)
+                print(sensor.date_time)
                 if data in data_list:
                     continue;
                 data_list.append(data)
                 sensor_dict = dict()
                 sensor_dict.update(date_time=sensor.date_time.strftime(strftime))
-                #sensor_dict.update(date_time=sensor['date_value'].strftime("%d-%m %H:%M:%S"))
                 sensor_dict.update(value=sensor.value / sensor.sensor.ratio)
+                sensor_dict.update(date_max=str(date_max))
                 m_sensor.append(sensor_dict)
                 count = count+1
                 if count > 30:
