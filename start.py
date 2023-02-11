@@ -277,49 +277,60 @@ def upload_code_bolid():
 
 
 def tespp():
-     sensor = AcsSensor.objects.filter(id=18).first()
-     critical_type_list = AcsSensor.critical_type
-     end_date=datetime.now()
-     start_date = end_date - timedelta(hours=30)
-     print(start_date)
-     sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('date_time').order_by('id')
-     indicator_last = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time').order_by('id').first()
-     value_last =indicator_last.value / indicator_last.sensor.ratio
-     strftimeend = "%d.%m.%Y %H"
-     add_true = True
-     m_sensor = []
-     
-     for i in range(30):
-         date_time = start_date + timedelta(hours=i)
-         print(date_time.strftime("%d.%m.%Y %H"))
-         sensor_dict = dict()
-         value_old = 0
-         for indicator in sensor_links:
-              if indicator.date_time>date_time:
-                  break
-              data = indicator.date_time.strftime("%d.%m.%Y %H")
-              if data == date_time.strftime("%d.%m.%Y %H"):
-                value = indicator.value / indicator.sensor.ratio
-                if critical_type_list =='max':
-                    value_old = max(value_old,value)
+            sensor = AcsSensor.objects.filter(id=11).first()
+            connect_time = sensor.connect_time
+            value = sensor.value
+            end_date=datetime.now()
+            param = dict()
+            param.update(sensor_type='sec')
+            if param['sensor_type'] == 'sec':
+                strftime = "%H:%M:%S"
+                start_date = end_date - timedelta(seconds=30)
+            elif param['sensor_type'] == 'min':
+                strftime = "%H:%M"
+                start_date = end_date - timedelta(minutes=30)
+            else:
+                strftime = "%H:00"
+                start_date = end_date - timedelta(hours=30)
+            print(str(start_date)+':'+str(end_date))
+            sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('date_time').order_by('id')
+            indicator_last = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time').first()
+            value_last =indicator_last.value / indicator_last.sensor.ratio
+            strftimeend = "%d.%m.%Y %H"
+            add_true = True
+            m_sensor = []
+            value_old = value_last
+            print(sensor_links.count())
+            for i in range(31):
+                if param['sensor_type'] == 'sec':
+                    strftimeend = "%d.%m.%Y %H:%M:%S"
+                    date_time = start_date + timedelta(seconds=i)
+                elif param['sensor_type'] == 'min':
+                    strftimeend = "%d.%m.%Y %H:%M"
+                    date_time = start_date + timedelta(minutes=i)
                 else:
-                    value_old = min(value_old,value)
-                #print(str(data) + ' - ' + str(value))
-                #sensor_dict.update(date_time = data)
-                #sensor_dict.update(value = value)
-                add_true = False
-                #value_old = value
-                #break
-         if add_true:
-            sensor_dict.update(date_time = date_time)
-            sensor_dict.update(value = value_last)
-         else:
-            sensor_dict.update(date_time = data)
-            sensor_dict.update(value = value_last)
-          
-         m_sensor.append(sensor_dict)
-         for sensor in m_sensor:
-             print(sensor)
+                    strftimeend = "%d.%m.%Y %H"
+                    date_time = start_date + timedelta(hours=i)
+                sensor_dict = dict()
+                sensor_dict.update(date_max=str(connect_time))
+                add_true = True
+                for indicator in sensor_links:
+                    data = indicator.date_time.strftime(strftimeend)
+                    #print(data)
+                    if data == date_time.strftime(strftimeend):
+                        
+                        value = indicator.value / indicator.sensor.ratio
+                        sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
+                        sensor_dict.update(value = value)
+                        add_true = False
+                        value_old = value
+                        break
+                if add_true:
+                    sensor_dict.update(date_time = date_time.strftime(strftime))
+                    sensor_dict.update(value = value_last)
+                m_sensor.append(sensor_dict)
+            for sensor in m_sensor:
+                print(sensor)
             #print(str(sensor.date_time)+' : '+str(sensor.value))
      #print(sensor_links.count())
      #for indicator in sensor_links:
