@@ -303,10 +303,6 @@ def tespp():
             add_true = True
             m_sensor = []
             value_old = value_last
-            print(sensor_links.count())
-            
-            for link in sensor_links:
-                print(str(link.date_time) +':'+str(link.value))
             for i in range(31):
                 if param['sensor_type'] == 'sec':
                     strftimeend = "%d.%m.%Y %H:%M:%S"
@@ -323,62 +319,19 @@ def tespp():
                     date_time = start_date + timedelta(hours=i)
                     start_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,0,0)
                     end_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hour,59,59,9999)
-
                 sensor_dict = dict()
-                #sensor_dict.update(date_max=str(connect_time))
                 add_true = True
                 if critical_type =="max":
                     value_date =0
                 else:
                     value_date =9999999
-                sensor_dict.update(start_date_day = start_date_day)
-                sensor_dict.update(end_date_day = end_date_day)
                 result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).aggregate(Max('value'))
-
-                #result = sensor_links.filter(date_time__gt=start_date_day).all()
-                #print(result1)
                 sensor_dict.update(date_time = date_time.strftime(strftime))
-                
-                sensor_dict.update(result = result)
                 if result['value__max'] == None:
                     sensor_dict.update(value = value_old)
                 else:
                     value_old = result['value__max']/sensor.ratio
                     sensor_dict.update(value = result['value__max']/sensor.ratio)
-
-                #nax_rezult = result.aggregate(Max('value'))
-                
-                #print(result.count())
-                #print(nax_rezult)
-                #print(connect_time)
-                #for indicator in sensor_links:
-                #    indicator_date_time = indicator.date_time
-                #    if indicator_date_time >date_time:
-                #        break
-                #    data = indicator_date_time.strftime(strftimeend)
-                #    if data == date_time.strftime(strftimeend):
-                #        value = indicator.value / indicator.sensor.ratio
-                #        if critical_type =="max":
-                #            value_date = max(value_date,value)
-                #       else:
-                #            value_date = min(value_date,value)
-                #        #value = indicator.value / indicator.sensor.ratio
-                #        #sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
-                #        #sensor_dict.update(value = value)
-                #        #sensor_dict.update(id = indicator.id)
-                #        add_true = False
-                        #value_old = value
-                        #break
-
-                #if add_true:
-                #    sensor_dict.update(date_time = date_time.strftime(strftime))
-                #    sensor_dict.update(value = value_old)
-                #    sensor_dict.update(id = -1)
-                #else:
-                #    sensor_dict.update(date_time = indicator_date_time.strftime(strftime))
-                #    sensor_dict.update(value = value_date)
-                #    sensor_dict.update(id = -1)
-
                 m_sensor.append(sensor_dict)
             for sensor in m_sensor:
                 print(sensor)
