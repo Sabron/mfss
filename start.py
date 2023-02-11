@@ -318,7 +318,7 @@ def tespp():
                 if critical_type =="max":
                     value_date ==0
                 else:
-                    value_date ==9999999
+                    value_date =9999999
                 for indicator in sensor_links:
                     indicator_date_time = indicator.date_time
                     data = indicator_date_time.strftime(strftimeend)
