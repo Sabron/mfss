@@ -289,4 +289,6 @@ if __name__ == "__main__":
     #test_Mfsb_skada()
     #test_Mfsb2()
     #upload_code_bolid()
-    DataMfsbSkada.objects.all().delete()
+    #DataMfsbSkada.objects.all().delete()
+    DataMfsb = DataMfsb.objects.all()
+    print(DataMfsb.count())
