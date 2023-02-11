@@ -277,7 +277,7 @@ def upload_code_bolid():
 
 
 def tespp():
-     sensor = AcsSensor.objects.filter(id=19).first()
+     sensor = AcsSensor.objects.filter(id=18).first()
      critical_type_list = AcsSensor.critical_type
      end_date=datetime.now()
      start_date = end_date - timedelta(hours=30)
