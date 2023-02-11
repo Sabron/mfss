@@ -312,7 +312,7 @@ def tespp():
                     strftimeend = "%d.%m.%Y %H:%M:%S"
                     date_time = start_date + timedelta(seconds=i)
                     start_date_day = date_time
-                    end_date_day = date_time+ timedelta(seconds=1000)
+                    end_date_day = date_time+ timedelta(milliseconds=1000)
                 elif param['sensor_type'] == 'min':
                     strftimeend = "%d.%m.%Y %H:%M"
                     date_time = start_date + timedelta(minutes=i)
