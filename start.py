@@ -318,6 +318,8 @@ def tespp():
             sensor_dict.update(value = value_last)
           
          m_sensor.append(sensor_dict)
+         for sensor in m_sensor:
+            print(str(senso.date_time)+' : '+str(sensor.value))
      #print(sensor_links.count())
      #for indicator in sensor_links:
      #    print(indicator.date_time)
