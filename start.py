@@ -11,6 +11,7 @@ import json
 import random
 import time
 import traceback
+from dateutil import tz
 
 from datetime import datetime, timedelta,date
 from requests.auth import HTTPBasicAuth
@@ -277,7 +278,7 @@ def upload_code_bolid():
 
 
 def tespp():
-            sensor = AcsSensor.objects.filter(id=18).first()
+            sensor = AcsSensor.objects.filter(id=9).first()
             critical_type = sensor.critical_type
             connect_time = sensor.connect_time
             value = sensor.value
@@ -292,7 +293,7 @@ def tespp():
                 start_date = end_date - timedelta(minutes=30)
             else:
                 strftime = "%H:00"
-                start_date = end_date - timedelta(hours=30)
+                start_date = end_date - timedelta(hours=300000)
             print(str(start_date)+':'+str(end_date))
             sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('date_time').order_by('id')
             indicator_last = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time').first()
@@ -319,37 +320,43 @@ def tespp():
                     value_date =0
                 else:
                     value_date =9999999
-                for indicator in sensor_links:
-                    indicator_date_time = indicator.date_time
-                    if indicator_date_time >date_time:
-                        break
-                    data = indicator_date_time.strftime(strftimeend)
-                    if data == date_time.strftime(strftimeend):
-                        value = indicator.value / indicator.sensor.ratio
-                        if critical_type =="max":
-                            value_date = max(value_date,value)
-                        else:
-                            value_date = min(value_date,value)
-                        #value = indicator.value / indicator.sensor.ratio
-                        #sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
-                        #sensor_dict.update(value = value)
-                        #sensor_dict.update(id = indicator.id)
-                        add_true = False
+                start_date_day = datetime(date_time.year, date_time.month, date_time.day,date_time.hours,0,0)
+                end_date_day = datetime(date_time.year, date_time.month, date_time.day,23,59,59)
+                #result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).all()
+                result = sensor_links.filter(date_time__gt=start_date_day).all()
+                print(str(start_date_day)+ " : "+str(end_date_day))
+                print(result.count())
+                #for indicator in sensor_links:
+                #    indicator_date_time = indicator.date_time
+                #    if indicator_date_time >date_time:
+                #        break
+                #    data = indicator_date_time.strftime(strftimeend)
+                #    if data == date_time.strftime(strftimeend):
+                #        value = indicator.value / indicator.sensor.ratio
+                #        if critical_type =="max":
+                #            value_date = max(value_date,value)
+                #       else:
+                #            value_date = min(value_date,value)
+                #        #value = indicator.value / indicator.sensor.ratio
+                #        #sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
+                #        #sensor_dict.update(value = value)
+                #        #sensor_dict.update(id = indicator.id)
+                #        add_true = False
                         #value_old = value
                         #break
 
-                if add_true:
-                    sensor_dict.update(date_time = date_time.strftime(strftime))
-                    sensor_dict.update(value = value_old)
-                    sensor_dict.update(id = -1)
-                else:
-                    sensor_dict.update(date_time = indicator_date_time.strftime(strftime))
-                    sensor_dict.update(value = value_date)
-                    sensor_dict.update(id = -1)
+                #if add_true:
+                #    sensor_dict.update(date_time = date_time.strftime(strftime))
+                #    sensor_dict.update(value = value_old)
+                #    sensor_dict.update(id = -1)
+                #else:
+                #    sensor_dict.update(date_time = indicator_date_time.strftime(strftime))
+                #    sensor_dict.update(value = value_date)
+                #    sensor_dict.update(id = -1)
 
                 m_sensor.append(sensor_dict)
-            for sensor in m_sensor:
-                print(sensor)
+            #for sensor in m_sensor:
+                #print(sensor)
             #print(str(sensor.date_time)+' : '+str(sensor.value))
      #print(sensor_links.count())
      #for indicator in sensor_links:
