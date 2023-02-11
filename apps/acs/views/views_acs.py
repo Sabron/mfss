@@ -208,7 +208,7 @@ def sensor_ajax(request):
                         break
                 if add_true:
                     sensor_dict.update(date_time = date_time.strftime(strftime))
-                    sensor_dict.update(value = value_last)
+                    sensor_dict.update(value = value_old)
                 m_sensor.append(sensor_dict)
             return generalmodule.ReturnJson(200,m_sensor)
             #for i in range(30):

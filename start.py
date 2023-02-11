@@ -327,7 +327,7 @@ def tespp():
                         break
                 if add_true:
                     sensor_dict.update(date_time = date_time.strftime(strftime))
-                    sensor_dict.update(value = value_last)
+                    sensor_dict.update(value = value_old)
                     sensor_dict.update(id = -1)
                 m_sensor.append(sensor_dict)
             for sensor in m_sensor:
