@@ -164,6 +164,7 @@ def sensor_ajax(request):
             sensor_dict = dict()
             param = request.POST.dict()
             sensor = AcsSensor.objects.filter(id=param['id']).first()
+            critical_type = sensor.critical_type
             connect_time = sensor.connect_time
             value = sensor.value
             end_date=sensor.connect_time
