@@ -312,7 +312,7 @@ def tespp():
                     strftimeend = "%d.%m.%Y %H:%M:%S"
                     date_time = start_date + timedelta(seconds=i)
                     start_date_day = date_time
-                    end_date_day = date_time+ timedelta(seconds=i)
+                    end_date_day = date_time+ timedelta(seconds=1)
                     result = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).aggregate(Max('value'))
                     result1 = sensor_links.filter(date_time__range=[start_date_day,end_date_day]).all()
                 elif param['sensor_type'] == 'min':
