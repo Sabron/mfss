@@ -281,7 +281,7 @@ def tespp():
      end_date=datetime.now()
      start_date = end_date - timedelta(seconds=30)
      sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('-date_time')
-     print(sensor_links.count)
+     print(sensor_links.count())
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #print(sensor_list)
