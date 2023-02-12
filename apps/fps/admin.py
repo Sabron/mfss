@@ -5,7 +5,7 @@ from .models.model_indicators import FpsIndicators
 
 @admin.register(FpsSensor)
 class FpsSensorAdmin(admin.ModelAdmin):
-    list_display = ('zone','tag','name','connect_time','critical_value','ratio','max_value','critical_type','active')
+    list_display = ('name','type','zone','tag','connect_time','critical_value','ratio','max_value','critical_type','active')
     search_fields = ('name',)
 
 @admin.register(FpsIndicators)

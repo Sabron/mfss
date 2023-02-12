@@ -1,21 +1,17 @@
 ! function (e) {
     var ArrayBarrel = [];
     var barrelArray = $('.barrel');
-    console.log(barrelArray.length)
     if (barrelArray.length > 0) {
         for (let i = 0; i < barrelArray.length; i++) {
             convas_t = $('#' + barrelArray[i].id)
-            console.log(convas_t.attr("data-value"))
-            //arraySpeed.push(barrelArray[i].speed);
-            //arrayTime.push(barrelArray[i].time);
             var canvas = new fabric.Canvas(barrelArray[i].id, {
                 selection: false,
                 scale: 1,
                 moveCursor: 'default',
                 hoverCursor: 'default'
             });
-            console.log(canvas)
             fabric.Object.prototype.selectable = false;
+
             // ÁÎ×ÊÀ ¹1 //
             var water_up_tanker_1 = new fabric.Circle({
                 left: 150,
@@ -109,8 +105,6 @@
             var new_center_water_tanker_1 = water_down_tanker_1.top - (water_down_tanker_1.top - new_height_water_tanker_1) / 2;
             var new_level_water_tanker_1 = water_down_tanker_1.top - new_height_water_tanker_1;
 
-            console.log(new_height_water_tanker_1, new_center_water_tanker_1);
-
             water_up_tanker_1.set({
                 top: new_height_water_tanker_1
             });
@@ -125,11 +119,10 @@
             });
 
             var text_level_tanker_1 = new fabric.Text(percent_tanker_1.toString(), { left: 130, top: 250, originX: 'center', originY: 'center' });
-            var text_percent_tanker_1 = new fabric.Text('%', { left: percent_tanker_1.toString().length + 180, top: 250, originX: 'center', originY: 'center' });
+            var text_percent_tanker_1 = new fabric.Text('  %', { left: percent_tanker_1.toString().length + 180, top: 250, originX: 'center', originY: 'center' });
             canvas.add(text_level_tanker_1, text_percent_tanker_1);
-            canvas.renderAll();
-            console.log('ddddd')
-            ArrayBarrel.push(canvas);
+            //canvas.renderAll();
+            //ArrayBarrel.push(canvas);
         }
 
     

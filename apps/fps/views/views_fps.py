@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import traceback
 import requests
+import math
 
 from datetime import datetime,timedelta
 from requests.auth import HTTPBasicAuth
@@ -77,9 +78,10 @@ def MainIndexDefault(request):
         m_sensor = []
         m_zone = []
         for sensor in sensor_list:
-            str_value=str(sensor.value / sensor.ratio).replace(',','.')
+            str_value=str(round(sensor.value / sensor.ratio,2)).replace(',','.')
             sensor_dict = dict()
             sensor_dict.update(zone=sensor.zone)
+            sensor_dict.update(type=sensor.type)
             sensor_dict.update(sensor=sensor)
             sensor_dict.update(name=sensor.name)
             sensor_dict.update(value=sensor.value / sensor.ratio)
