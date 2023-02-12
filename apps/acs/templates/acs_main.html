@@ -211,7 +211,7 @@
 		cmd = 'refresh';
 		$.ajax({
 			type: 'POST', // метод отправки
-			url: window.location.pathname + 'ajax/?type='+{{type}} , // путь к обработчику
+			url: window.location.pathname + 'ajax/?type={{type}}' , // путь к обработчику
             data: {
                 "cmd": cmd
             },

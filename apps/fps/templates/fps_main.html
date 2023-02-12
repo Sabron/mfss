@@ -1,4 +1,4 @@
-{% extends "subsystem_base.html" %}
+{% extends "fps_default.html" %}
 {% load static %}
 {% load mysettings %}
 
@@ -50,8 +50,7 @@
 
                                         {% else%}
                                             <div style="display:inline;width:90px;height:90px;">
-                                                <canvas id="{{sensor.sensor.id}}_valuecanvas" class="barrel" width="250" height="500" data-value="{{sensor.str_value}}">
-
+                                                <canvas id="{{sensor.sensor.id}}_value_canvas" class="barrel" width="250" height="500" data-value="{{sensor.str_value}}">
                                                 </canvas>
                                             </div>
                                         {% endif %}
@@ -86,7 +85,7 @@
                                                 <td id="{{sensor.sensor.id}}_pecent">
                                                     <div class="progress-group">
                                                       <a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a>
-                                                      <span class="float-right"><b>{{sensor.value}}</b>/{{sensor.max_value}}  {{sensor.unit}}</span>
+                                                      <span id="{{sensor.sensor.id}}_valupecent" class="float-right"><b>{{sensor.value}}</b>/{{sensor.max_value}}  {{sensor.unit}}</span>
                                                       <div class="progress progress-sm">
                                                         <div class="progress-bar {{sensor.color}}" style="width: {{sensor.str_value}}%"></div>
                                                       </div>
@@ -126,21 +125,22 @@
 		cmd = 'refresh';
         $.ajax({
             type: 'POST', // метод отправки
-            url: window.location.pathname+'ajax/', // путь к обработчику
+            url: window.location.pathname+'ajax/?type={{type}}', // путь к обработчику
             data: {
                 "cmd": cmd
             },
             // dataType: 'text',
 			success: function (data) {
-                for (index = data.length - 1; index >= 0; --index) {
-					//str_pecent = "<div class='progress progress-xs progress-striped active'><div class='progress-bar " + data[index].color + " 'style=width:" + Math.floor(data[index].pecent_value) + "%></div></div>";
-					//$("#" + data[index].sensor_id + "_pecent").html(str_pecent)
-
+				for (index = data.length - 1; index >= 0; --index) {
+                    console.log($("#" + data[index].sensor_id + "_value"))
 					str_value = "<span class='badge " + data[index].color + "'>" + data[index].value + " " + data[index].unit + "</span>";
 					$("#" + data[index].sensor_id + "_value").html(str_value)
-                    var seconds = new Date().getTime() / 1000;
-                    //$("#id_time").html(seconds)
-					$("#" + data[index].sensor_id + "_value_canvas").attr('data-value', data[index].value)
+				    $("#" + data[index].sensor_id + "_value_canvas").attr('data-value', data[index].value)
+                    
+                    str_value_pecent = "<b>"+data[index].value+"</b>/"+data[index].max_value+"  "+data[index].unit;
+                    $("#" + data[index].sensor_id + "_valupecent").html(str_value_pecent)
+
+                    //$("#" + data[index].sensor_id + "_value_canvas").renderAll();
                 }
             },
             error: function (dataerr) {
