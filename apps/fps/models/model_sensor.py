@@ -9,6 +9,12 @@ class FpsSensor(models.Model):  # Датчики
     critical_type_list = (('max', 'Максимальный'),
         ('min', 'Минимальный'),)
 
+    type_list = (
+        (0, '< Не определен >'),
+        (1, 'Датчик'),
+        (2, 'Емкость'),
+    )
+
     """
     Модель справочника датчиков
     """
@@ -16,6 +22,10 @@ class FpsSensor(models.Model):  # Датчики
         on_delete=models.SET_NULL,
         null=True,
         verbose_name="Зона")
+    type = models.IntegerField(choices=type_list,
+           blank=True,
+           default=0,
+           verbose_name="Тип датчика") 
     tag = models.CharField(max_length=160,
         help_text="",
         default=" ",
@@ -94,6 +104,7 @@ class FpsSensor(models.Model):  # Датчики
         verbose_name_plural = u'датчики'
         indexes = [models.Index(fields=['tag',]),
             models.Index(fields=['name',]),
+            models.Index(fields=['type',]),
             models.Index(fields=['tag','name',]),]
 
 
