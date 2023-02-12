@@ -25,10 +25,6 @@
   <link rel="stylesheet" href="{% static 'lte/plugins/toastr/toastr.min.css' %}?ver={% settings_value 'APP_VER' %}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'lte/dist/css/adminlte.min.css' %}?ver={% settings_value 'APP_VER' %}">
-<!-- SweetAlert2 -->
-<script src="{% static 'lte/plugins/sweetalert2/sweetalert2.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
-<!-- Toastr -->
-<script src="{% static 'lte/plugins/toastr/toastr.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 
 <link type="text/css" rel="stylesheet" href="{% static '/css/main.css' %}?ver={% settings_value 'APP_VER' %}">
 
@@ -268,6 +264,11 @@
     <script src="{% static 'lte/plugins/jquery/jquery.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
     <!-- Bootstrap 4 -->
     <script src="{% static 'lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+  <!-- SweetAlert2 -->
+  <script src="{% static 'lte/plugins/sweetalert2/sweetalert2.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+  <!-- Toastr -->
+  <script src="{% static 'lte/plugins/toastr/toastr.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+
     <!-- AdminLTE App -->
     <script src="{% static 'lte/dist/js/adminlte.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 <script>
@@ -311,15 +312,7 @@
 					if (data.id_acs) {
                         
                         $('#acs_img').attr('src', img_err);
-                        swal.fire({
-                          icon: 'error',
-                          title: 'Аэрогазовый контроль <br>Датчик <'+data.acs_id+'> в критической зоне',
-                          toast: true,
-                          position: 'left-end',
-                          showConfirmButton: false,
-                          timer: 1000
-                        })
-    
+                           toastr["error"]("Датчик "+data.acs_name+" в критической зоне", "Аэрогазовый контроль")
 					}else{
                         $('#acs_img').attr('src', img_ok);
                     }
@@ -337,6 +330,23 @@
             show()
 			setInterval('show()',1000);
             setInterval("clock()",1000);
+toastr.options = {
+  "closeButton": true,
+  "debug": false,
+  "newestOnTop": false,
+  "progressBar": false,
+  "positionClass": "toast-top-right",
+  "preventDuplicates": false,
+  "onclick": null,
+  "showDuration": "300",
+  "hideDuration": "1000",
+  "timeOut": "5000",
+  "extendedTimeOut": "1000",
+  "showEasing": "swing",
+  "hideEasing": "linear",
+  "showMethod": "fadeIn",
+  "hideMethod": "fadeOut"
+}
 		});
 
 </script>
