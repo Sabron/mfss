@@ -341,7 +341,7 @@ def tespp():
 
 def test_idicator():
     sensor_link = AcsSensor.objects.filter(id=13).first()
-    indicator_link = AcsSensor.objects.filter(sensor = sensor_link).order_by('date_time')[:1]
+    indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).order_by('date_time')[:1]
     print(indicator_link)
 
 if __name__ == "__main__":
