@@ -40,7 +40,7 @@
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
-                                                            <th style="width: 10px">id</th>
+                                                            <th style="width: 10px">Позиция</th>
                                                             <th>Датчик</th>
                                                             <th style="width: 80px">Состояние</th>
                                                         </tr>
@@ -48,7 +48,7 @@
                                                     <tbody>
                                                         {% for sensor in m_sensor %}
                                                         <tr>
-                                                            <td>{{sensor.sensor.id}}</td>
+                                                            <td>{{sensor.sensor.position}}</td>
                                                             <td><a href="#">{{sensor.sensor}}</a></td>
                                                             <td style="width: 80px">
                                                                     <div class="form-group" >

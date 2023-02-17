@@ -18,6 +18,11 @@ class ScadaSensor(models.Model):  # Датчики
         help_text="",
         default=" ",
         verbose_name="ТЭГ")
+    position = models.CharField(max_length=20,
+        help_text="",
+        default=" ",
+        blank = True,
+        verbose_name="Позиция")
     name = models.CharField(max_length=160,
         help_text="",
         default=" ",
@@ -48,6 +53,7 @@ class ScadaSensor(models.Model):  # Датчики
         verbose_name_plural = u'датчики'
         indexes = [models.Index(fields=['tag',]),
             models.Index(fields=['name',]),
+            models.Index(fields=['position',]),
             models.Index(fields=['tag','name',]),]
 
 

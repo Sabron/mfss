@@ -144,6 +144,7 @@
                                                 <th> </th>
                                                 <th>Зона</th>
                                                 <th>ТЭГ</th>
+                                                <th>Позиция</th>
                                                 <th>Наименование</th>
                                                 <th>V</th>
                                             </tr>
@@ -170,6 +171,16 @@
                                                         {% csrf_token %}
                                                         <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
                                                             {{ catalog.tag }}
+                                                        </a>
+                                                        <input type="hidden" value="{{catalog.id}}" name="id">
+                                                    </form>                                                
+                                                
+                                                </td>
+                                                <td>
+                                                    <form action="./?module=scada&t=param&cmd=edit" id="frm_contact_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                                        {% csrf_token %}
+                                                        <a href="#" onclick="document.getElementById('frm_contact_{{catalog.id}}').submit(); return false;">
+                                                            {{ catalog.position }}
                                                         </a>
                                                         <input type="hidden" value="{{catalog.id}}" name="id">
                                                     </form>                                                
