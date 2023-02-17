@@ -107,6 +107,7 @@ def update_acs():# Получение данных Системы Аэрогаз
     for data in data_mfsb:
         sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
         if sensor_link is not None:
+            #indicator_link = AcsSensor.objects.filter(sensor = sensor_link).order_by('date_time')
             Acs_Indicators = AcsIndicators.objects.create(
                 date_time =data.date,
                 sensor = sensor_link,

@@ -339,6 +339,11 @@ def tespp():
      #for indicator in sensor_links:
      #    print(indicator.date_time)
 
+def test_idicator():
+    sensor_link = AcsSensor.objects.filter(id=13).first()
+    indicator_link = AcsSensor.objects.filter(sensor = sensor_link).order_by('date_time')[:1]
+    print(indicator_link)
+
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #print(sensor_list)
@@ -354,5 +359,6 @@ if __name__ == "__main__":
     #test_Mfsb2()
     #upload_code_bolid()
     #DataMfsbSkada.objects.all().delete()
-    tespp()
+    #tespp()
+    test_idicator()
     
