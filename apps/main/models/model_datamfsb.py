@@ -29,4 +29,5 @@ class DataMfsb(models.Model):
         indexes = [
             models.Index(fields=['date','name',]),
             models.Index(fields=['name',]),
+            models.Index(fields=['name','check']),
             ]

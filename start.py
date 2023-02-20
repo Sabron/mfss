@@ -12,6 +12,7 @@ import random
 import time
 import traceback
 from dateutil import tz
+from tqdm import tqdm
 
 from datetime import datetime, timedelta,date
 from requests.auth import HTTPBasicAuth
@@ -28,6 +29,7 @@ from apps.ops.models.model_mfsb import Mfsb
 from apps.ops.models.model_mfsb_skada import MfsbSkada
 from apps.ops.models.model_mfsb_ppz import MfsbPpz
 from apps.ops.models.model_mfsb_skpv import MfsbSkpv
+from apps.ops.models.model_mfsb_block import MfsbBlock
 
 
 from apps.main.models.model_datamfsb import DataMfsb
@@ -72,7 +74,6 @@ def update_acs():
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
     for data in data_mfsb:
-        print(str(data.date)+' : '+data.name)
         sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
         print(str(sensor_link))
         if sensor_link is not None:
@@ -262,6 +263,14 @@ def test_Mfsb_skada():
     for mfsb in mfsb_list:
         print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
 
+def test_Mfsb_block():
+    print('Попытка подключения')
+    mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10];
+    print('Данные получены : '+str(mfsb_list))
+    print('Вывод данных ')
+    for mfsb in mfsb_list:
+        print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
+
 def upload_code_bolid():
     file = open('code_bolid.csv', 'r')
     for line in file: 
@@ -342,9 +351,38 @@ def tespp():
 def test_idicator():
     sensor_link = AcsSensor.objects.filter(id=13).first()
     indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).order_by('date_time')[:1]
-    print(indicator_link)
-    print(indicator_link.date_time)
-    print(indicator_link.value)
+    print(indicator_link.count())
+    if indicator_link[0].value != 48:
+        print(indicator_link)
+        print(indicator_link[0].date_time)
+        print(indicator_link[0].value)
+
+def test_update_acs():
+    sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).order_by('date').all()
+    count = data_mfsb.count()
+    print('Обработано : '+str(0)+' из '+str(count))
+    for data in tqdm(data_mfsb):
+        sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
+        if sensor_link is not None:
+            indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).filter(date_time__lte=data.date).order_by('date_time')[:1]
+            if indicator_link.count() > 0 :
+                if indicator_link[0].value != data.values:
+                    Acs_Indicators = AcsIndicators.objects.create(
+                        date_time =data.date,
+                        sensor = sensor_link,
+                        value = data.values)
+            else:
+                Acs_Indicators = AcsIndicators.objects.create(
+                    date_time =data.date,
+                    sensor = sensor_link,
+                   value = data.values)
+            sensor_link.value = data.values
+            sensor_link.connect_time =data.date
+            sensor_link.save()
+            data.check = True
+            data.save()
+    print('OK')  
 
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
@@ -362,5 +400,6 @@ if __name__ == "__main__":
     #upload_code_bolid()
     #DataMfsbSkada.objects.all().delete()
     #tespp()
-    test_idicator()
+    #test_update_acs()
+    test_Mfsb_block()
     

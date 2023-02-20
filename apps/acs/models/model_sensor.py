@@ -98,7 +98,7 @@ class AcsSensor(models.Model):  # Датчики
         return self.id
 
     def __str__(self):
-        return self.name
+        return self.name+' ( '+str(self.id)+' )'
 
     class Meta:   # отображение в админики
         ordering = ('name',)
