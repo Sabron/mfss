@@ -52,6 +52,11 @@ from apps.fp.models.model_indicators import FpIndicators
 
 from apps.scada.models.model_indicators import ScadaIndicators
 
+
+from apps.block.models.model_sensor import BlockSensor
+from apps.block.models.model_indicators import BlockIndicators
+
+
 from apps.eps.models.model_tags import Tag
 from apps.eps.models.model_tagdates import TagDate
 from apps.eps.models.model_anchors import Anchors
@@ -211,17 +216,7 @@ def test_Mfsb_skada():
     for mfsb in mfsb_list:
         print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
 
-def test_Mfsb_block():
-    MfsbBlock.objects.using('mfsb_block').filter(date__lte=DT.datetime(1601, 12, 1,0,0,0)).delete()
-    Mfsb_Block = MfsbBlock.objects.using('mfsb_block').all();
-    print(Mfsb_Block.count())
-    
-    print('Попытка подключения')
-    mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10];
-    print('Данные получены : '+str(mfsb_list))
-    print('Вывод данных ')
-    for mfsb in mfsb_list:
-        print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
+
 
 def upload_code_bolid():
     file = open('code_bolid.csv', 'r')
@@ -495,6 +490,56 @@ def update_ops_date():
     except Exception as err:
         logging.error("==============update_ops_date")
         logging.error(traceback.format_exc())
+
+
+def update_block():
+    try:
+        mfsb = cache.get('mfsb_block')
+        logging.log(str(mfsb))
+        if not mfsb:
+            cache.set('mfsb_block', '1')
+            mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:5000];
+            bulk = []
+            for mfsb in mfsb_list:
+                block_sensor = BlockSensor.objects.filter(tag = mfsb.name).first()
+                if block_sensor is None:
+                    block_sensor = BlockSensor.objects.create(
+                                tag = mfsb.name,
+                                position = 'None',
+                                name = mfsb.name)
+
+                
+                #BlockIndicators.objects.filter(sensor = block_sensor)
+
+                #datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+                #if datd_mfsb is None:
+                #    DataMfsb.objects.create(
+                #        date=mfsb.date,
+                ##        name=mfsb.name,
+                #        values=mfsb.values,
+                #        check=mfsb.check)
+                #mfsb.check = True
+                #bulk.append(mfsb)
+            #MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+            #update_acs()
+            #update_dcs()
+            logging.log('Удаляем ключ : mfsb_block')
+            cache.delete('mfsb_block')
+    except Exception as err:
+        logging.error("==============update_block")
+        logging.error(traceback.format_exc())
+
+def test_Mfsb_block():
+    MfsbBlock.objects.using('mfsb_block').filter(date__lte=DT.datetime(1601, 12, 1,0,0,0)).delete()
+    Mfsb_Block = MfsbBlock.objects.using('mfsb_block').all();
+    print(Mfsb_Block.count())
+    
+    print('Попытка подключения')
+    mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10];
+    print('Данные получены : '+str(mfsb_list))
+    print('Вывод данных ')
+    for mfsb in mfsb_list:
+        print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
 
 if __name__ == "__main__":
     test_Mfsb_block()
