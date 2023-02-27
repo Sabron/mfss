@@ -41,9 +41,14 @@ from apps.main.models.model_datamfsb_skpv import DataMfsbSkpv
 from apps.acs.models.model_sensor import AcsSensor
 from apps.acs.models.model_indicators import AcsIndicators
 
+from apps.dcs.models.model_indicators import DcsIndicators
+
 from apps.fps.models.model_sensor import FpsSensor
 from apps.fps.models.model_indicators import FpsIndicators
 
+from apps.fp.models.model_indicators import FpIndicators
+
+from apps.scada.models.model_indicators import ScadaIndicators
 
 from apps.eps.models.model_tags import Tag
 from apps.eps.models.model_tagdates import TagDate
@@ -383,15 +388,37 @@ def test_update_acs():
             data.check = True
             data.save()
     print('OK')  
+
+def delete_data():
+    Data_Mfsb = DataMfsb.objects.filter(date__lte=DT.datetime(2022, 12, 31,0,0,0)).delete()
+    DataMfsb_Skada = DataMfsbSkada.objects.filter(date__lte=DT.datetime(2022, 12, 31,0,0,0)).delete()
+    DataMfsb_Ppz = DataMfsbPpz.objects.filter(date__lte=DT.datetime(2022, 12, 31,0,0,0)).delete()
+    DataMfsb_Skpv = DataMfsbSkpv.objects.filter(date__lte=DT.datetime(2022, 12, 31,0,0,0)).delete()
+    Acs_Indicators = AcsIndicators.objects.filter(date_time__lte=DT.datetime(2022, 12, 31,0,0,0)).delete()
+    Dcs_Indicators = DcsIndicators.objects.filter(date_time__lte=DT.datetime(2022, 12, 31,0,0,0)).delete()
+    Fp_Indicators = FpIndicators.objects.filter(date_time__lte=DT.datetime(2022, 12, 31,0,0,0)).delete()
+    Fps_Indicators = FpsIndicators.objects.filter(date_time__lte=DT.datetime(2022, 12, 31,0,0,0)).delete()
+    Scada_Indicators = ScadaIndicators.objects.filter(date_time__lte=DT.datetime(2022, 12, 31,0,0,0)).delete()
+
 def len_data():
     Data_Mfsb = DataMfsb.objects.all()
     DataMfsb_Skada = DataMfsbSkada.objects.all()
     DataMfsb_Ppz = DataMfsbPpz.objects.all()
     DataMfsb_Skpv = DataMfsbSkpv.objects.all()
+    Acs_Indicators = AcsIndicators.objects.all()
+    Dcs_Indicators = DcsIndicators.objects.all()
+    Fp_Indicators = FpIndicators.objects.all()
+    Fps_Indicators = FpsIndicators.objects.all()
+    Scada_Indicators = ScadaIndicators.objects.all()
     print(' DataMfsb = '+str(Data_Mfsb.count()))
     print(' DataMfsbSkada = '+str(DataMfsb_Skada.count()))
     print(' DataMfsbPpz = '+str(DataMfsb_Ppz.count()))
     print(' DataMfsbSkpv = '+str(DataMfsb_Skpv.count()))
+    print(' AcsIndicators = '+str(Acs_Indicators.count()))
+    print(' DcsIndicators = '+str(Dcs_Indicators.count()))
+    print(' FpIndicators = '+str(Fp_Indicators.count()))
+    print(' FpsIndicators = '+str(Fps_Indicators.count()))
+    print(' ScadaIndicators = '+str(Scada_Indicators.count()))
 
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
@@ -411,5 +438,9 @@ if __name__ == "__main__":
     #tespp()
     #test_update_acs()
     #test_Mfsb_block()
+    len_data()
+    print('======')
+    print('Удаляем старые данные')
+    delete_data()
     len_data()
     
