@@ -391,8 +391,9 @@ def update_ops_date():
                     name=mfsb.name,
                     values=mfsb.values,
                     check=mfsb.check)
-            mfsb.check = True
-            mfsb.save()
+            #mfsb.check = True
+            #mfsb.save()
+        mfsb_list.update(check=True)
         Mfsb.objects.using('mfsb').filter(check=True).delete();
         mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:5];
         for mfsb in mfsb_list:
