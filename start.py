@@ -212,9 +212,10 @@ def test_Mfsb_skada():
         print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
 
 def test_Mfsb_block():
+    MfsbBlock.objects.using('mfsb_block').filter(date__lte=DT.datetime(1601, 1, 1,0,0,0)).delete()
     Mfsb_Block = MfsbBlock.objects.using('mfsb_block').all();
     print(Mfsb_Block.count())
-    #MfsbBlock.objects.filter(date__lte=DT.datetime(1601, 01, 01,0,0,0)).delete()
+    
     print('Попытка подключения')
     mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10];
     print('Данные получены : '+str(mfsb_list))
