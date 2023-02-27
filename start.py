@@ -545,6 +545,8 @@ if __name__ == "__main__":
     #test_Mfsb_block()
     sensor = AcsSensor.objects.filter(id=13).first()
     print(sensor)
+    indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time')[:1]
+    print(indicator_link[0].date_time)
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #for sensor in sensor_list:
     #    sensor_link = AcsSensor.objects.filter(tag=sensor['tag']).filter(active=True).first()
