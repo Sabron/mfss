@@ -410,6 +410,16 @@ def len_data():
     Fp_Indicators = FpIndicators.objects.all()
     Fps_Indicators = FpsIndicators.objects.all()
     Scada_Indicators = ScadaIndicators.objects.all()
+    Mfsb_l = Mfsb.objects.using('mfsb').all()
+    MfsbSkpv_l = MfsbSkpv.objects.using('mfsb_skpv').all()
+    MfsbPpz_l = MfsbPpz.objects.using('mfsb_ppz').all()
+    MfsbSkada_l = MfsbSkada.objects.using('mfsb_skada').all()
+
+    print(' Mfsb = '+str(Mfsb_l.count()))
+    print(' MfsbSkpv = '+str(MfsbSkpv_l.count()))
+    print(' MfsbPpz = '+str(MfsbPpz_l.count()))
+    print(' MfsbSkada = '+str(MfsbSkada_l.count()))
+
     print(' DataMfsb = '+str(Data_Mfsb.count()))
     print(' DataMfsbSkada = '+str(DataMfsb_Skada.count()))
     print(' DataMfsbPpz = '+str(DataMfsb_Ppz.count()))
@@ -419,6 +429,8 @@ def len_data():
     print(' FpIndicators = '+str(Fp_Indicators.count()))
     print(' FpsIndicators = '+str(Fps_Indicators.count()))
     print(' ScadaIndicators = '+str(Scada_Indicators.count()))
+
+    
 
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
