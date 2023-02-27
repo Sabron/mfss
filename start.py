@@ -385,7 +385,7 @@ def update_acs():# Получение данных Системы Аэрогаз
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:13000]
     bulk = []
     for data in tqdm(data_mfsb):
-        sensor_link = sensor_list.filter(tag=data.name).filter(active=True).first()
+        sensor_link = AcsSensor.filter(tag=data.name).filter(active=True).first()
         if sensor_link is not None:
             indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).filter(date_time__lte=data.date).order_by('date_time')[:1]
             if indicator_link.count() > 0 :
