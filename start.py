@@ -382,7 +382,7 @@ def len_data():
 def update_acs():# Получение данных Системы Аэрогазовый контроль
     print('update acs')
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
-    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:100000]
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:20000]
     bulk = []
     sensor_m=[]
     for data in tqdm(data_mfsb):
@@ -420,7 +420,7 @@ def update_acs():# Получение данных Системы Аэрогаз
 def update_dcs(): # Получение данных Контроль запыленности
     print('update dcs')
     sensor_list = DcsSensor.objects.values('tag').order_by('tag').distinct()
-    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:100000]
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:20000]
     bulk = []
     sensor_m=[]
     for data in tqdm(data_mfsb):
@@ -452,30 +452,30 @@ def update_ops_date():
     try:
         data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
         print('data_mfsb = '+str(data_mfsb.count()))
-       # mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
-       # print('mfsb_list = '+str(mfsb_list.count()))
-       # mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:13000];
-       # print('mfsb_list = '+str(mfsb_list.count()))
-       # bulk = []
-       # for mfsb in tqdm(mfsb_list):
-       #     datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).order_by('date').first()
-       #     #datd_mfsb = DataMfsb.objects.filter(date__lte=mfsb.date).filter(name=mfsb.name).order_by('date').first()
-       #     if datd_mfsb is None:
-       #         DataMfsb.objects.create(
-       #             date=mfsb.date,
-       #             name=mfsb.name,
-       #             values=mfsb.values,
-       #             check=mfsb.check)
-       #     mfsb.check = True
-       #     bulk.append(mfsb)
-       # print('Помечаем обработанные')
-       # Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
-       # print('Удаляем обработанные')
-       # Mfsb.objects.using('mfsb').filter(check=True).delete();
-       # print('Смотрим на старые')
-       # mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:1];
-       # for mfsb in mfsb_list:
-       #     print(str(mfsb.date))
+        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
+        print('mfsb_list = '+str(mfsb_list.count()))
+        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:13000];
+        print('mfsb_list = '+str(mfsb_list.count()))
+        bulk = []
+        for mfsb in tqdm(mfsb_list):
+            datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).order_by('date').first()
+            #datd_mfsb = DataMfsb.objects.filter(date__lte=mfsb.date).filter(name=mfsb.name).order_by('date').first()
+            if datd_mfsb is None:
+                DataMfsb.objects.create(
+                    date=mfsb.date,
+                    name=mfsb.name,
+                    values=mfsb.values,
+                    check=mfsb.check)
+            mfsb.check = True
+            bulk.append(mfsb)
+        print('Помечаем обработанные')
+        Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
+        print('Удаляем обработанные')
+        Mfsb.objects.using('mfsb').filter(check=True).delete();
+        #print('Смотрим на старые')
+        #mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:1];
+        #for mfsb in mfsb_list:
+        #    print(str(mfsb.date))
         update_acs()
         update_dcs()
     except Exception as err:
@@ -501,7 +501,7 @@ if __name__ == "__main__":
     #print('Удаляем старые данные')
     #delete_data()
     #len_data()
-    for i in range(1, 100):
+    for i in range(1, 200):
         print('**************')
         print('* Итерация : '+str(i))
         print('**************')
