@@ -188,6 +188,7 @@ def update_subscribe_payment():
 def update_ops_date():
     try:
         mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:5000];
+        bulk = []
         for mfsb in mfsb_list:
             datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
             if datd_mfsb is None:
@@ -196,7 +197,9 @@ def update_ops_date():
                     name=mfsb.name,
                     values=mfsb.values,
                     check=mfsb.check)
-        mfsb_list.update(check=True)
+            mfsb.check = True
+            bulk.append(mfsb)
+        Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
         update_acs()
         update_dcs()
     except Exception as err:
