@@ -416,7 +416,7 @@ def update_acs():# Получение данных Системы Аэрогаз
     for sensor in sensor_m:
         indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time')[:1]
         if indicator_link is not None:
-            print(str(sensor)+' : '+str())
+            print(str(sensor)+' : '+str(indicator_link[0].date_time))
             sensor_link.value = indicator_link[0].value
             sensor_link.connect_time =indicator_link[0].date_time
             sensor_link.save()
@@ -451,7 +451,7 @@ def update_dcs(): # Получение данных Контроль запыл�
     for sensor in sensor_m:
         indicator_link = DcsIndicators.objects.filter(sensor = sensor).order_by('date_time')[:1]
         if indicator_link is not None:
-            print(str(sensor)+' : '+str())
+            print(str(sensor)+' : '+str(indicator_link[0].date_time))
             sensor_link.value = indicator_link[0].value
             sensor_link.connect_time =indicator_link[0].date_time
             sensor_link.save()
@@ -496,7 +496,13 @@ if __name__ == "__main__":
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     for sensor in sensor_list:
         sensor_link = AcsSensor.objects.filter(tag=sensor['tag']).filter(active=True).first()
-        print(sensor_link)
+        indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).order_by('date_time')[:1]
+        if indicator_link is not None:
+            print(str(sensor)+' : '+str(indicator_link[0].date_time))
+            sensor_link.value = indicator_link[0].value
+            sensor_link.connect_time =indicator_link[0].date_time
+            sensor_link.save()
+
     
     #DataMfsb.objects.filter(check=True).delete()
     #for i in range(1, 200):
