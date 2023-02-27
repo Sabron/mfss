@@ -496,7 +496,7 @@ if __name__ == "__main__":
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     for sensor in sensor_list:
         sensor_link = AcsSensor.objects.filter(tag=sensor['tag']).filter(active=True).first()
-        indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).order_by('date_time')[:1]
+        indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).order_by('-date_time')[:1]
         print(indicator_link)
         if indicator_link.count() > 0:
             print(str(sensor_link)+' : '+str(indicator_link[0].date_time))
