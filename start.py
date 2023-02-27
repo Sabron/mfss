@@ -380,8 +380,8 @@ def len_data():
     print(' ScadaIndicators = '+str(Scada_Indicators.count()))
 
 def update_acs():# Получение данных Системы Аэрогазовый контроль
-    print('update acs')
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
+    print('update acs : '+len(sensor_list))
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:10000]
     bulk = []
     sensor_m=[]
@@ -418,9 +418,9 @@ def update_acs():# Получение данных Системы Аэрогаз
     #DataMfsb.objects.bulk_update(bulk,['check'])
 
 def update_dcs(): # Получение данных Контроль запыленности
-    print('update dcs')
     sensor_list = DcsSensor.objects.values('tag').order_by('tag').distinct()
-    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:10000]
+    print('update dcs : '+len(sensor_list))
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:20000]
     bulk = []
     sensor_m=[]
     for data in tqdm(data_mfsb):
