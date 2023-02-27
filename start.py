@@ -456,9 +456,11 @@ if __name__ == "__main__":
     #tespp()
     #test_update_acs()
     #test_Mfsb_block()
-    len_data()
-    print('======')
-    print('Удаляем старые данные')
-    delete_data()
-    len_data()
-    
+    #len_data()
+    #print('======')
+    #print('Удаляем старые данные')
+    #delete_data()
+    #len_data()
+    mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:10]
+    for mfsb in mfsb_list:
+        print(mfsb.name+' : '+str(mfsb.date))
