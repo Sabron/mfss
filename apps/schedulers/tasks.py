@@ -148,7 +148,7 @@ def update_dcs(): # Получение данных Контроль запыл�
     for data in data_mfsb:
         sensor_link = DcsSensor.objects.filter(tag=data.name).filter(active=True).first()
         if sensor_link is not None:
-           if sensor_link not in sensor_m:
+            if sensor_link not in sensor_m:
                 sensor_m.append(sensor_link)
             Acs_Indicators = DcsIndicators.objects.create(
                 date_time =data.date,
