@@ -423,4 +423,5 @@ if __name__ == "__main__":
     #print('Удаляем старые данные')
     #delete_data()
     #len_data()
-    update_ops_date()
+    for i in range(1, 10):
+        update_ops_date()
