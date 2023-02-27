@@ -395,8 +395,11 @@ def update_ops_date():
             mfsb.check = True
             #mfsb.save()
             bulk.append(mfsb)
+        print('Помечаем обработанные')
         Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
+        print('Удаляем обработанные')
         Mfsb.objects.using('mfsb').filter(check=True).delete();
+        print('Смотрим на старые')
         mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:5];
         for mfsb in mfsb_list:
             print(str(mfsb.date))
