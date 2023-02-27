@@ -381,8 +381,9 @@ def update_ops_date():
     try:
         mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
         print('mfsb_list = '+str(mfsb_list.count()))
-        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:150000];
+        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:5000];
         print('mfsb_list = '+str(mfsb_list.count()))
+        bulk = []
         for mfsb in tqdm(mfsb_list):
             datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
             if datd_mfsb is None:
@@ -391,9 +392,10 @@ def update_ops_date():
                     name=mfsb.name,
                     values=mfsb.values,
                     check=mfsb.check)
-            #mfsb.check = True
+            mfsb.check = True
             #mfsb.save()
-        mfsb_list.update(check=True)
+            bulk.append(mfsb)
+        Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
         Mfsb.objects.using('mfsb').filter(check=True).delete();
         mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:5];
         for mfsb in mfsb_list:
