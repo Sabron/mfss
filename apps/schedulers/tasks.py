@@ -20,6 +20,7 @@ from apps.ops.models.model_mfsb import Mfsb
 from apps.ops.models.model_mfsb_skada import MfsbSkada
 from apps.ops.models.model_mfsb_skpv import MfsbSkpv
 from apps.ops.models.model_mfsb_ppz import MfsbPpz
+from apps.ops.models.model_mfsb_block import MfsbBlock
 
 from apps.main.models.model_datamfsb import DataMfsb
 from apps.main.models.model_datamfsb_ppz import DataMfsbPpz
@@ -42,6 +43,9 @@ from apps.scada.models.model_indicators import ScadaIndicators
 from apps.fp.models.model_sensor import FpSensor
 from apps.fp.models.model_indicators import FpIndicators
 from apps.fp.models.model_code_bolid import CodeBolid
+
+from apps.block.models.model_sensor import BlockSensor
+from apps.block.models.model_indicators import BlockIndicators
 
 
 from apps.eps.models.model_tags import Tag
