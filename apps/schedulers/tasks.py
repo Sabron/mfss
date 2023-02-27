@@ -190,6 +190,7 @@ def update_subscribe_payment():
 def update_ops_date():
     try:
         mfsb = cache.get('mfsb')
+        logging.log(str(mfsb))
         if not mfsb:
             cache.set('mfsb', '1')
             mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:5000];
