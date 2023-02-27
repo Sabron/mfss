@@ -212,7 +212,7 @@ def test_Mfsb_skada():
         print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
 
 def test_Mfsb_block():
-    MfsbBlock.objects.using('mfsb_block').filter(date__lte=DT.datetime(1601, 1, 1,0,0,0)).delete()
+    MfsbBlock.objects.using('mfsb_block').filter(date__lte=DT.datetime(1601, 12, 1,0,0,0)).delete()
     Mfsb_Block = MfsbBlock.objects.using('mfsb_block').all();
     print(Mfsb_Block.count())
     
