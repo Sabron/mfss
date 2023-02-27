@@ -497,8 +497,9 @@ if __name__ == "__main__":
     for sensor in sensor_list:
         sensor_link = AcsSensor.objects.filter(tag=sensor['tag']).filter(active=True).first()
         indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).order_by('date_time')[:1]
+        print(indicator_link)
         if indicator_link is not None:
-            print(str(sensor)+' : '+str(indicator_link[0].date_time))
+            print(str(sensor_link)+' : '+str(indicator_link[0].date_time))
             sensor_link.value = indicator_link[0].value
             sensor_link.connect_time =indicator_link[0].date_time
             sensor_link.save()
