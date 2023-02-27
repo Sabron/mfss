@@ -214,7 +214,8 @@ def update_ops_date():
             Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
             update_acs()
             update_dcs()
-            logging.log('Удаляем ключ : '+str(cache.delete('mfsb')))
+            logging.log('Удаляем ключ : mfsb')
+            cache.delete('mfsb')
     except Exception as err:
         logging.error("==============update_ops_date")
         logging.error(traceback.format_exc())
