@@ -131,7 +131,7 @@ def update_acs():# Получение данных Системы Аэрогаз
             data.check = True
             #data.save()
             bulk.append(data)
-    for sensor in tqdm(sensor_m):
+    for sensor in sensor_m:
         indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time')[:1]
         if indicator_link is not None:
             sensor_link.value = indicator_link[0].value
@@ -160,7 +160,7 @@ def update_dcs(): # Получение данных Контроль запыл�
             data.check = True
             #data.save()
             bulk.append(data)
-    for sensor in tqdm(sensor_m):
+    for sensor in sensor_m:
         indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time')[:1]
         if indicator_link is not None:
             sensor_link.value = indicator_link[0].value
