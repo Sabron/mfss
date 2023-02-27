@@ -3,25 +3,26 @@ from datetime import datetime
 
 from django.db import models
 from django.urls import reverse #Used to generate URLs by reversing the URL patterns
-from .model_sensor import AcsSensor
+from .model_sensor import BlockSensor
 
-class AcsIndicators(models.Model):  # Показания датчиков
-  
-    
-    """
-    Модель справочника датчиков
-    """
+class BlockIndicators(models.Model):  # Показания блокировок
+    type_list = (
+        (0, 'нет связи (блокировка выведена)'),
+        (1, 'блокировка активна'),
+    )
+     
     date_time = models.DateTimeField(auto_now=False,
         auto_now_add=False,
         blank=True,
         verbose_name="Время показаний")
-    sensor = models.ForeignKey(AcsSensor,
+    sensor = models.ForeignKey(BlockSensor,
         on_delete=models.SET_NULL,
         null=True,
         verbose_name="Датчик")
-    value = models.FloatField(default=0.0,
-        help_text="",
-        verbose_name="Показание")
+    value = models.IntegerField(choices=type_list,
+           blank=True,
+           default=0,
+           verbose_name="Активность") 
     
 
     def getId(self):
@@ -37,6 +38,7 @@ class AcsIndicators(models.Model):  # Показания датчиков
         indexes = [
             models.Index(fields=['sensor',]),
             models.Index(fields=['date_time','sensor',]),]
+
 
 
 
