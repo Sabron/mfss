@@ -382,7 +382,7 @@ def len_data():
 def update_acs():# Получение данных Системы Аэрогазовый контроль
     print('update acs')
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
-    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:5000]
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:10000]
     bulk = []
     sensor_m=[]
     for data in tqdm(data_mfsb):
@@ -420,7 +420,7 @@ def update_acs():# Получение данных Системы Аэрогаз
 def update_dcs(): # Получение данных Контроль запыленности
     print('update dcs')
     sensor_list = DcsSensor.objects.values('tag').order_by('tag').distinct()
-    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:5000]
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:10000]
     bulk = []
     sensor_m=[]
     for data in tqdm(data_mfsb):
@@ -450,8 +450,8 @@ def update_dcs(): # Получение данных Контроль запыл�
 
 def update_ops_date():
     try:
-        #data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
-        #print('data_mfsb = '+str(data_mfsb.count()))
+        data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
+        print('data_mfsb = '+str(data_mfsb.count()))
         #mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
         #print('mfsb_list = '+str(mfsb_list.count()))
         #mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:13000];
