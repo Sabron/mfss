@@ -386,11 +386,16 @@ def update_acs():# Получение данных Системы Аэрогаз
     bulk = []
     sensor_m=[]
     for data in tqdm(data_mfsb):
+        print('389')
         sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
+        print('391')
         if sensor_link is not None:
+            print('393')
             if sensor_link not in sensor_m:
                 sensor_m.append(sensor_link)
+            print('396')
             indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).filter(date_time__lte=data.date).order_by('date_time')[:1]
+            print('398')
             if indicator_link.count() > 0 :
                 if indicator_link[0].value != data.values:
                     Acs_Indicators = AcsIndicators.objects.create(
@@ -405,8 +410,10 @@ def update_acs():# Получение данных Системы Аэрогаз
             #sensor_link.value = data.values
             #sensor_link.connect_time =data.date
             #sensor_link.save()
+            print('413')
             data.check = True
             data.save()
+            print('416')
             bulk.append(data)
     print('Обновляем последнее значение')
     for sensor in tqdm(sensor_m):
@@ -452,28 +459,28 @@ def update_dcs(): # Получение данных Контроль запыл�
 
 def update_ops_date():
     try:
-        data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
-        print('data_mfsb = '+str(data_mfsb.count()))
-        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
-        print('mfsb_list = '+str(mfsb_list.count()))
-        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:13000];
-        print('mfsb_list = '+str(mfsb_list.count()))
-        bulk = []
-        for mfsb in tqdm(mfsb_list):
-            datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).order_by('date').first()
+        #data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
+        #print('data_mfsb = '+str(data_mfsb.count()))
+        #mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
+        #print('mfsb_list = '+str(mfsb_list.count()))
+        #mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:13000];
+        #print('mfsb_list = '+str(mfsb_list.count()))
+        #bulk = []
+        #for mfsb in tqdm(mfsb_list):
+        #    datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).order_by('date').first()
             #datd_mfsb = DataMfsb.objects.filter(date__lte=mfsb.date).filter(name=mfsb.name).order_by('date').first()
-            if datd_mfsb is None:
-                DataMfsb.objects.create(
-                    date=mfsb.date,
-                    name=mfsb.name,
-                    values=mfsb.values,
-                    check=mfsb.check)
-            mfsb.check = True
-            bulk.append(mfsb)
-        print('Помечаем обработанные')
-        Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
-        print('Удаляем обработанные')
-        Mfsb.objects.using('mfsb').filter(check=True).delete();
+        #    if datd_mfsb is None:
+        #        DataMfsb.objects.create(
+        #            date=mfsb.date,
+        #            name=mfsb.name,
+        #            values=mfsb.values,
+        #            check=mfsb.check)
+        #    mfsb.check = True
+        #    bulk.append(mfsb)
+        #print('Помечаем обработанные')
+        #Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
+        #print('Удаляем обработанные')
+        #Mfsb.objects.using('mfsb').filter(check=True).delete();
         #print('Смотрим на старые')
         #mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:1];
         #for mfsb in mfsb_list:
