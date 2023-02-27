@@ -7,6 +7,8 @@ import requests
 import requests.exceptions as rex
 
 from django.db.models import Sum
+from django.core.cache import cache
+
 from requests.auth import HTTPBasicAuth
 
 from datetime import datetime, timedelta, timezone,date
@@ -187,21 +189,25 @@ def update_subscribe_payment():
 @app.task(ignore_result=True)
 def update_ops_date():
     try:
-        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:5000];
-        bulk = []
-        for mfsb in mfsb_list:
-            datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-            if datd_mfsb is None:
-                DataMfsb.objects.create(
-                    date=mfsb.date,
-                    name=mfsb.name,
-                    values=mfsb.values,
-                    check=mfsb.check)
-            mfsb.check = True
-            bulk.append(mfsb)
-        Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
-        update_acs()
-        update_dcs()
+        mfsb = cache.get('mfsb')
+        if not mfsb:
+            cache.set('mfsb', '1')
+            mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:5000];
+            bulk = []
+            for mfsb in mfsb_list:
+                datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+                if datd_mfsb is None:
+                    DataMfsb.objects.create(
+                        date=mfsb.date,
+                        name=mfsb.name,
+                        values=mfsb.values,
+                        check=mfsb.check)
+                mfsb.check = True
+                bulk.append(mfsb)
+            Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
+            update_acs()
+            update_dcs()
+            cache.delete('mfsb')
     except Exception as err:
         logging.error("==============update_ops_date")
         logging.error(traceback.format_exc())
