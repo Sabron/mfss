@@ -414,7 +414,7 @@ def update_acs():# Получение данных Системы Аэрогаз
         if indicator_link is not None:
             print('update')
             sensor_link.value = indicator_link[0].value
-            sensor_link.connect_time =ndicator_link[0].date_time
+            sensor_link.connect_time =indicator_link[0].date_time
             sensor_link.save()
     DataMfsb.objects.bulk_update(bulk,['check'])
 
