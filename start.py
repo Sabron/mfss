@@ -533,12 +533,12 @@ def update_block():
 
 def test_Mfsb_block():
     MfsbBlock.objects.using('mfsb_block').filter(date__lte=DT.datetime(1601, 12, 1,0,0,0)).delete()
-    Mfsb_Block = MfsbBlock.objects.using('mfsb_block').all();
+    Mfsb_Block = MfsbBlock.objects.using('mfsb_block').filter(check=False).all();
     print(Mfsb_Block.count())
     
-    print('Попытка подключения')
-    mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10];
-    print('Данные получены : '+str(mfsb_list.count()))
+    #print('Попытка подключения')
+    #mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10];
+    #print('Данные получены : '+str(mfsb_list.count()))
 
 if __name__ == "__main__":
     #test_Mfsb_block()
