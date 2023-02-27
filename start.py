@@ -554,6 +554,7 @@ if __name__ == "__main__":
     #        sensor_link.value = indicator_link[0].value
     #        sensor_link.connect_time =indicator_link[0].date_time
     #        sensor_link.save()
+    test_Mfsb_block()
     update_block()
     
     #DataMfsb.objects.filter(check=True).delete()
