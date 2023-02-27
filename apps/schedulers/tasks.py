@@ -105,7 +105,8 @@ def update_scada(): # Получение данных Системы контр�
 
 def update_acs():# Получение данных Системы Аэрогазовый контроль
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
-    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:5000]
+    bulk = []
     for data in data_mfsb:
         sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
         if sensor_link is not None:
@@ -125,11 +126,15 @@ def update_acs():# Получение данных Системы Аэрогаз
             sensor_link.connect_time =data.date
             sensor_link.save()
             data.check = True
-            data.save()
+            #data.save()
+            bulk.append(data)
+    DataMfsb.objects.bulk_update(bulk,['check'])
+
 
 def update_dcs(): # Получение данных Контроль запыленности
     sensor_list = DcsSensor.objects.values('tag').order_by('tag').distinct()
-    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:5000]
+    bulk = []
     for data in data_mfsb:
         sensor_link = DcsSensor.objects.filter(tag=data.name).filter(active=True).first()
         if sensor_link is not None:
@@ -141,8 +146,9 @@ def update_dcs(): # Получение данных Контроль запыл�
             sensor_link.connect_time =data.date
             sensor_link.save()
             data.check = True
-            data.save()
-
+            #data.save()
+            bulk.append(data)
+    DataMfsb.objects.bulk_update(bulk,['check'])
  
 
 def end_moth(old_date,mes):
