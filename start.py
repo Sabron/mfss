@@ -390,6 +390,8 @@ def update_acs():# Получение данных Системы Аэрогаз
             #if sensor_link not in sensor_m:
             #    sensor_m.append(sensor_link)
             indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).filter(date_time__lte=data.date).order_by('date_time')[:1]
+            print(indicator_link[0].date_time)
+            break
             if indicator_link.count() > 0 :
                 if indicator_link[0].value != data.values:
                     Acs_Indicators = AcsIndicators.objects.create(
@@ -543,10 +545,6 @@ def test_Mfsb_block():
 
 if __name__ == "__main__":
     #test_Mfsb_block()
-    sensor = AcsSensor.objects.filter(id=13).first()
-    print(sensor)
-    indicator_link = AcsIndicators.objects.filter(sensor = sensor).filter(date_time__lte==DT.datetime(2023, 2, 20,0,0,0)).order_by('-date_time')[:1]
-    print(indicator_link[0].date_time)
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #for sensor in sensor_list:
     #    sensor_link = AcsSensor.objects.filter(tag=sensor['tag']).filter(active=True).first()
@@ -556,7 +554,7 @@ if __name__ == "__main__":
     #        sensor_link.value = indicator_link[0].value
     #        sensor_link.connect_time =indicator_link[0].date_time
     #        sensor_link.save()
-
+    update_acs()
     
     #DataMfsb.objects.filter(check=True).delete()
     #for i in range(1, 200):
