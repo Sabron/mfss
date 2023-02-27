@@ -400,6 +400,12 @@ def delete_data():
     Fps_Indicators = FpsIndicators.objects.filter(date_time__lte=DT.datetime(2022, 12, 31,0,0,0)).delete()
     Scada_Indicators = ScadaIndicators.objects.filter(date_time__lte=DT.datetime(2022, 12, 31,0,0,0)).delete()
 
+    MfsbSkpv.objects.using('mfsb_skpv').filter(check=True).delete();
+    Mfsb.objects.using('mfsb').filter(check=True).delete();
+    MfsbPpz.objects.using('mfsb_ppz').filter(check=True).delete();
+    MfsbSkada.objects.using('mfsb_skada').filter(check=True).delete();
+
+
 def len_data():
     Data_Mfsb = DataMfsb.objects.all()
     DataMfsb_Skada = DataMfsbSkada.objects.all()
