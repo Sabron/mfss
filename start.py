@@ -394,6 +394,9 @@ def update_ops_date():
             mfsb.check = True
             mfsb.save()
         Mfsb.objects.using('mfsb').filter(check=True).delete();
+        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:5];
+        for mfsb in mfsb_list:
+            print(str(mfsb.date))
     except Exception as err:
         logging.error("==============update_ops_date")
         logging.error(traceback.format_exc())
