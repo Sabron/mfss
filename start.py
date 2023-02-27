@@ -387,7 +387,8 @@ def update_acs():# Получение данных Системы Аэрогаз
     sensor_m=[]
     for data in tqdm(data_mfsb):
         sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
-        sensor_m.append(sensor_link)
+        if sensor_link not in sensor_m:
+            sensor_m.append(sensor_link)
         if sensor_link is not None:
             indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).filter(date_time__lte=data.date).order_by('date_time')[:1]
             if indicator_link.count() > 0 :
@@ -409,7 +410,6 @@ def update_acs():# Получение данных Системы Аэрогаз
             bulk.append(data)
     print('Обновляем последнее значение')
     for sensor in tqdm(sensor_m):
-        print(sensor)
         indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time')[:1]
         if indicator_link is not None:
             print('update')
