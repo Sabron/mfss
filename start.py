@@ -435,8 +435,10 @@ def update_dcs(): # Получение данных Контроль запыл�
             #sensor_link.value = data.values
             #sensor_link.connect_time =data.date
             #sensor_link.save()
+            print('Попытка')
             data.check = True
             data.save()
+            print('Запись')
             bulk.append(data)
     print('Обновляем последнее значение')
     for sensor in tqdm(sensor_m):
