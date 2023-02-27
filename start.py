@@ -501,6 +501,7 @@ if __name__ == "__main__":
     #print('Удаляем старые данные')
     #delete_data()
     #len_data()
+    DataMfsb.objects.filter(check=True).delete()
     for i in range(1, 200):
         print('**************')
         print('* Итерация : '+str(i))
