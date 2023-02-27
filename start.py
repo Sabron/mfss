@@ -405,6 +405,8 @@ def update_acs():# Получение данных Системы Аэрогаз
             data.check = True
             #data.save()
             bulk.append(data)
+    print('values : '+str(data.values))
+    print('connect_time : '+str(data.date))
     DataMfsb.objects.bulk_update(bulk,['check'])
 
 def update_dcs(): # Получение данных Контроль запыленности
