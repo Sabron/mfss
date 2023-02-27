@@ -551,14 +551,14 @@ if __name__ == "__main__":
     #        sensor_link.value = indicator_link[0].value
     #        sensor_link.connect_time =indicator_link[0].date_time
     #        sensor_link.save()
-    for i in range(1, 200):
-        test_Mfsb_block()
-        update_block()
-    
-    #DataMfsb.objects.filter(check=True).delete()
     #for i in range(1, 200):
-    #    DataMfsb.objects.filter(check=True).delete()
-    #    print('**************')
-    #    print('* Итерация : '+str(i))
-    #    print('**************')
-    #    update_ops_date()
+    #    test_Mfsb_block()
+    #    update_block()
+    
+    DataMfsb.objects.filter(check=True).delete()
+    for i in range(1, 200):
+        DataMfsb.objects.filter(check=True).delete()
+        print('**************')
+        print('* Итерация : '+str(i))
+        print('**************')
+        update_ops_date()
