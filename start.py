@@ -379,6 +379,8 @@ def len_data():
 
 def update_ops_date():
     try:
+        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
+        print('mfsb_list = '+str(mfsb_list.count()))
         mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:1000];
         print('mfsb_list = '+str(mfsb_list.count()))
         for mfsb in mfsb_list:
@@ -391,6 +393,7 @@ def update_ops_date():
                     check=mfsb.check)
             mfsb.check = True
             mfsb.save()
+        Mfsb.objects.using('mfsb').filter(check=True).delete();
     except Exception as err:
         logging.error("==============update_ops_date")
         logging.error(traceback.format_exc())
