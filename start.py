@@ -406,8 +406,12 @@ def update_acs():# Получение данных Системы Аэрогаз
             #sensor_link.connect_time =data.date
             #sensor_link.save()
             data.check = True
-            data.save()
+            #data.save()
             bulk.append(data)
+            if len(bulk) > 500:
+                DataMfsb.objects.bulk_update(bulk,['check'])
+                bulk = []
+
     print('Обновляем последнее значение')
     for sensor in tqdm(sensor_m):
         indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time')[:1]
@@ -415,7 +419,7 @@ def update_acs():# Получение данных Системы Аэрогаз
             sensor_link.value = indicator_link[0].value
             sensor_link.connect_time =indicator_link[0].date_time
             sensor_link.save()
-    #DataMfsb.objects.bulk_update(bulk,['check'])
+    DataMfsb.objects.bulk_update(bulk,['check'])
 
 def update_dcs(): # Получение данных Контроль запыленности
     sensor_list = DcsSensor.objects.values('tag').order_by('tag').distinct()
@@ -436,8 +440,12 @@ def update_dcs(): # Получение данных Контроль запыл�
             #sensor_link.connect_time =data.date
             #sensor_link.save()
             data.check = True
-            data.save()
+            #data.save()
             bulk.append(data)
+            if len(bulk) > 500:
+                DataMfsb.objects.bulk_update(bulk,['check'])
+                bulk = []
+
     print('Обновляем последнее значение')
     for sensor in tqdm(sensor_m):
         indicator_link = DcsIndicators.objects.filter(sensor = sensor).order_by('date_time')[:1]
@@ -445,7 +453,7 @@ def update_dcs(): # Получение данных Контроль запыл�
             sensor_link.value = indicator_link[0].value
             sensor_link.connect_time =indicator_link[0].date_time
             sensor_link.save()
-    #DataMfsb.objects.bulk_update(bulk,['check'])
+    DataMfsb.objects.bulk_update(bulk,['check'])
 
 
 def update_ops_date():
