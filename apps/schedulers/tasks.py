@@ -113,7 +113,7 @@ def update_acs():# Получение данных Системы Аэрогаз
         if sensor_link is not None:
             #if sensor_link not in sensor_m:
             #    sensor_m.append(sensor_link)
-            indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).filter(date_time__lte=data.date).order_by('date_time')[:1]
+            indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).filter(date_time__lte=data.date).order_by('-date_time')[:1]
             if indicator_link.count() > 0 :
                 if indicator_link[0].value != data.values:
                     Acs_Indicators = AcsIndicators.objects.create(
