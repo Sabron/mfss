@@ -414,7 +414,7 @@ def update_acs():# Получение данных Системы Аэрогаз
 
     print('Обновляем последнее значение')
     for sensor in sensor_m:
-        indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time')[:1]
+        indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('-date_time')[:1]
         if indicator_link is not None:
             print(str(sensor)+' : '+str(indicator_link[0].date_time))
             sensor_link.value = indicator_link[0].value
@@ -449,7 +449,7 @@ def update_dcs(): # Получение данных Контроль запыл�
 
     print('Обновляем последнее значение')
     for sensor in sensor_m:
-        indicator_link = DcsIndicators.objects.filter(sensor = sensor).order_by('date_time')[:1]
+        indicator_link = DcsIndicators.objects.filter(sensor = sensor).order_by('-date_time')[:1]
         if indicator_link is not None:
             print(str(sensor)+' : '+str(indicator_link[0].date_time))
             sensor_link.value = indicator_link[0].value
@@ -493,22 +493,21 @@ def update_ops_date():
         logging.error(traceback.format_exc())
 
 if __name__ == "__main__":
-    sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
-    for sensor in sensor_list:
-        sensor_link = AcsSensor.objects.filter(tag=sensor['tag']).filter(active=True).first()
-        indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).order_by('-date_time')[:1]
-        print(indicator_link)
-        if indicator_link.count() > 0:
-            print(str(sensor_link)+' : '+str(indicator_link[0].date_time))
-            sensor_link.value = indicator_link[0].value
-            sensor_link.connect_time =indicator_link[0].date_time
-            sensor_link.save()
+    #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
+    #for sensor in sensor_list:
+    #    sensor_link = AcsSensor.objects.filter(tag=sensor['tag']).filter(active=True).first()
+    #    indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).order_by('-date_time')[:1]
+    #    if indicator_link.count() > 0:
+    #        print(str(sensor_link)+' : '+str(indicator_link[0].date_time))
+    #        sensor_link.value = indicator_link[0].value
+    #        sensor_link.connect_time =indicator_link[0].date_time
+    #        sensor_link.save()
 
     
-    #DataMfsb.objects.filter(check=True).delete()
-    #for i in range(1, 200):
-    #    DataMfsb.objects.filter(check=True).delete()
-    #    print('**************')
-    #    print('* Итерация : '+str(i))
-    #    print('**************')
-    #    update_ops_date()
+    DataMfsb.objects.filter(check=True).delete()
+    for i in range(1, 200):
+        DataMfsb.objects.filter(check=True).delete()
+        print('**************')
+        print('* Итерация : '+str(i))
+        print('**************')
+        update_ops_date()
