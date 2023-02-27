@@ -201,6 +201,7 @@ def update_ops_date():
         update_acs()
         update_dcs()
     except Exception as err:
+        logging.error("==============update_ops_date")
         logging.error(traceback.format_exc())
 
 @app.task(ignore_result=True)

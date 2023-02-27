@@ -41,7 +41,7 @@ app.conf.beat_schedule = {
 
     'apps.schedulers.tasks.update_eps': {
         'task': 'apps.schedulers.tasks.update_eps',
-        'schedule': timedelta(seconds=2),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
+        'schedule': timedelta(minutes=5),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
     },
 
 #    'send-send_telegram_message-minute': {
