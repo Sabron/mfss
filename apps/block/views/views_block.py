@@ -98,7 +98,7 @@ def MainIndexDefault(request):
             m_zone.append(position_dict)
         param=request.GET.dict()
         type = 0
-        sensor_list = BlockSensor.objects.all().order_by('name')
+        sensor_list = BlockSensor.objects.all().order_by('value').order_by('name')
         m_sensor = []
         for sensor in sensor_list:
             str_value=str(sensor.value)
