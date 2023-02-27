@@ -496,7 +496,7 @@ def update_ops_date():
 
 def update_block():
     try:
-            mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:50];
+            mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10000];
             bulk = []
             for data in tqdm(mfsb_list):
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
@@ -551,8 +551,9 @@ if __name__ == "__main__":
     #        sensor_link.value = indicator_link[0].value
     #        sensor_link.connect_time =indicator_link[0].date_time
     #        sensor_link.save()
-    test_Mfsb_block()
-    update_block()
+    for i in range(1, 200):
+        test_Mfsb_block()
+        update_block()
     
     #DataMfsb.objects.filter(check=True).delete()
     #for i in range(1, 200):
