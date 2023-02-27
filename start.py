@@ -496,10 +496,6 @@ def update_ops_date():
 
 def update_block():
     try:
-        mfsb = cache.get('mfsb_block')
-        logging.log(str(mfsb))
-        if not mfsb:
-            cache.set('mfsb_block', '1')
             mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:50];
             bulk = []
             for data in tqdm(mfsb_list):
@@ -522,31 +518,15 @@ def update_block():
                         date_time =data.date,
                         sensor = block_sensor,
                         value = data.values)
-            block_sensor.value = data.values
-            block_sensor.connect_time =data.date
-            block_sensor.save()
-            data.check = True
-            bulk.append(data)
-            if len(bulk) > 500:
-                MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
-                bulk = []
-
-                #BlockIndicators.objects.filter(sensor = block_sensor)
-
-                #datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-                #if datd_mfsb is None:
-                #    DataMfsb.objects.create(
-                #        date=mfsb.date,
-                ##        name=mfsb.name,
-                #        values=mfsb.values,
-                #        check=mfsb.check)
-                #mfsb.check = True
-                #bulk.append(mfsb)
-            #MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
-            #update_acs()
-            #update_dcs()
-            logging.log('Удаляем ключ : mfsb_block')
-            cache.delete('mfsb_block')
+                block_sensor.value = data.values
+                block_sensor.connect_time =data.date
+                block_sensor.save()
+                data.check = True
+                bulk.append(data)
+                if len(bulk) > 500:
+                    MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+                    bulk = []
+            MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
     except Exception as err:
         logging.error("==============update_block")
         logging.error(traceback.format_exc())
