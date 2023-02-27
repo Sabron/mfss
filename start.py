@@ -381,7 +381,7 @@ def len_data():
 
 def update_acs():# Получение данных Системы Аэрогазовый контроль
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
-    print('update acs : '+len(sensor_list))
+    print('update acs : '+str(len(sensor_list)))
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:10000]
     bulk = []
     sensor_m=[]
@@ -419,7 +419,7 @@ def update_acs():# Получение данных Системы Аэрогаз
 
 def update_dcs(): # Получение данных Контроль запыленности
     sensor_list = DcsSensor.objects.values('tag').order_by('tag').distinct()
-    print('update dcs : '+len(sensor_list))
+    print('update dcs : '+str(len(sensor_list)))
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:20000]
     bulk = []
     sensor_m=[]
