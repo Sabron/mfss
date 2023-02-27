@@ -61,7 +61,7 @@
                                                         {% if  sensor.position == zone.name %} 
                                                         <tr>
                                                             <td>{{sensor.sensor.id}}</td>
-                                                            <td><a href="#">{{sensor.sensor}}</a></td>
+                                                            <td><a href="#">{{sensor.sensor}} ({{sensor.connect_time}})</a></td>
                                                             <td>
                                                             <a href="#" class="text-muted">
                                                                 <i class="fas fa-circle" style="color:{%if sensor.value == 1 %} green {% else %} red {%endif%}"></i>
@@ -106,7 +106,7 @@
                                             {% for sensor in m_sensor %}
                                             <tr>
                                                 <td>{{sensor.sensor.id}}</td>
-                                                <td><a href="#">{{sensor.sensor}}</a></td>
+                                                <td><a href="#">{{sensor.sensor}} ({{sensor.connect_time}}) </a></td>
                                                 <td><span class="badge ">{{sensor.position}}</span></td>
                                                 <td>
                                                 <a href="#" class="text-muted">

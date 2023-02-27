@@ -108,6 +108,7 @@ def MainIndexDefault(request):
             sensor_dict.update(sensor=sensor)
             sensor_dict.update(name=sensor.name)
             sensor_dict.update(value=sensor.value)
+            sensor_dict.update(connect_time=sensor.connect_time)
             sensor_dict.update(str_value=str_value)
             m_sensor.append(sensor_dict)
         context = {
