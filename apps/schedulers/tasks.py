@@ -214,7 +214,6 @@ def update_subscribe_payment():
 def update_ops_date():
     try:
         mfsb = cache.get('mfsb')
-        logging.log(str(mfsb))
         if not mfsb:
             cache.set('mfsb', '1')
             mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:5000];
@@ -232,10 +231,52 @@ def update_ops_date():
             Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
             update_acs()
             update_dcs()
-            logging.log('Удаляем ключ : mfsb')
             cache.delete('mfsb')
     except Exception as err:
         logging.error("==============update_ops_date")
+        logging.error(traceback.format_exc())
+
+@app.task(ignore_result=True)
+def update_block():
+    try:
+        mfsb = cache.get('mfsb_block')
+        logging.log(str(mfsb))
+        if not mfsb:
+            cache.set('mfsb_block', '1')
+            mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10000];
+            bulk = []
+            for data in tqdm(mfsb_list):
+                block_sensor = BlockSensor.objects.filter(tag = data.name).first()
+                if block_sensor is None:
+                    block_sensor = BlockSensor.objects.create(
+                                tag = data.name,
+                                position = 'None',
+                                name = data.name)
+
+                indicator_link = BlockIndicators.objects.filter(sensor = block_sensor).filter(date_time__lte=data.date).order_by('-date_time')[:1]
+                if indicator_link.count() > 0 :
+                    if indicator_link[0].value != data.values:
+                        Acs_Indicators = BlockIndicators.objects.create(
+                            date_time =data.date,
+                            sensor = block_sensor,
+                            value = data.values)
+                else:
+                    Acs_Indicators = BlockIndicators.objects.create(
+                        date_time =data.date,
+                        sensor = block_sensor,
+                        value = data.values)
+                block_sensor.value = data.values
+                block_sensor.connect_time =data.date
+                block_sensor.save()
+                data.check = True
+                bulk.append(data)
+                if len(bulk) > 500:
+                    MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+                    bulk = []
+            MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+            cache.delete('mfsb_block')
+    except Exception as err:
+        logging.error("==============update_block")
         logging.error(traceback.format_exc())
 
 @app.task(ignore_result=True)
