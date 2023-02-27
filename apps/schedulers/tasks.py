@@ -187,7 +187,7 @@ def update_subscribe_payment():
 @app.task(ignore_result=True)
 def update_ops_date():
     try:
-        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:5000];
+        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:50000];
         bulk = []
         for mfsb in mfsb_list:
             datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
