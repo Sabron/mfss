@@ -493,6 +493,7 @@ def update_ops_date():
         logging.error(traceback.format_exc())
 
 if __name__ == "__main__":
+    test_Mfsb_block()
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #for sensor in sensor_list:
     #    sensor_link = AcsSensor.objects.filter(tag=sensor['tag']).filter(active=True).first()
@@ -504,10 +505,10 @@ if __name__ == "__main__":
     #        sensor_link.save()
 
     
-    DataMfsb.objects.filter(check=True).delete()
-    for i in range(1, 200):
-        DataMfsb.objects.filter(check=True).delete()
-        print('**************')
-        print('* Итерация : '+str(i))
-        print('**************')
-        update_ops_date()
+    #DataMfsb.objects.filter(check=True).delete()
+    #for i in range(1, 200):
+    #    DataMfsb.objects.filter(check=True).delete()
+    #    print('**************')
+    #    print('* Итерация : '+str(i))
+    #    print('**************')
+    #    update_ops_date()
