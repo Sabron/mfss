@@ -383,7 +383,7 @@ def update_ops_date():
         print('mfsb_list = '+str(mfsb_list.count()))
         mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:100000];
         print('mfsb_list = '+str(mfsb_list.count()))
-        for mfsb in mfsb_list:
+        for mfsb in tqdm(mfsb_list):
             datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
             if datd_mfsb is None:
                 DataMfsb.objects.create(
