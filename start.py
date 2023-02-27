@@ -41,7 +41,9 @@ from apps.main.models.model_datamfsb_skpv import DataMfsbSkpv
 from apps.acs.models.model_sensor import AcsSensor
 from apps.acs.models.model_indicators import AcsIndicators
 
+from apps.dcs.models.model_sensor import DcsSensor
 from apps.dcs.models.model_indicators import DcsIndicators
+
 
 from apps.fps.models.model_sensor import FpsSensor
 from apps.fps.models.model_indicators import FpsIndicators
@@ -377,6 +379,55 @@ def len_data():
     print(' FpsIndicators = '+str(Fps_Indicators.count()))
     print(' ScadaIndicators = '+str(Scada_Indicators.count()))
 
+def update_acs():# Получение данных Системы Аэрогазовый контроль
+    print('update acs')
+    sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:10000]
+    bulk = []
+    for data in tqdm(data_mfsb):
+        sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
+        if sensor_link is not None:
+            indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).filter(date_time__lte=data.date).order_by('date_time')[:1]
+            if indicator_link.count() > 0 :
+                if indicator_link[0].value != data.values:
+                    Acs_Indicators = AcsIndicators.objects.create(
+                        date_time =data.date,
+                        sensor = sensor_link,
+                        value = data.values)
+            else:
+                Acs_Indicators = AcsIndicators.objects.create(
+                    date_time =data.date,
+                    sensor = sensor_link,
+                    value = data.values)
+            sensor_link.value = data.values
+            sensor_link.connect_time =data.date
+            sensor_link.save()
+            data.check = True
+            #data.save()
+            bulk.append(data)
+    DataMfsb.objects.bulk_update(bulk,['check'])
+
+def update_dcs(): # Получение данных Контроль запыленности
+    print('update dcs')
+    sensor_list = DcsSensor.objects.values('tag').order_by('tag').distinct()
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:10000]
+    bulk = []
+    for data in tqdm(data_mfsb):
+        sensor_link = DcsSensor.objects.filter(tag=data.name).filter(active=True).first()
+        if sensor_link is not None:
+            Acs_Indicators = DcsIndicators.objects.create(
+                date_time =data.date,
+                sensor = sensor_link,
+                value = data.values)
+            sensor_link.value = data.values
+            sensor_link.connect_time =data.date
+            sensor_link.save()
+            data.check = True
+            #data.save()
+            bulk.append(data)
+    DataMfsb.objects.bulk_update(bulk,['check'])
+
+
 def update_ops_date():
     try:
         data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
@@ -405,6 +456,8 @@ def update_ops_date():
         mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:1];
         for mfsb in mfsb_list:
             print(str(mfsb.date))
+        update_acs()
+        update_dcs()
     except Exception as err:
         logging.error("==============update_ops_date")
         logging.error(traceback.format_exc())
