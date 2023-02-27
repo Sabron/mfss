@@ -399,14 +399,21 @@ def update_acs():# Получение данных Системы Аэрогаз
                     date_time =data.date,
                     sensor = sensor_link,
                     value = data.values)
-            sensor_link.value = data.values
-            sensor_link.connect_time =data.date
-            sensor_link.save()
+            #sensor_link.value = data.values
+            #sensor_link.connect_time =data.date
+            #sensor_link.save()
             data.check = True
             #data.save()
             bulk.append(data)
-    print('values : '+str(data.values))
-    print('connect_time : '+str(data.date))
+    print('Обновляем последнее значение')
+    for sensor in tqdm(sensor_list):
+        print(sensor)
+        indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time')[:1]
+        if indicator_link is not None:
+            print('update')
+            sensor_link.value = indicator_link[0].value
+            sensor_link.connect_time =ndicator_link[0].date_time
+            sensor_link.save()
     DataMfsb.objects.bulk_update(bulk,['check'])
 
 def update_dcs(): # Получение данных Контроль запыленности
