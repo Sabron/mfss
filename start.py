@@ -75,25 +75,6 @@ from datetime import datetime, timedelta, timezone
 from sabron.util import logging
 
 
-def update_acs():
-    sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
-    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
-    for data in data_mfsb:
-        sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
-        print(str(sensor_link))
-        if sensor_link is not None:
-            Acs_Indicators = AcsIndicators.objects.create(
-                date_time =data.date,
-                sensor = sensor_link,
-                value = data.values)
-            sensor_link.value = data.values
-            sensor_link.connect_time =data.date 
-            sensor_link.save()
-            data.check = True
-            data.save()
-            print(Acs_Indicators)
-
-
 def test_Mfsb():
     mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
     for mfsb in mfsb_list:
@@ -218,47 +199,7 @@ def update_eps_anchors():
 
     except Exception as err:
         logging.error(traceback.format_exc())
-  
-def update_ops_date():
-    try:
-        print('start')
-        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
-        for mfsb in mfsb_list:
-            datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-            print(str(mfsb.date)+' '+str(mfsb.name)+'   : '+str(datd_mfsb))
-            if datd_mfsb is None:
-                DataMfsb.objects.create(
-                    date=mfsb.date,
-                    name=mfsb.name,
-                    values=mfsb.values,
-                    check=mfsb.check)
-            mfsb.check = True
-            mfsb.save()
-        update_acs()
-    except Exception as err:
-        logging.error(traceback.format_exc())
 
-
-
-
-def update_fps():
-    sensor_list = FpsSensor.objects.values('tag').order_by('tag').distinct()
-    data_mfsb = DataMfsbSkpv.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()
-    for data in data_mfsb:
-        print(str(data.date)+' : '+data.name)
-        sensor_link = FpsSensor.objects.filter(tag=data.name).filter(active=True).first()
-        print(str(sensor_link))
-        if sensor_link is not None:
-            Acs_Indicators = FpsIndicators.objects.create(
-                date_time =data.date,
-                sensor = sensor_link,
-                value = data.values)
-            sensor_link.value = data.values
-            sensor_link.connect_time =data.date 
-            sensor_link.save()
-            data.check = True
-            data.save()
-            print(Acs_Indicators)
 
 def test_Mfsb_skada():
     print('Попытка подключения')
@@ -436,13 +377,28 @@ def len_data():
     print(' FpsIndicators = '+str(Fps_Indicators.count()))
     print(' ScadaIndicators = '+str(Scada_Indicators.count()))
 
-    
+def update_ops_date():
+    try:
+        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
+        print('mfsb_list = '+str(mfsb_list.count()))
+        for mfsb in mfsb_list:
+            datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+            if datd_mfsb is None:
+                DataMfsb.objects.create(
+                    date=mfsb.date,
+                    name=mfsb.name,
+                    values=mfsb.values,
+                    check=mfsb.check)
+            mfsb.check = True
+            mfsb.save()
+    except Exception as err:
+        logging.error("==============update_ops_date")
+        logging.error(traceback.format_exc())
 
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #print(sensor_list)
     #test_Mfsb()
-    #update_acs()
     #update_eps()
     #update_eps_anchors()
     #while True:
@@ -453,14 +409,9 @@ if __name__ == "__main__":
     #test_Mfsb2()
     #upload_code_bolid()
     #DataMfsbSkada.objects.all().delete()
-    #tespp()
-    #test_update_acs()
-    #test_Mfsb_block()
     #len_data()
     #print('======')
     #print('Удаляем старые данные')
     #delete_data()
     #len_data()
-    mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:10]
-    for mfsb in mfsb_list:
-        print(mfsb.name+' : '+str(mfsb.date))
+    update_ops_date()
