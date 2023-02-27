@@ -431,7 +431,7 @@ def update_dcs(): # Получение данных Контроль запыл�
 def update_ops_date():
     try:
         data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
-       # print('data_mfsb = '+str(data_mfsb.count()))
+        print('data_mfsb = '+str(data_mfsb.count()))
        # mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
        # print('mfsb_list = '+str(mfsb_list.count()))
        # mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:13000];
