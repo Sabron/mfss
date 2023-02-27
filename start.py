@@ -538,10 +538,7 @@ def test_Mfsb_block():
     
     print('Попытка подключения')
     mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10];
-    print('Данные получены : '+str(mfsb_list))
-    print('Вывод данных ')
-    for mfsb in mfsb_list:
-        print(mfsb.name+'   :  '+str(mfsb.values)+'   :  '+str(mfsb.date)+'   :  '+str(mfsb.check))
+    print('Данные получены : '+str(mfsb_list.count()))
 
 if __name__ == "__main__":
     #test_Mfsb_block()
