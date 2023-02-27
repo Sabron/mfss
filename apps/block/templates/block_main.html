@@ -1,0 +1,173 @@
+{% extends "block_default.html" %}
+{% load static %}
+{% load mysettings %}
+
+
+{% block header_link %}
+<link type="text/css" rel="stylesheet" href="{% static '/css/speedometer.css' %}?ver={% settings_value 'APP_VER' %}">
+{% endblock header_link %}
+
+ {% block info_title %}
+    <h5>работа блокировок<h5>  
+ {% endblock info_title %}
+
+{% block content %}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <p id="id_time"></p>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+            <div class="card card-primary card-outline card-tabs">
+              <div class="card-header p-0 pt-1 border-bottom-0">
+                <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">Все</a>
+                  </li>
+                    {% for zone in m_zone %}
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-{{zone.id}}-tab" data-toggle="pill" href="#custom-tabs-three-{{zone.id}}" role="tab" aria-controls="custom-tabs-three-{{zone.id}}" aria-selected="false">{{zone.name}}</a>
+                            </li>
+                     {% endfor %}
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content" id="custom-tabs-three-tabContent">
+                    {% for zone in m_zone %}
+                         <div class="tab-pane fade" id="custom-tabs-three-{{zone.id}}" role="tabpanel" aria-labelledby="custom-tabs-{{zone.id}}-tab">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Работа блокировок</h3>
+
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <div class="card-body p-0">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 10px">id</th>
+                                                            <th>Наименование блокировок</th>
+                                                            <th style="width: 40px">Состояние</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for sensor in m_sensor %}
+                                                        {% if  sensor.position == zone.name %} 
+                                                        <tr>
+                                                            <td>{{sensor.sensor.id}}</td>
+                                                            <td><a href="#">{{sensor.sensor}}</a></td>
+                                                            <td>
+                                                            <a href="#" class="text-muted">
+                                                                <i class="fas fa-circle" style="color:{%if sensor.value == 1 %} green {% else %} red {%endif%}"></i>
+                                                            </a>
+                                                            </td>
+                                                        </tr>
+                                                         {% endif %}
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                        <!-- /.row -->
+                                    </div><!-- /.container-fluid -->
+                                </div>
+                          </div>
+                  
+                    {% endfor %}
+
+
+                  <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Работа блокировок</h3>
+
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body p-0">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 10px">id</th>
+                                                <th>Наименование блокировок</th>
+                                                <th style="width: 40px">Позиция</th>
+                                                <th style="width: 40px">Состояние</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for sensor in m_sensor %}
+                                            <tr>
+                                                <td>{{sensor.sensor.id}}</td>
+                                                <td><a href="#">{{sensor.sensor}}</a></td>
+                                                <td><span class="badge ">{{sensor.position}}</span></td>
+                                                <td>
+                                                <a href="#" class="text-muted">
+                                                    <i class="fas fa-circle" style="color:{%if sensor.value == 1 %} green {% else %} red {%endif%}"></i>
+                                                </a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <!-- /.row -->
+                        </div><!-- /.container-fluid -->
+                    </div>                  
+                              </div>
+                </div>
+              </div>
+              <!-- /.card -->
+            </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+{% block script_footer %}
+<script src="{% static 'js/gauge.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<script src="{% static 'js/speedometer.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<script>
+	function show() {
+		cmd = 'refresh';
+		$.ajax({
+			type: 'POST', // метод отправки
+			url: window.location.pathname + 'ajax/?type={{type}}' , // путь к обработчику
+            data: {
+                "cmd": cmd
+            },
+            // dataType: 'text',
+			success: function (data) {
+                for (index = data.length - 1; index >= 0; --index) {
+					str_pecent = "<div class='progress progress-xs progress-striped active'><div class='progress-bar " + data[index].color + " 'style=width:" + Math.floor(data[index].pecent_value) + "%></div></div>";
+					$("#" + data[index].sensor_id + "_pecent").html(str_pecent)
+
+					str_value = "<span class='badge " + data[index].color + "'>" + data[index].value + " " + data[index].unit + "</span>";
+					$("#" + data[index].sensor_id + "_value").html(str_value)
+                    var seconds = new Date().getTime() / 1000;
+                    //$("#id_time").html(seconds)
+					$("#" + data[index].sensor_id + "_value_canvas").attr('data-value', data[index].value)
+                }
+            },
+            error: function (dataerr) {
+                 console.log('Ошибка выполнение команды :'+dataerr)
+            }
+        });
+		}
+
+		$(document).ready(function(){
+			//show();
+			//setInterval('show({{type}})',1000);
+		});
+</script>
+{% endblock script_footer %}

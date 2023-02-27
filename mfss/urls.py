@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^dcs/', include('apps.dcs.urls')),
     url(r'^eps/', include('apps.eps.urls')),
     url(r'^scada/', include('apps.scada.urls')),
+    url(r'^block/', include('apps.block.urls')),
     url(r'^management/', include('apps.management.urls')),
 
     url(r'^accounts/logout/', views.user_logout, name='user_logout'),
