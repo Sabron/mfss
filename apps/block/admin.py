@@ -5,7 +5,7 @@ from .models.model_indicators import BlockIndicators
 
 @admin.register(BlockSensor)
 class BlockSensorAdmin(admin.ModelAdmin):
-    list_display = ('name','zone','tag','connect_time','value')
+    list_display = ('name','zone','position','tag','connect_time','value')
     search_fields = ('name',)
 
 @admin.register(BlockIndicators)
