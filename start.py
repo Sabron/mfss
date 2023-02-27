@@ -383,6 +383,15 @@ def test_update_acs():
             data.check = True
             data.save()
     print('OK')  
+def len_data():
+    Data_Mfsb = DataMfsb.objects.all()
+    DataMfsb_Skada = DataMfsbSkada.objects.all()
+    DataMfsb_Ppz = DataMfsbPpz.objects.all()
+    DataMfsb_Skpv = DataMfsbSkpv.objects.all()
+    print(' DataMfsb = '+str(Data_Mfsb.count()))
+    print(' DataMfsbSkada = '+str(DataMfsb_Skada.count()))
+    print(' DataMfsbPpz = '+str(DataMfsb_Ppz.count()))
+    print(' DataMfsbSkpv = '+str(DataMfsb_Skpv.count()))
 
 if __name__ == "__main__":
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
@@ -401,5 +410,6 @@ if __name__ == "__main__":
     #DataMfsbSkada.objects.all().delete()
     #tespp()
     #test_update_acs()
-    test_Mfsb_block()
+    #test_Mfsb_block()
+    len_data()
     
