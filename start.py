@@ -423,7 +423,7 @@ def update_acs():# Получение данных Системы Аэрогаз
     DataMfsb.objects.bulk_update(bulk,['check'])
 
 def update_acs_one():# Получение данных Системы Аэрогазовый контроль
-    sensor_link = AcsSensor.objects.get(id=13)
+    sensor_link = AcsSensor.objects.get(id=7)
     print(sensor_link.tag)
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_link.tag).filter(check=False).order_by('date').all()[:50000]
     print('update_acs : '+str(data_mfsb.count()))
@@ -603,11 +603,11 @@ if __name__ == "__main__":
     #    test_Mfsb_block()
     #    update_block()
     #control_sensor()
-    #DataMfsb.objects.filter(check=True).delete()
-    #for i in range(1, 200):
-    #    DataMfsb.objects.filter(check=True).delete()
+    DataMfsb.objects.filter(check=True).delete()
+    for i in range(1, 200):
+        DataMfsb.objects.filter(check=True).delete()
         print('**************')
-    #    print('* Итерация : '+str(i))
+        print('* Итерация : '+str(i))
         print('**************')
-        #update_ops_date()
-        update_acs_one()
+        update_ops_date()
+    #    update_acs_one()
