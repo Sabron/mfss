@@ -244,7 +244,6 @@ def update_ops_date():
 def update_block():
     try:
         mfsb = cache.get('mfsb_block')
-        logging.log(str(mfsb))
         if not mfsb:
             cache.set('mfsb_block', '1')
             mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10000];
