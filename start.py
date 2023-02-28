@@ -637,7 +637,7 @@ if __name__ == "__main__":
         sensor_m.append(sensor)
         date_m = []
         for data in tqdm(data_mfsb):
-            indicator_link = AcsIndicators.objects.filter(sensor__id__range=(13,13)).filter(date_time__lte=data.date).order_by('-date_time').first()
+            indicator_link = AcsIndicators.objects.filter(sensor__id__range=(12,12)).filter(date_time__lte=data.date).order_by('-date_time').first()
             
             print(connection.queries)
             if indicator_link is not None:
