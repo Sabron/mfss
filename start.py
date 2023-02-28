@@ -636,7 +636,7 @@ if __name__ == "__main__":
         sensor_m.append(sensor)
         date_m = []
         for data in tqdm(data_mfsb):
-            indicator_link = AcsIndicators.objects.filter(sensor = sensor).filter(date_time__lte=data.date).order_by('-date_time')[:1]
+            indicator_link = AcsIndicators.objects.filter(sensor = sensor).filter(date_time__lte=data.date).order_by('-date_time')
             print(indicator_link.count())
             if indicator_link.count() > 0:
                 if data.date not in date_m:
