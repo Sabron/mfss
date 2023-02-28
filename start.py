@@ -24,6 +24,7 @@ from django.core.files import File
 from django.conf import settings
 from django.db.models import Sum
 from django.db.models import Max,Min
+from django.db import connection
 
 from apps.ops.models.model_mfsb import Mfsb
 from apps.ops.models.model_mfsb_skada import MfsbSkada
@@ -638,7 +639,7 @@ if __name__ == "__main__":
         for data in tqdm(data_mfsb):
             indicator_link = AcsIndicators.objects.filter(sensor = sensor).filter(date_time__lte=data.date).order_by('-date_time').first()
             
-            print(indicator_link.query)
+            print(connection.queries)
             if indicator_link is not None:
                 if data.date not in date_m:
                     date_m.append(data.date)
