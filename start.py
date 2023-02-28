@@ -635,5 +635,5 @@ if __name__ == "__main__":
         sensor_m=[]
         sensor_m.append(sensor)
         for data in tqdm(data_mfsb):
-            a=1
+            indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).filter(date_time__lte=data.date).order_by('-date_time')[:1]
  
