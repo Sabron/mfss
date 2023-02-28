@@ -506,7 +506,7 @@ def update_ops_date():
         print('data_mfsb = '+str(data_mfsb.count()))
         mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
         print('mfsb_list = '+str(mfsb_list.count()))
-        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:13000];
+        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:30000];
         print('mfsb_list = '+str(mfsb_list.count()))
         bulk = []
         for mfsb in tqdm(mfsb_list):

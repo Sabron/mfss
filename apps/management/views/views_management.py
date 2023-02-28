@@ -22,6 +22,7 @@ from . import views_dcs
 from . import views_location
 from . import views_zone
 from . import views_scada
+from . import views_workers
 
 from sabron.util import logging
 from apps.util import generalmodule
@@ -53,6 +54,8 @@ def main_index(request):
                 return views_location.main_index(request)
             if param['catalog']=='zone':
                 return views_zone.main_index(request)
+            if param['catalog']=='workers':
+                return views_workers.main_index(request)
             if param['catalog']=='dcs':
                 return views_dcs.main_index(request)
 

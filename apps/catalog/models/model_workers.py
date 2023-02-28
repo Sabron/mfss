@@ -40,26 +40,14 @@ class Worker(models.Model):  # Сотрудники
                                    blank=False,
                                    default='m',
                                    verbose_name="Пол")
-    department = models.ForeignKey(Department,
-                                   on_delete=models.SET_NULL,
-                                   null=True,
-                                   help_text="",
-                                   verbose_name="Подразделение")
-    position = models.ForeignKey(Position,
-                                 on_delete=models.SET_NULL,
-                                 null=True,
-                                 help_text="",
-                                 verbose_name="Должность")
-    phone = models.CharField(max_length=18,
-                           help_text="",
-                           verbose_name="Телефон",
-                           blank=True)
-    Comments = models.TextField(max_length=1000,
-                              default=' ',
-                              blank=True,
-                              verbose_name="Комментарий")
+    uid = models.CharField(max_length=36,
+                           blank=True,
+                           help_text="uid",
+                           verbose_name="uid")
+
     def __str__(self):
         return '%s %s %s' % (self.lastName,self.firstName,self.otchestvo)
+
     class Meta:   # отображение в админики
         #unique_together = ('client', 'idclient')
         ordering = ['name']

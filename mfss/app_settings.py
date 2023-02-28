@@ -19,7 +19,7 @@ INSTALLED_APPS = [
     'apps.ops.apps.OpsConfig',
     'django_celery_beat', 
 
-    'apps.catalog.apps.CatalogConfig',		
+    'apps.catalog.apps.catalogConfig',		
     'apps.schedulers.apps.SchedulersConfig',
     'apps.main.apps.MainConfig',
     'apps.acs.apps.acsConfig',
@@ -34,12 +34,14 @@ INSTALLED_APPS = [
     'apps.block.apps.blockConfig',
      #Телеграмм бот
     'tgbot.apps.TgbotConfig',
+     #api
+     'api.v1.apps.apiv1Config',
 ]
 
 """Информация о приложении """
 SITE_TITLE = u'Многофункциональная система безопасности'
 SITE_TITLE_S = u'МФСБ'
-APP_VER = u'1.0.16.6'
+APP_VER = u'1.0.16.7'
 APP_VEK = u'2022 - 2023 гг'
 APP_COPPIRIGHT = u'Многофункциональная система безопасности'
 

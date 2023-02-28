@@ -16,7 +16,7 @@ class PositionAdmin(admin.ModelAdmin):
 
 @admin.register(Worker)
 class WorkerAdmin(admin.ModelAdmin):
-    list_display = ('name','id','tabnomer', 'sex_workers','department','position','phone')
+    list_display = ('name','tabnomer', 'sex_workers')
     search_fields = ('name',)
 
 @admin.register(Department)
