@@ -540,6 +540,10 @@ def test_Mfsb_block():
     #mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10];
     #print('Данные получены : '+str(mfsb_list.count()))
 
+def control_sensor():
+    data_mfsb = DataMfsb.objects.values('name').order_by('name').distinct()
+    for sensor in data_mfsb:
+        print(sensor['name'])
 if __name__ == "__main__":
     #test_Mfsb_block()
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
@@ -554,11 +558,11 @@ if __name__ == "__main__":
     #for i in range(1, 200):
     #    test_Mfsb_block()
     #    update_block()
-    
-    DataMfsb.objects.filter(check=True).delete()
-    for i in range(1, 200):
-        DataMfsb.objects.filter(check=True).delete()
-        print('**************')
-        print('* Итерация : '+str(i))
-        print('**************')
-        update_ops_date()
+    control_sensor()
+    #DataMfsb.objects.filter(check=True).delete()
+    #for i in range(1, 200):
+    #    DataMfsb.objects.filter(check=True).delete()
+    #    print('**************')
+    #    print('* Итерация : '+str(i))
+    #    print('**************')
+    #    update_ops_date()
