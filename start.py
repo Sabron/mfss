@@ -382,6 +382,7 @@ def update_acs():# Получение данных Системы Аэрогаз
     sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     print('update acs : '+str(len(sensor_list)))
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:50000]
+    print('update_acs : '+str(data_mfsb.count()))
     bulk = []
     #sensor_m=[]
     for data in tqdm(data_mfsb):
@@ -562,11 +563,11 @@ if __name__ == "__main__":
     #for i in range(1, 200):
     #    test_Mfsb_block()
     #    update_block()
-    control_sensor()
-    #DataMfsb.objects.filter(check=True).delete()
-    #for i in range(1, 200):
-    #    DataMfsb.objects.filter(check=True).delete()
-    #    print('**************')
-    #    print('* Итерация : '+str(i))
-    #    print('**************')
-    #    update_ops_date()
+    #control_sensor()
+    DataMfsb.objects.filter(check=True).delete()
+    for i in range(1, 200):
+        DataMfsb.objects.filter(check=True).delete()
+        print('**************')
+        print('* Итерация : '+str(i))
+        print('**************')
+        update_ops_date()
