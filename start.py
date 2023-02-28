@@ -629,7 +629,7 @@ if __name__ == "__main__":
         #print(sensor)
         #update_acs_one(sensor)
         #DataMfsb.objects.filter(check=True).delete()
-        data_mfsb = DataMfsb.objects.filter(name=sensor.tag).filter(check=False).order_by('date').all()[:50000]
+        data_mfsb = DataMfsb.objects.filter(name=sensor.tag).filter(check=False).order_by('date').all()[:500]
         print('update_acs : '+str(data_mfsb.count()))
         bulk = []
         sensor_m=[]
