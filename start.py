@@ -620,15 +620,24 @@ if __name__ == "__main__":
         #dd = DataMfsb.objects.filter(name='MKON_BUNKER1.AQED_19_METAN_Otm_10700.Metan_Otm_10700').all()
         #print(dd.count())
     #DataMfsb.objects.filter(check=True).delete()
-    sensor_list = AcsSensor.objects.order_by('id').all()
-    for sensor in sensor_list:
-        #sensor = AcsSensor.objects.get(id=12)
-        allindicator = AcsIndicators.objects.filter(sensor = sensor).all()
-        print(str(sensor) + ' : '+str(allindicator.count()))
-        data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
-        print('data_mfsb = '+str(data_mfsb.count()))
-        #print(sensor)
-        update_acs_one(sensor)
+
+
+
+
+    #sensor_list = AcsSensor.objects.order_by('id').all()
+    #for sensor in sensor_list:
+    #    #sensor = AcsSensor.objects.get(id=12)
+    #    allindicator = AcsIndicators.objects.filter(sensor = sensor).all()
+    #    print(str(sensor) + ' : '+str(allindicator.count()))
+    #    data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
+    #    print('data_mfsb = '+str(data_mfsb.count()))
+    #    #print(sensor)
+    #    update_acs_one(sensor)
+
+
+        sensor = AcsSensor.objects.get(id=12)
+        datete_list = AcsIndicators.objects.filter(sensor=sensor).values('date_time').distinct()
+        print(len(datete_list))
         #DataMfsb.objects.filter(check=True).delete()
         #data_mfsb = DataMfsb.objects.filter(name=sensor.tag).filter(check=False).order_by('date').all()[:1]
         #print('update_acs : '+str(data_mfsb.count()))
