@@ -223,10 +223,10 @@ def update_subscribe_payment():
 @app.task(ignore_result=True)
 def update_ops_date():
     try:
-        mfsb = cache.get('mfsb')
+        mfsb = cache.get('update_ops_date')
         if not mfsb:
-            cache.set('mfsb', '1')
-            mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:5000];
+            cache.set('update_ops_date', '1')
+            mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:10000];
             bulk = []
             for mfsb in mfsb_list:
                 datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
@@ -244,9 +244,8 @@ def update_ops_date():
             Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
             update_acs()
             update_dcs()
-            cache.delete('mfsb')
+            cache.delete('update_ops_date')
     except Exception as err:
-        logging.error("==============update_ops_date")
         logging.error(traceback.format_exc())
 
 @app.task(ignore_result=True)
