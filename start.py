@@ -425,7 +425,7 @@ def update_acs():# Получение данных Системы Аэрогаз
 
 def update_acs_one(sensor_link):# Получение данных Системы Аэрогазовый контроль
     #sensor_link = AcsSensor.objects.get(id=id)
-    data_mfsb = DataMfsb.objects.filter(name=sensor_link.tag).filter(check=False).order_by('date').all()[:50000]
+    data_mfsb = DataMfsb.objects.filter(name=sensor_link.tag).filter(check=False).order_by('date').all()[:5000]
     print('update_acs : '+str(data_mfsb.count()))
     bulk = []
     sensor_m=[]
@@ -619,7 +619,7 @@ if __name__ == "__main__":
         #dd = DataMfsb.objects.filter(name='MKON_BUNKER1.AQED_19_METAN_Otm_10700.Metan_Otm_10700').all()
         #print(dd.count())
     #DataMfsb.objects.filter(check=True).delete()
-    sensor_list = AcsSensor.objects.order_by('name').all()
+    sensor_list = AcsSensor.objects.order_by('id').all()
     for sensor in sensor_list:
         #sensor = AcsSensor.objects.get(id=12)
         allindicator = AcsIndicators.objects.filter(sensor = sensor).all()
