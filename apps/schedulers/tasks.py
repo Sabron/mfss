@@ -294,82 +294,94 @@ def update_block():
 @app.task(ignore_result=True)
 def update_ops_skpv_date():
     try:
-        mfsb_list = MfsbSkpv.objects.using('mfsb_skpv').filter(check=False).order_by('date').all()[:5000];
-        count_d = 0
-        for mfsb in mfsb_list:
-            datd_mfsb = DataMfsbSkpv.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-            if datd_mfsb is None:
-                DataMfsbSkpv.objects.create(
-                    date=mfsb.date,
-                    name=mfsb.name,
-                    values=mfsb.values,
-                    check=mfsb.check)
-            else:
-                count_d = count_d+1
-            mfsb.check = True
-            mfsb.save()
-        #logging.message(str(count_d)+' / 5000')
-        update_fps()
+        mfsb = cache.get('update_ops_skpv_date')
+        if not mfsb:
+            cache.set('update_ops_skpv_date', '1')
+            mfsb_list = MfsbSkpv.objects.using('mfsb_skpv').filter(check=False).order_by('date').all()[:5000];
+            count_d = 0
+            for mfsb in mfsb_list:
+                datd_mfsb = DataMfsbSkpv.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+                if datd_mfsb is None:
+                    DataMfsbSkpv.objects.create(
+                        date=mfsb.date,
+                        name=mfsb.name,
+                        values=mfsb.values,
+                        check=mfsb.check)
+                else:
+                    count_d = count_d+1
+                mfsb.check = True
+                mfsb.save()
+            #logging.message(str(count_d)+' / 5000')
+            update_fps()
+            cache.delete('update_ops_skpv_date')
     except Exception as err:
         logging.error(traceback.format_exc())
 
 @app.task(ignore_result=True)
 def update_ops_ppz_date():
     try:
-        mfsb_list = MfsbPpz.objects.using('mfsb_ppz').filter(check=False).order_by('date').all()[:5000];
-        count_d = 0
-        for mfsb in mfsb_list:
-            datd_mfsb = DataMfsbPpz.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-            if datd_mfsb is None:
-                DataMfsbPpz.objects.create(
-                    date=mfsb.date,
-                    name=mfsb.name,
-                    code=mfsb.code,
-                    check=mfsb.check)
-            else:
-                count_d = count_d+1
+        mfsb = cache.get('update_ops_ppz_date')
+        if not mfsb:
+            cache.set('update_ops_ppz_date', '1')
+            mfsb_list = MfsbPpz.objects.using('mfsb_ppz').filter(check=False).order_by('date').all()[:5000];
+            count_d = 0
+            for mfsb in mfsb_list:
+                datd_mfsb = DataMfsbPpz.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+                if datd_mfsb is None:
+                    DataMfsbPpz.objects.create(
+                        date=mfsb.date,
+                        name=mfsb.name,
+                        code=mfsb.code,
+                        check=mfsb.check)
+                else:
+                    count_d = count_d+1
 
-            code_bolid = CodeBolid.objects.filter(code=mfsb.code).first()
-            link_sensor = FpSensor.objects.filter(tag=mfsb.name).first()
-            if link_sensor is None:
-                FpSensor.objects.create(
-                    tag=mfsb.name,
-                    name=mfsb.name,
-                    code = code_bolid,
-                    active=False)
+                code_bolid = CodeBolid.objects.filter(code=mfsb.code).first()
+                link_sensor = FpSensor.objects.filter(tag=mfsb.name).first()
+                if link_sensor is None:
+                    FpSensor.objects.create(
+                        tag=mfsb.name,
+                        name=mfsb.name,
+                        code = code_bolid,
+                        active=False)
  
-            mfsb.check = True
-            mfsb.save()
-        update_fp()
+                mfsb.check = True
+                mfsb.save()
+            update_fp()
+            cache.delete('update_ops_ppz_date')
     except Exception as err:
         logging.error(traceback.format_exc())
 
 @app.task(ignore_result=True)
 def update_ops_scada_date():
     try:
-        mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all()[:5000];
-        count_d = 0
-        for mfsb in mfsb_list:
-            datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-            if datd_mfsb is None:
-                DataMfsbSkada.objects.create(
-                    date=mfsb.date,
-                    name=mfsb.name,
-                    values=mfsb.values,
-                    check=mfsb.check)
-            else:
-                count_d = count_d+1
+        mfsb = cache.get('update_ops_scada_date')
+        if not mfsb:
+            cache.set('update_ops_scada_date', '1')
+            mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all()[:5000];
+            count_d = 0
+            for mfsb in mfsb_list:
+                datd_mfsb = DataMfsbSkada.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+                if datd_mfsb is None:
+                    DataMfsbSkada.objects.create(
+                        date=mfsb.date,
+                        name=mfsb.name,
+                        values=mfsb.values,
+                        check=mfsb.check)
+                else:
+                    count_d = count_d+1
 
-            link_sensor = ScadaSensor.objects.filter(tag=mfsb.name).first()
-            if link_sensor is None:
-                ScadaSensor.objects.create(
-                    tag=mfsb.name,
-                    name=mfsb.name,
-                    value=mfsb.values,
-                    active=False)
-            mfsb.check = True
-            mfsb.save()
-        update_scada()
+                link_sensor = ScadaSensor.objects.filter(tag=mfsb.name).first()
+                if link_sensor is None:
+                    ScadaSensor.objects.create(
+                        tag=mfsb.name,
+                        name=mfsb.name,
+                        value=mfsb.values,
+                        active=False)
+                mfsb.check = True
+                mfsb.save()
+            update_scada()
+            cache.delete('update_ops_scada_date')
     except Exception as err:
         logging.error(traceback.format_exc())
 
