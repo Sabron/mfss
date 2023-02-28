@@ -544,6 +544,10 @@ def control_sensor():
     data_mfsb = DataMfsb.objects.values('name').order_by('name').distinct()
     for sensor in data_mfsb:
         print(sensor['name'])
+    sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
+    print('update acs : '+str(len(sensor_list)))
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:50000]
+    print('data_mfsb = '+str())
 if __name__ == "__main__":
     #test_Mfsb_block()
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()

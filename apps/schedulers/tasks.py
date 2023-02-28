@@ -249,7 +249,7 @@ def update_block():
             cache.set('mfsb_block', '1')
             mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10000];
             bulk = []
-            for data in tqdm(mfsb_list):
+            for data in mfsb_list:
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
                 if block_sensor is None:
                     block_sensor = BlockSensor.objects.create(
