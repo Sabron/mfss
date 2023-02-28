@@ -622,7 +622,7 @@ if __name__ == "__main__":
     #DataMfsb.objects.filter(check=True).delete()
     #sensor_list = AcsSensor.objects.order_by('id').all()
     #for sensor in sensor_list:
-        sensor = AcsSensor.objects.get(id=13)
+        sensor = AcsSensor.objects.get(id=12)
         allindicator = AcsIndicators.objects.filter(sensor = sensor).all()
         print(str(sensor) + ' : '+str(allindicator.count()))
         #data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
@@ -637,7 +637,7 @@ if __name__ == "__main__":
         sensor_m.append(sensor)
         date_m = []
         for data in tqdm(data_mfsb):
-            indicator_link = AcsIndicators.objects.filter(sensor__id__range=(12,12)).filter(date_time__lte=data.date).order_by('-date_time').first()
+            indicator_link = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__lte=data.date).order_by('-date_time').first()
             
             print(connection.queries)
             if indicator_link is not None:
