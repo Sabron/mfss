@@ -607,7 +607,7 @@ if __name__ == "__main__":
     #for i in range(1, 200):
     #    DataMfsb.objects.filter(check=True).delete()
         print('**************')
-        print('* Итерация : '+str(i))
+    #    print('* Итерация : '+str(i))
         print('**************')
         #update_ops_date()
         update_acs_one()
