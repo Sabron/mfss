@@ -629,7 +629,7 @@ if __name__ == "__main__":
         #print(sensor)
         #update_acs_one(sensor)
         #DataMfsb.objects.filter(check=True).delete()
-        data_mfsb = DataMfsb.objects.filter(name=sensor.tag).filter(check=False).order_by('date').all()[:5]
+        data_mfsb = DataMfsb.objects.filter(name=sensor.tag).filter(check=False).order_by('date').all()[:10]
         print('update_acs : '+str(data_mfsb.count()))
         bulk = []
         sensor_m=[]
@@ -637,6 +637,7 @@ if __name__ == "__main__":
         date_m = []
         for data in tqdm(data_mfsb):
             indicator_link = AcsIndicators.objects.filter(sensor = sensor).filter(date_time__lte=data.date).order_by('-date_time')[:1]
+            print(indicator_link.count())
             if indicator_link.count() > 0:
                 if data.date not in date_m:
                     date_m.append(data.date)
