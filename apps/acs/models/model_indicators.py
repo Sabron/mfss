@@ -36,7 +36,7 @@ class AcsIndicators(models.Model):  # Показания датчиков
         verbose_name_plural = u'показания датчиков'
         indexes = [
             models.Index(fields=['sensor','date_time',]),
-            models.Index(fields=['date_time',]),
+            #models.Index(fields=['date_time',]),
             
             ]
 
