@@ -425,7 +425,6 @@ def update_acs():# Получение данных Системы Аэрогаз
 
 def update_acs_one(sensor_link):# Получение данных Системы Аэрогазовый контроль
     #sensor_link = AcsSensor.objects.get(id=id)
-    print(sensor_link.tag)
     data_mfsb = DataMfsb.objects.filter(name=sensor_link.tag).filter(check=False).order_by('date').all()[:50000]
     print('update_acs : '+str(data_mfsb.count()))
     bulk = []
@@ -620,29 +619,29 @@ if __name__ == "__main__":
         #dd = DataMfsb.objects.filter(name='MKON_BUNKER1.AQED_19_METAN_Otm_10700.Metan_Otm_10700').all()
         #print(dd.count())
     #DataMfsb.objects.filter(check=True).delete()
-    #sensor_list = AcsSensor.objects.order_by('id').all()
-    #for sensor in sensor_list:
-        sensor = AcsSensor.objects.get(id=13)
+    sensor_list = AcsSensor.objects.all()
+    for sensor in sensor_list:
+        #sensor = AcsSensor.objects.get(id=12)
         allindicator = AcsIndicators.objects.filter(sensor = sensor).all()
         print(str(sensor) + ' : '+str(allindicator.count()))
-        #data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
-        #print('data_mfsb = '+str(data_mfsb.count()))
+        data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
+        print('data_mfsb = '+str(data_mfsb.count()))
         #print(sensor)
-        #update_acs_one(sensor)
+        update_acs_one(sensor)
         #DataMfsb.objects.filter(check=True).delete()
-        data_mfsb = DataMfsb.objects.filter(name=sensor.tag).filter(check=False).order_by('date').all()[:1]
-        print('update_acs : '+str(data_mfsb.count()))
-        bulk = []
-        sensor_m=[]
-        sensor_m.append(sensor)
-        date_m = []
-        for data in tqdm(data_mfsb):
-            indicator_link = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__lte=data.date).order_by('-date_time').first()
+        #data_mfsb = DataMfsb.objects.filter(name=sensor.tag).filter(check=False).order_by('date').all()[:1]
+        #print('update_acs : '+str(data_mfsb.count()))
+        #bulk = []
+        #sensor_m=[]
+        #sensor_m.append(sensor)
+        #date_m = []
+        #for data in tqdm(data_mfsb):
+        #    indicator_link = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__lte=data.date).order_by('-date_time').first()
             
-            print(connection.queries)
-            if indicator_link is not None:
-                if data.date not in date_m:
-                    date_m.append(data.date)
-        print(len(date_m))
-        for dd in date_m:
-            print(dd)
+        #    print(connection.queries)
+        #    if indicator_link is not None:
+        #        if data.date not in date_m:
+        #            date_m.append(data.date)
+        #print(len(date_m))
+        #for dd in date_m:
+        #    print(dd)
