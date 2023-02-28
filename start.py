@@ -520,6 +520,9 @@ def update_ops_date():
                     check=mfsb.check)
             mfsb.check = True
             bulk.append(mfsb)
+            if len(bulk) > 500:
+                Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
+                bulk = []
         print('Помечаем обработанные')
         Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
         print('Удаляем обработанные')
