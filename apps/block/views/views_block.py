@@ -87,7 +87,6 @@ def get_ajax(request):
 def MainIndexDefault(request):
      if request.method == "GET":
         position_list = BlockSensor.objects.values('position').order_by('position').distinct()
-        print(position_list)
         i = 0
         m_zone = []
         for position in position_list:
