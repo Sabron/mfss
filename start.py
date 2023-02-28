@@ -621,8 +621,8 @@ if __name__ == "__main__":
     DataMfsb.objects.filter(check=True).delete()
     sensor_list = AcsSensor.objects.all()
     for sensor in sensor_list:
-        #allindicator = AcsIndicators.objects.filter(sensor = sensor).all()
-        #print(str(sensor) + ' : '+str(allindicator.count()))
+        allindicator = AcsIndicators.objects.filter(sensor = sensor).all()
+        print(str(sensor) + ' : '+str(allindicator.count()))
         #data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
         #print('data_mfsb = '+str(data_mfsb.count()))
         #print(sensor)
