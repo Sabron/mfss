@@ -135,6 +135,9 @@ def update_acs():# Получение данных Системы Аэрогаз
             data.check = True
             #data.save()
             bulk.append(data)
+            if len(bulk) > 500:
+                DataMfsb.objects.bulk_update(bulk,['check'])
+                bulk = []
     #for sensor in sensor_m:
     #    indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('-date_time')[:1]
     #    if indicator_link is not None:
@@ -164,6 +167,9 @@ def update_dcs(): # Получение данных Контроль запыл�
             data.check = True
             #data.save()
             bulk.append(data)
+            if len(bulk) > 500:
+                DataMfsb.objects.bulk_update(bulk,['check'])
+                bulk = []
     #for sensor in sensor_m:
     #    indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('-date_time')[:1]
     #    if indicator_link is not None:
@@ -232,6 +238,9 @@ def update_ops_date():
                         check=mfsb.check)
                 mfsb.check = True
                 bulk.append(mfsb)
+                if len(bulk) > 500:
+                    Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
+                    bulk = []
             Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
             update_acs()
             update_dcs()

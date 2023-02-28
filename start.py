@@ -428,8 +428,6 @@ def update_acs_one(sensor_link):# Получение данных Системы
     data_mfsb = DataMfsb.objects.filter(name=sensor_link.tag).filter(check=False).order_by('date').all()[:50000]
     print('update_acs : '+str(data_mfsb.count()))
     bulk = []
-    sensor_m=[]
-    sensor_m.append(sensor_link)
     for data in tqdm(data_mfsb):
             indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).filter(date_time__lte=data.date).order_by('-date_time')[:1]
             if indicator_link.count() > 0 :
@@ -443,25 +441,14 @@ def update_acs_one(sensor_link):# Получение данных Системы
                     date_time =data.date,
                     sensor = sensor_link,
                     value = data.values)
-            #sensor_link.value = data.values
-            #sensor_link.connect_time =data.date
-            #sensor_link.save()
+            sensor_link.value = data.values
+            sensor_link.connect_time =data.date
+            sensor_link.save()
             data.check = True
-            #data.save()
             bulk.append(data)
             if len(bulk) > 500:
                 DataMfsb.objects.bulk_update(bulk,['check'])
                 bulk = []
-
-    print('Обновляем последнее значение')
-    for sensor in sensor_m:
-        indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('-date_time')[:1]
-        if indicator_link is not None:
-            if indicator_link.count() > 0 :
-                print(str(sensor)+' : '+str(indicator_link[0].date_time))
-                sensor_link.value = indicator_link[0].value
-                sensor_link.connect_time =indicator_link[0].date_time
-                sensor_link.save()
     DataMfsb.objects.bulk_update(bulk,['check'])
 
 def update_dcs(): # Получение данных Контроль запыленности
@@ -607,13 +594,13 @@ if __name__ == "__main__":
     #    test_Mfsb_block()
     #    update_block()
     #control_sensor()
-    DataMfsb.objects.filter(check=True).delete()
-    for i in range(1, 200):
-        DataMfsb.objects.filter(check=True).delete()
-        print('**************')
-        print('* Итерация : '+str(i))
-        print('**************')
-        update_ops_date()
+    #DataMfsb.objects.filter(check=True).delete()
+    #for i in range(1, 200):
+    #    DataMfsb.objects.filter(check=True).delete()
+    #    print('**************')
+    #    print('* Итерация : '+str(i))
+    #    print('**************')
+    #    update_ops_date()
         #update_acs_one()
         #MKON_BUNKER1.AQED_19_METAN_Otm_10700.Metan_Otm_10700
         #sensor_link = AcsSensor.objects.get(id=12)
@@ -627,16 +614,16 @@ if __name__ == "__main__":
 
 
 
-    #sensor_list = AcsSensor.objects.order_by('id').all()
-    #for sensor in sensor_list:
+    sensor_list = AcsSensor.objects.order_by('id').all()
+    for sensor in sensor_list:
         #sensor = AcsSensor.objects.get(id=12)
     #    allindicator = AcsIndicators.objects.filter(sensor = sensor).all()
     #    print(str(sensor) + ' : '+str(allindicator.count()))
-    #    data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
-    #    print('data_mfsb = '+str(data_mfsb.count()))
-        #print(sensor)
-    #    update_acs_one(sensor)
-
+        data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
+        print('data_mfsb = '+str(data_mfsb.count()))
+        print(sensor)
+        update_acs_one(sensor)
+        DataMfsb.objects.filter(check=True).delete()
 
     #    sensor = AcsSensor.objects.get(id=12)
     #    datete_list = AcsIndicators.objects.filter(sensor=sensor).values('value').distinct()
