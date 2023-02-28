@@ -627,5 +627,13 @@ if __name__ == "__main__":
         #data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
         #print('data_mfsb = '+str(data_mfsb.count()))
         #print(sensor)
-        update_acs_one(sensor)
+        #update_acs_one(sensor)
         #DataMfsb.objects.filter(check=True).delete()
+        data_mfsb = DataMfsb.objects.filter(name=sensor.tag).filter(check=False).order_by('date').all()[:50000]
+        print('update_acs : '+str(data_mfsb.count()))
+        bulk = []
+        sensor_m=[]
+        sensor_m.append(sensor_link)
+        for data in tqdm(data_mfsb):
+            a=1
+ 
