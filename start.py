@@ -425,7 +425,7 @@ def update_acs():# Получение данных Системы Аэрогаз
 def update_acs_one(sensor_link):# Получение данных Системы Аэрогазовый контроль
     #sensor_link = AcsSensor.objects.get(id=id)
     print(sensor_link.tag)
-    data_mfsb = DataMfsb.objects.filter(name__in=sensor_link.tag).filter(check=False).order_by('date').all()[:5000]
+    data_mfsb = DataMfsb.objects.filter(name=sensor_link.tag).filter(check=False).order_by('date').all()[:5000]
     print('update_acs : '+str(data_mfsb.count()))
     bulk = []
     sensor_m=[]
