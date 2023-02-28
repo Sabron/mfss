@@ -422,6 +422,47 @@ def update_acs():# Получение данных Системы Аэрогаз
             sensor_link.save()
     DataMfsb.objects.bulk_update(bulk,['check'])
 
+def update_acs_one():# Получение данных Системы Аэрогазовый контроль
+    sensor_link = AcsSensor.objects.get(id=13)
+    
+    data_mfsb = DataMfsb.objects.filter(name__in=sensor_link.tag).filter(check=False).order_by('date').all()[:50000]
+    print('update_acs : '+str(data_mfsb.count()))
+    bulk = []
+    sensor_m=[]
+    sensor_m.append(sensor_link)
+    for data in tqdm(data_mfsb):
+            indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).filter(date_time__lte=data.date).order_by('-date_time')[:1]
+            if indicator_link.count() > 0 :
+                if indicator_link[0].value != data.values:
+                    Acs_Indicators = AcsIndicators.objects.create(
+                        date_time =data.date,
+                        sensor = sensor_link,
+                        value = data.values)
+            else:
+                Acs_Indicators = AcsIndicators.objects.create(
+                    date_time =data.date,
+                    sensor = sensor_link,
+                    value = data.values)
+            #sensor_link.value = data.values
+            #sensor_link.connect_time =data.date
+            #sensor_link.save()
+            data.check = True
+            #data.save()
+            bulk.append(data)
+            if len(bulk) > 500:
+                DataMfsb.objects.bulk_update(bulk,['check'])
+                bulk = []
+
+    print('Обновляем последнее значение')
+    for sensor in sensor_m:
+        indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('-date_time')[:1]
+        if indicator_link is not None:
+            print(str(sensor)+' : '+str(indicator_link[0].date_time))
+            sensor_link.value = indicator_link[0].value
+            sensor_link.connect_time =indicator_link[0].date_time
+            sensor_link.save()
+    DataMfsb.objects.bulk_update(bulk,['check'])
+
 def update_dcs(): # Получение данных Контроль запыленности
     sensor_list = DcsSensor.objects.values('tag').order_by('tag').distinct()
     print('update dcs : '+str(len(sensor_list)))
@@ -568,4 +609,5 @@ if __name__ == "__main__":
         print('**************')
         print('* Итерация : '+str(i))
         print('**************')
-        update_ops_date()
+        #update_ops_date()
+        update_acs_one()
