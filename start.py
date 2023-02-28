@@ -384,9 +384,12 @@ def update_acs():# Получение данных Системы Аэрогаз
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:50000]
     print('update_acs : '+str(data_mfsb.count()))
     bulk = []
+    sensor_m=[]
     for data in tqdm(data_mfsb):
         sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
         if sensor_link is not None:
+            if sensor_link not in sensor_m:
+                sensor_m.append(sensor_link)
             indicator_link = AcsIndicators.objects.filter(sensor = sensor_link).filter(date_time__lte=data.date).order_by('-date_time')[:1]
             if indicator_link.count() > 0 :
                 if indicator_link[0].value != data.values:
@@ -409,14 +412,14 @@ def update_acs():# Получение данных Системы Аэрогаз
                 DataMfsb.objects.bulk_update(bulk,['check'])
                 bulk = []
 
-    #print('Обновляем последнее значение')
-    #for sensor in sensor_m:
-    #    indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('-date_time')[:1]
-    #    if indicator_link is not None:
-    #        print(str(sensor)+' : '+str(indicator_link[0].date_time))
-    #        sensor_link.value = indicator_link[0].value
-    #       sensor_link.connect_time =indicator_link[0].date_time
-    #       sensor_link.save()
+    print('Обновляем последнее значение')
+    for sensor in sensor_m:
+        indicator_link = AcsIndicators.objects.filter(sensor = sensor).order_by('-date_time')[:1]
+        if indicator_link is not None:
+            print(str(sensor)+' : '+str(indicator_link[0].date_time))
+            sensor_link.value = indicator_link[0].value
+            sensor_link.connect_time =indicator_link[0].date_time
+            sensor_link.save()
     DataMfsb.objects.bulk_update(bulk,['check'])
 
 def update_dcs(): # Получение данных Контроль запыленности
