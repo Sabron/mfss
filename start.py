@@ -624,15 +624,15 @@ if __name__ == "__main__":
 
 
 
-    #sensor_list = AcsSensor.objects.order_by('id').all()
-    #for sensor in sensor_list:
-    #    #sensor = AcsSensor.objects.get(id=12)
-    #    allindicator = AcsIndicators.objects.filter(sensor = sensor).all()
-    #    print(str(sensor) + ' : '+str(allindicator.count()))
-    #    data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
-    #    print('data_mfsb = '+str(data_mfsb.count()))
-    #    #print(sensor)
-    #    update_acs_one(sensor)
+    sensor_list = AcsSensor.objects.order_by('id').all()
+    for sensor in sensor_list:
+        #sensor = AcsSensor.objects.get(id=12)
+        allindicator = AcsIndicators.objects.filter(sensor = sensor).all()
+        print(str(sensor) + ' : '+str(allindicator.count()))
+        data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
+        print('data_mfsb = '+str(data_mfsb.count()))
+        #print(sensor)
+        update_acs_one(sensor)
 
 
         sensor = AcsSensor.objects.get(id=12)
