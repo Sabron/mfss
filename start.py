@@ -636,7 +636,7 @@ if __name__ == "__main__":
 
 
         sensor = AcsSensor.objects.get(id=13)
-        datete_list = AcsIndicators.objects.filter(sensor=sensor).values('date_time').distinct()
+        datete_list = AcsIndicators.objects.filter(sensor=sensor).values('value').distinct()
         print(len(datete_list))
         #DataMfsb.objects.filter(check=True).delete()
         #data_mfsb = DataMfsb.objects.filter(name=sensor.tag).filter(check=False).order_by('date').all()[:1]
