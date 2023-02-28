@@ -619,7 +619,7 @@ if __name__ == "__main__":
         #dd = DataMfsb.objects.filter(name='MKON_BUNKER1.AQED_19_METAN_Otm_10700.Metan_Otm_10700').all()
         #print(dd.count())
     DataMfsb.objects.filter(check=True).delete()
-    sensor_list = AcsSensor.objects.all()
+    sensor_list = AcsSensor.objects.order_by('id').all()
     for sensor in sensor_list:
         allindicator = AcsIndicators.objects.filter(sensor = sensor).all()
         print(str(sensor) + ' : '+str(allindicator.count()))
