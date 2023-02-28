@@ -104,7 +104,8 @@ class AcsSensor(models.Model):  # Датчики
         ordering = ('name',)
         verbose_name = u'датчик'
         verbose_name_plural = u'датчики'
-        indexes = [models.Index(fields=['tag',]),
+        indexes = [
+            models.Index(fields=['tag',]),
             models.Index(fields=['name',]),
             models.Index(fields=['type',]),
             models.Index(fields=['tag','name',]),]
