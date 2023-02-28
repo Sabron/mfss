@@ -464,30 +464,30 @@ def update_ops_date():
     try:
         data_mfsb = DataMfsb.objects.filter(check=False).order_by('date').all()
         print('data_mfsb = '+str(data_mfsb.count()))
-        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
-        print('mfsb_list = '+str(mfsb_list.count()))
-        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:13000];
-        print('mfsb_list = '+str(mfsb_list.count()))
-        bulk = []
-        for mfsb in tqdm(mfsb_list):
-            datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).order_by('date').first()
-            #datd_mfsb = DataMfsb.objects.filter(date__lte=mfsb.date).filter(name=mfsb.name).order_by('date').first()
-            if datd_mfsb is None:
-                DataMfsb.objects.create(
-                    date=mfsb.date,
-                    name=mfsb.name,
-                    values=mfsb.values,
-                    check=mfsb.check)
-            mfsb.check = True
-            bulk.append(mfsb)
-        print('Помечаем обработанные')
-        Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
-        print('Удаляем обработанные')
-        Mfsb.objects.using('mfsb').filter(check=True).delete();
-        print('Смотрим на старые')
-        mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:1];
-        for mfsb in mfsb_list:
-            print(str(mfsb.date))
+      #  mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all();
+      #  print('mfsb_list = '+str(mfsb_list.count()))
+      #  mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:13000];
+      #  print('mfsb_list = '+str(mfsb_list.count()))
+      #  bulk = []
+      #  for mfsb in tqdm(mfsb_list):
+      #      datd_mfsb = DataMfsb.objects.filter(date=mfsb.date).filter(name=mfsb.name).order_by('date').first()
+      #      #datd_mfsb = DataMfsb.objects.filter(date__lte=mfsb.date).filter(name=mfsb.name).order_by('date').first()
+      #      if datd_mfsb is None:
+      #          DataMfsb.objects.create(
+      #              date=mfsb.date,
+      #              name=mfsb.name,
+      #              values=mfsb.values,
+      #              check=mfsb.check)
+      #      mfsb.check = True
+      #      bulk.append(mfsb)
+      #  print('Помечаем обработанные')
+      #  Mfsb.objects.using('mfsb').bulk_update(bulk,['check'])
+      #  print('Удаляем обработанные')
+      #  Mfsb.objects.using('mfsb').filter(check=True).delete();
+      #  print('Смотрим на старые')
+      #  mfsb_list = Mfsb.objects.using('mfsb').filter(check=False).order_by('date').all()[:1];
+      #  for mfsb in mfsb_list:
+      #      print(str(mfsb.date))
         update_acs()
         update_dcs()
     except Exception as err:
