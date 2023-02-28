@@ -633,7 +633,7 @@ if __name__ == "__main__":
         print('update_acs : '+str(data_mfsb.count()))
         bulk = []
         sensor_m=[]
-        sensor_m.append(sensor_link)
+        sensor_m.append(sensor)
         for data in tqdm(data_mfsb):
             a=1
  
