@@ -613,7 +613,7 @@ if __name__ == "__main__":
         #update_acs_one()
         #MKON_BUNKER1.AQED_19_METAN_Otm_10700.Metan_Otm_10700
         sensor_link = AcsSensor.objects.get(id=12)
-        print(sensor)
+        print(sensor_link)
         allindicator = AcsIndicators.objects.filter(sensor = sensor_link).all()
         print(allindicator.count())
     #sensor_list = AcsSensor.objects.all()
