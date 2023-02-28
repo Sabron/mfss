@@ -385,7 +385,9 @@ def update_acs():# Получение данных Системы Аэрогаз
     print('update_acs : '+str(data_mfsb.count()))
     bulk = []
     #sensor_m=[]
+    print('388')
     for data in tqdm(data_mfsb):
+        print('390')
         sensor_link = AcsSensor.objects.filter(tag=data.name).filter(active=True).first()
         if sensor_link is not None:
             #if sensor_link not in sensor_m:
