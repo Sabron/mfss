@@ -43,7 +43,7 @@ def tags_info():
             tag_dic.update(descr = tag['descr'])
             tag_dic.update(origin = tag['origin'])
             tag_dic.update(le_status = tag['le_status'])
-            tag_dic.update(battery_state = str(tag))
+            tag_dic.update(all = str(tag))
             m_rags.append(tag_dic)
         return m_rags
     except Exception as error:
