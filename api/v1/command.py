@@ -1,6 +1,8 @@
 import traceback
 import requests
 
+from requests.auth import HTTPBasicAuth
+
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse,HttpResponseForbidden
