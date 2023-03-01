@@ -252,6 +252,7 @@ def update_ops_date():
 def update_block():
     try:
         mfsb = cache.get('mfsb_block')
+        logging.message('mfsb_block : '+str(mfsb))
         if not mfsb:
             cache.set('mfsb_block', '1')
             mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10000];
@@ -294,6 +295,7 @@ def update_block():
 def update_ops_skpv_date():
     try:
         mfsb = cache.get('update_ops_skpv_date')
+        logging.message('update_ops_skpv_date : '+str(mfsb))
         if not mfsb:
             cache.set('update_ops_skpv_date', '1')
             mfsb_list = MfsbSkpv.objects.using('mfsb_skpv').filter(check=False).order_by('date').all()[:5000];
@@ -355,6 +357,7 @@ def update_ops_ppz_date():
 def update_ops_scada_date():
     try:
         mfsb = cache.get('update_ops_scada_date')
+        logging.message('scada : '+str(mfsb))
         if not mfsb:
             cache.set('update_ops_scada_date', '1')
             mfsb_list = MfsbSkada.objects.using('mfsb_skada').filter(check=False).order_by('date').all()[:5000];

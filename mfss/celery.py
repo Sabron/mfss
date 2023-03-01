@@ -25,10 +25,10 @@ app.conf.beat_schedule = {
 
 
 
-    'apps.schedulers.tasks.update_ops_date': {# Получение данных АГК и КЗ
-        'task': 'apps.schedulers.tasks.update_ops_date',
-        'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
-    },
+#    'apps.schedulers.tasks.update_ops_date': {# Получение данных АГК и КЗ
+#        'task': 'apps.schedulers.tasks.update_ops_date',
+#        'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
+#    },
     'apps.schedulers.tasks.update_block': {# Получение данных по блокировкам
         'task': 'apps.schedulers.tasks.update_block',
         'schedule': timedelta(seconds=60),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
@@ -37,10 +37,10 @@ app.conf.beat_schedule = {
         'task': 'apps.schedulers.tasks.update_ops_skpv_date',
         'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
     },
-    'apps.schedulers.tasks.update_ops_ppz_date': { # Получение данных противопожарная защита
-        'task': 'apps.schedulers.tasks.update_ops_ppz_date',
-        'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
-    },
+#    'apps.schedulers.tasks.update_ops_ppz_date': { # Получение данных противопожарная защита
+#        'task': 'apps.schedulers.tasks.update_ops_ppz_date',
+#        'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
+#    },
   'apps.schedulers.tasks.update_ops_scada_date': { # Получение данных Системы контроля работы оборудования
         'task': 'apps.schedulers.tasks.update_ops_scada_date',
         'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
