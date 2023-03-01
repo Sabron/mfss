@@ -8,13 +8,14 @@ from apps.catalog.models.model_locations import Location
 from apps.catalog.models.model_departments import Department
 from apps.catalog.models.model_workers import Worker
 from apps.catalog.models.model_zones import Zone
-from apps.account.views import views_account
+
 
 from sabron.util import logging
 from apps.util import generalmodule
 
 @csrf_exempt
 def ping():
+    print('d')
     return "OK"
 
 @csrf_exempt #Добавить платеж

@@ -17,7 +17,7 @@ from django.core import serializers
 from apps.util import generalmodule
 
 from users.models import Profile
-
+from sabron.util import logging
 from . import command
 
 def user_api(request,user):
@@ -29,7 +29,9 @@ def user_api(request,user):
     return False
 
 def BasicAuthLoginAndPassword(auth):
+    auth = auth.replace('Basic ','')
     loginAndUser=str(base64.b64decode(bytes(auth,'utf-8')).decode("utf-8")).split(":");
+    print(loginAndUser)
     return loginAndUser
 
 #методы addworker
@@ -47,18 +49,22 @@ def Command(request):
         -100 - Системная ошибка
     """
     try:
-        if request.method == "GET":
-            return redirect("/")
-            return generalmodule.Return404()
-        datadic=json.loads(request.body)
+        #if request.method == "POST":
+        #    return redirect("/")
+        #    return generalmodule.Return404()
+        #print(request.body)
+        #data_body=json.loads(request.body)
+        datadic = request.GET.dict()
+        headers = request.headers
         cookies=request.COOKIES
-        if 'Authentication' not in datadic:
+        print(datadic)
+        if 'Authorization' not in headers:
             data=dict()
             data.update(status=-1)
             data.update(error="Login incorrect!")
             return generalmodule.ReturnJson(200,data)
 
-        loginAndUser=BasicAuthLoginAndPassword(datadic['Authentication'])
+        loginAndUser=BasicAuthLoginAndPassword(headers['Authorization'])
         user = authenticate(username=loginAndUser[0], password=loginAndUser[1])
         if user is not None:
             if not user_api(request,user):
@@ -88,9 +94,10 @@ def Command(request):
         data.update(status=0)
         data.update(error="")
         data.update(method=datadic['method'])
-
-        if  datadic['method']=='ping':  
+        if  datadic['method']=='ping': 
+            print('dd')
             data.update(respose=command.ping())
+            print(data)
             return generalmodule.ReturnJson(200,data)
         elif datadic['method']=='getListDepartments':  #Получить список подразделений
             data.update(respose=command.getListDepartments(user))
@@ -116,6 +123,7 @@ def Command(request):
         data.update(error="method not found")
         return generalmodule.ReturnJson(200,data)
     except Exception as error:
+        logging.error(traceback.format_exc())
         data=dict()
         data.update(status=-100)
         data.update(error="system error : "+str(traceback.format_exc()))

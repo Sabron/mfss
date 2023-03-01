@@ -2,11 +2,7 @@
 from django.conf.urls import url
 from . import views
 
-
-
 urlpatterns = [
-    url(r'^$', views.ping, name='ping'),
-    url(r'^json/$', views.command, name='Command'),
-
+    url(r'^json/$', views.Command, name='Command'),
 ]
  
