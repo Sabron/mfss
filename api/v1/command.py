@@ -40,9 +40,8 @@ def anchors_info():
             tag_dic.update(y = tag['y'])
             tag_dic.update(z = tag['z'])
             tag_dic.update(sn = tag['sn'])
-            #tag_dic.update(descr = tag['descr'])
-            #tag_dic.update(origin = tag['origin'])
-            #tag_dic.update(le_status = tag['le_status'])
+            tag_dic.update(status = tag['status'])
+            tag_dic.update(label = tag['label'])
             tag_dic.update(all = str(tag))
             m_rags.append(tag_dic)
         return m_rags
