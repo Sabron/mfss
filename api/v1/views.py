@@ -95,15 +95,16 @@ def Command(request):
         data.update(error="")
         data.update(method=datadic['method'])
         if  datadic['method']=='ping': 
-            print('dd')
             data.update(respose=command.ping())
-            print(data)
             return generalmodule.ReturnJson(200,data)
         elif datadic['method']=='getListDepartments':  #Получить список подразделений
             data.update(respose=command.getListDepartments(user))
             return generalmodule.ReturnJson(200,data)
         elif datadic['method']=='getListPositions':  #Получить список должностей
             data.update(respose=command.getListPositions(user))
+            return generalmodule.ReturnJson(200,data)
+        elif datadic['method']=='tags_info':  #Добавить платеж
+            data.update(respose=command.ping())
             return generalmodule.ReturnJson(200,data)
         elif datadic['method']=='addPayment':  #Добавить платеж
             if 'payments' not in datadic:
