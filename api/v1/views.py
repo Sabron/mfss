@@ -104,7 +104,7 @@ def Command(request):
             data.update(respose=command.getListPositions(user))
             return generalmodule.ReturnJson(200,data)
         elif datadic['method']=='tags_info':  #Добавить платеж
-            data.update(respose=command.ping())
+            data.update(respose=command.tags_info())
             return generalmodule.ReturnJson(200,data)
         elif datadic['method']=='addPayment':  #Добавить платеж
             if 'payments' not in datadic:
