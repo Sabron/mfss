@@ -580,6 +580,7 @@ def control_sensor():
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:50000]
     print('data_mfsb = '+str(data_mfsb.count()))
 if __name__ == "__main__":
+    len_data()
     #test_Mfsb_block()
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #for sensor in sensor_list:
@@ -594,13 +595,13 @@ if __name__ == "__main__":
     #    test_Mfsb_block()
     #    update_block()
     #control_sensor()
-    DataMfsb.objects.filter(check=True).delete()
-    for i in range(1, 200):
-        DataMfsb.objects.filter(check=True).delete()
-        print('**************')
-        print('* Итерация : '+str(i))
-        print('**************')
-        update_ops_date()
+    #DataMfsb.objects.filter(check=True).delete()
+    #for i in range(1, 200):
+    #    DataMfsb.objects.filter(check=True).delete()
+    #    print('**************')
+    #    print('* Итерация : '+str(i))
+    #    print('**************')
+    #    update_ops_date()
         #update_acs_one()
         #MKON_BUNKER1.AQED_19_METAN_Otm_10700.Metan_Otm_10700
         #sensor_link = AcsSensor.objects.get(id=12)
