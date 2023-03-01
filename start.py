@@ -581,6 +581,8 @@ def control_sensor():
     print('data_mfsb = '+str(data_mfsb.count()))
 if __name__ == "__main__":
     len_data()
+    delete_data()
+    len_data()
     #test_Mfsb_block()
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #for sensor in sensor_list:
