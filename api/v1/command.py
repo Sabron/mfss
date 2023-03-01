@@ -18,6 +18,43 @@ from sabron.util import logging
 from apps.util import generalmodule
 
 @csrf_exempt
+def anchors_info():
+    try:
+        r=requests.post("https://192.168.10.5/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        if r.status_code!=200:
+            data=dict()
+            data.update(status=-405)
+            data.update(error="RTLS auth error")
+            return data
+        r=requests.get("https://192.168.10.5/CFG-API/monitor/anchors",auth=HTTPBasicAuth('system', 'admin'), verify=False)
+        if r.status_code!=200:
+            data=dict()
+            data.update(status=-595)
+            data.update(error="RTLS tags error")
+            return data
+        mystr=r.json()
+        m_rags = []
+        for tag in mystr['items']:
+            tag_dic = dict()
+            tag_dic.update(x = tag['x'])
+            tag_dic.update(y = tag['y'])
+            tag_dic.update(z = tag['z'])
+            tag_dic.update(sn = tag['sn'])
+            #tag_dic.update(descr = tag['descr'])
+            #tag_dic.update(origin = tag['origin'])
+            #tag_dic.update(le_status = tag['le_status'])
+            tag_dic.update(all = str(tag))
+            m_rags.append(tag_dic)
+        return m_rags
+    except Exception as error:
+        logging.error(str(traceback.format_exc()))
+        data=dict()
+        data.update(status=-100)
+        data.update(error="system error : "+str(traceback.format_exc()))
+        return data
+ 
+
+@csrf_exempt
 def tags_info():
     try:
         r=requests.post("https://192.168.10.5/CFG-API/auth",auth=HTTPBasicAuth('system', 'admin'), verify=False)
