@@ -593,7 +593,10 @@ def delete_acsIndicator():
                old_value = indicator.value
             else:
                 if old_value != indicator.value:
-                    break
+                    old_value = indicator.value
+                else:
+                    indicator.ismarked = True
+                    indicator.save()
             
         break
 
