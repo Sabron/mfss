@@ -597,7 +597,7 @@ def delete_acsIndicator():
                 else:
                     indicator.ismarked = True
                     indicator.save()
-            
+        AcsIndicators.objects.filter(ismarked = True).delete()
         break
 
 if __name__ == "__main__":
