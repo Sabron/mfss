@@ -40,7 +40,7 @@ git branch -M main
 git push -u origin main
 ```
 
-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
+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
 
 ```
 tar -cvf userpic.tar.gz /home/hronos/hronos_school//att/USERPIC  - Архивирование

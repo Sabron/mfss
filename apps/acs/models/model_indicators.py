@@ -22,7 +22,11 @@ class AcsIndicators(models.Model):  # Показания датчиков
     value = models.FloatField(default=0.0,
         help_text="",
         verbose_name="Показание")
-    
+    ismarked = models.BooleanField(verbose_name=u'Пометка',
+        null=False,
+        default=False,
+        blank=True)
+
 
     def getId(self):
         return self.id
