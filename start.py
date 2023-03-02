@@ -583,7 +583,7 @@ def control_sensor():
 
 def delete_acsIndicator():
     sensor_list = AcsSensor.objects.order_by('id').all()
-    for sensor in tqdm(sensor_list):
+    for sensor in sensor_list:
         print(sensor)
         old_value = 9999999.9
         allindicator = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time').all()[:1000]
