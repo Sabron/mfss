@@ -582,6 +582,9 @@ def control_sensor():
 
 
 def delete_acsIndicator():
+    all_in = AcsIndicators.objects.all()
+    old = all_in.count()
+    print('Записей : '+str(old))
     sensor_list = AcsSensor.objects.order_by('id').all()
     for sensor in sensor_list:
         print(sensor)
@@ -598,7 +601,15 @@ def delete_acsIndicator():
                     indicator.ismarked = True
                     indicator.save()
         AcsIndicators.objects.filter(ismarked = True).delete()
+        all_in = AcsIndicators.objects.all()
+        new = all_in.count()
+        print('Удалено : '+str(old-new))
+        print('Осталось : '+str(new))
         break
+    #all_in = AcsIndicators.objects.all()
+    #№new = all_in.count()
+    #print('Удалено : '+str(old-new))
+    #print('Осталось : '+str(new))
 
 if __name__ == "__main__":
     delete_acsIndicator()
