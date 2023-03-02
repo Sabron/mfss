@@ -589,7 +589,7 @@ def delete_acsIndicator():
     for sensor in sensor_list:
         print(sensor)
         old_value = 9999999.9
-        allindicator = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time').all()[:1000]
+        allindicator = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time').all()[:50000]
         for indicator in tqdm(allindicator):
             #print(str(indicator.date_time)+' : '+str(indicator.value)+' : '+str(indicator.ismarked))
             if old_value == 9999999.9:
@@ -600,16 +600,17 @@ def delete_acsIndicator():
                 else:
                     indicator.ismarked = True
                     indicator.save()
-        AcsIndicators.objects.filter(ismarked = True).delete()
-        all_in = AcsIndicators.objects.all()
-        new = all_in.count()
-        print('Удалено : '+str(old-new))
-        print('Осталось : '+str(new))
-        break
-    #all_in = AcsIndicators.objects.all()
-    #№new = all_in.count()
-    #print('Удалено : '+str(old-new))
-    #print('Осталось : '+str(new))
+        #AcsIndicators.objects.filter(ismarked = True).delete()
+        #all_in = AcsIndicators.objects.all()
+        #new = all_in.count()
+        #print('Удалено : '+str(old-new))
+        #print('Осталось : '+str(new))
+        #break
+    AcsIndicators.objects.filter(ismarked = True).delete()
+    all_in = AcsIndicators.objects.all()
+    new = all_in.count()
+    print('Удалено : '+str(old-new))
+    print('Осталось : '+str(new))
 
 if __name__ == "__main__":
     delete_acsIndicator()
