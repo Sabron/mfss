@@ -579,10 +579,22 @@ def control_sensor():
     print('update acs : '+str(len(sensor_list)))
     data_mfsb = DataMfsb.objects.filter(name__in=sensor_list).filter(check=False).order_by('date').all()[:50000]
     print('data_mfsb = '+str(data_mfsb.count()))
+
+
+def delete_acsIndicator():
+    sensor_list = AcsSensor.objects.order_by('id').all()
+    for sensor in sensor_list:
+        print(sensor)
+        allindicator = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time').all()[:10]
+        for indicator in allindicator:
+            print(indicator.date_time)
+        break
+
 if __name__ == "__main__":
-    len_data()
-    delete_data()
-    len_data()
+    delete_acsIndicator()
+    #len_data()
+    #delete_data()
+    #len_data()
     #test_Mfsb_block()
     #sensor_list = AcsSensor.objects.values('tag').order_by('tag').distinct()
     #for sensor in sensor_list:
