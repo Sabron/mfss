@@ -589,7 +589,7 @@ def delete_acsIndicator():
     for sensor in sensor_list:
         print(sensor)
         old_value = 9999999.9
-        allindicator = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time').all()[:50000]
+        allindicator = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time').all()
         for indicator in tqdm(allindicator):
             #print(str(indicator.date_time)+' : '+str(indicator.value)+' : '+str(indicator.ismarked))
             if old_value == 9999999.9:
