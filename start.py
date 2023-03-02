@@ -587,7 +587,7 @@ def delete_acsIndicator():
         print(sensor)
         allindicator = AcsIndicators.objects.filter(sensor = sensor).order_by('date_time').all()[:10]
         for indicator in allindicator:
-            print(str(indicator.date_time)+' : '+str(indicator.value))
+            print(str(indicator.date_time)+' : '+str(indicator.value)+' : '+str(indicator.ismarked))
         break
 
 if __name__ == "__main__":
