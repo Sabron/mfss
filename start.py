@@ -600,7 +600,7 @@ def delete_acsIndicator():
                 else:
                     indicator.ismarked = True
                     indicator.save()
-        #AcsIndicators.objects.filter(ismarked = True).delete()
+        AcsIndicators.objects.filter(ismarked = True).delete()
         #all_in = AcsIndicators.objects.all()
         #new = all_in.count()
         #print('Удалено : '+str(old-new))
