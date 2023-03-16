@@ -40,7 +40,6 @@ git branch -M main
 git push -u origin main
 ```
 
-```
 tar -cvf userpic.tar.gz /home/hronos/hronos_school//att/USERPIC  - Архивирование
 tar -cvf userpic.tar.gz /home/hronos/hronos_school/static/att/USERPIC  - Архивирование
 
@@ -57,5 +56,6 @@ git reset --mixed origin/main
 git add .
 git commit -m "комментарий к коммиту"
 git push -u origin main
+
 URL репозитория можно получить нажав на ту самую кнопку Clone в интерфейсе github.
 ```
