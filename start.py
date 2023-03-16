@@ -527,6 +527,7 @@ def update_ops_date():
 
 def update_block():
     try:
+            print(MfsbBlock.objects.using('mfsb_block').count())
             mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10000];
             bulk = []
             for data in tqdm(mfsb_list):
@@ -558,6 +559,7 @@ def update_block():
                     MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
                     bulk = []
             MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+            MfsbBlock.objects.using('mfsb_block').filter(check=True).delete();
     except Exception as err:
         logging.error("==============update_block")
         logging.error(traceback.format_exc())
