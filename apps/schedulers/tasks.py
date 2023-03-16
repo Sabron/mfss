@@ -270,22 +270,22 @@ def update_block():
                 indicator_link = BlockIndicators.objects.filter(sensor = block_sensor).filter(date_time__lte=data.date).order_by('-date_time')[:1]
                 logging.message('indicator_link : '+str(indicator_link))
                 if indicator_link.count() > 0 :
-                    logging.message('-----------indicator_link[0].value : '+str(indicator_link[0].value))
-                    logging.message('-----------data.values : '+str(data.values))
-                    if indicator_link[0].value != data.values:
+                    logging.log('-----------indicator_link[0].value : '+str(indicator_link[0].value))
+                    logging.log('-----------data.values : '+str(data.values))
+                    if int(indicator_link[0].value) != int(data.values):
                         Acs_Indicators = BlockIndicators.objects.create(
                             date_time =data.date,
                             sensor = block_sensor,
-                            value = data.values)
+                            value = int(data.values))
                 else:
-                    logging.message('==================================================================')
-                    logging.message('-----------indicator_link[0].value : '+str(indicator_link[0].value))
-                    logging.message('-----------data.values : '+str(data.values))
+                    logging.log('==================================================================')
+                    logging.log('-----------data.date : '+str(data.date))
+                    logging.log('-----------data.values : '+str(data.values))
 
                     Acs_Indicators = BlockIndicators.objects.create(
                         date_time =data.date,
                         sensor = block_sensor,
-                        value = data.values)
+                        value = int(data.values))
                 block_sensor.value = data.values
                 block_sensor.connect_time =data.date
                 block_sensor.save()
