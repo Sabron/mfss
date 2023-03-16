@@ -532,11 +532,11 @@ def update_block():
             bulk = []
             for data in tqdm(mfsb_list):
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
-                #if block_sensor is None:
-                #    block_sensor = BlockSensor.objects.create(
-                #                tag = data.name,
-                #                position = 'None',
-                #                name = data.name)
+                if block_sensor is None:
+                    block_sensor = BlockSensor.objects.create(
+                                tag = data.name,
+                                position = 'None',
+                                name = data.name)
 
                 #indicator_link = BlockIndicators.objects.filter(sensor = block_sensor).filter(date_time__lte=data.date).order_by('-date_time')[:1]
                 #if indicator_link.count() > 0 :
