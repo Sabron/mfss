@@ -281,13 +281,14 @@ def update_block():
                 block_sensor.connect_time =data.date
                 block_sensor.save()
                 data.check = True
-                bulk.append(data)
-                if len(bulk) >= 500:
-                    logging.log('len '+str(len(bulk)))
-                    logging.log('Помечаем')
-                    result = MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
-                    logging.log('Результат = '+str(result))
-                    bulk = []
+                data.save()
+                #bulk.append(data)
+                #if len(bulk) >= 500:
+                #    logging.log('len '+str(len(bulk)))
+                #    logging.log('Помечаем')
+                #    result = MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+                #    logging.log('Результат = '+str(result))
+                #    bulk = []
             MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
             cache.delete('mfsb_block')
     except Exception as err:
