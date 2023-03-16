@@ -40,11 +40,22 @@ git branch -M main
 git push -u origin main
 ```
 
-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
-
 ```
 tar -cvf userpic.tar.gz /home/hronos/hronos_school//att/USERPIC  - Архивирование
 tar -cvf userpic.tar.gz /home/hronos/hronos_school/static/att/USERPIC  - Архивирование
 
 
 git config --global credential.helper store
+
+```bash
+Это делается командой git remote add, но делать её можно только на существующем репозитории, так что вам понадобится ещё и git init. Потом вам понадобится получить из репозитория коммиты командой git fetch и сделать git reset чтобы вносить свои изменения не с нуля, а начиная с головы репозитория.
+
+git init
+git remote add origin https://github.com/Sabron/mfss.git
+git fetch origin
+git reset --mixed origin/main
+git add .
+git commit -m "комментарий к коммиту"
+git push -u origin main
+URL репозитория можно получить нажав на ту самую кнопку Clone в интерфейсе github.
+```
