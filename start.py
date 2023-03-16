@@ -613,7 +613,7 @@ def delete_acsIndicator():
     print('Осталось : '+str(new))
 
 if __name__ == "__main__":
-    delete_acsIndicator()
+    update_block()
     #len_data()
     #delete_data()
     #len_data()
