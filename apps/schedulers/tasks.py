@@ -260,6 +260,7 @@ def update_block():
             bulk = []
             for data in mfsb_list:
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
+                logging.message('block_sensor : '+str(block_sensor))
                 if block_sensor is None:
                     block_sensor = BlockSensor.objects.create(
                                 tag = data.name,
