@@ -293,8 +293,9 @@ def update_block():
                 block_sensor.save()
                 data.check = True
                 bulk.append(data)
-                logging.log('len '+str(len(bulk)))
                 if len(bulk) >= 500:
+                    logging.log('len '+str(len(bulk)))
+                    logging.log('Помечаем')
                     MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
                     bulk = []
             MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
