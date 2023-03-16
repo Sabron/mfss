@@ -256,11 +256,9 @@ def update_block():
         if not mfsb:
             cache.set('mfsb_block', '1')
             mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:1000];
-            logging.message('mfsb_list_block count : '+str(mfsb_list.count()))
             bulk = []
             for data in mfsb_list:
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
-                logging.message('block_sensor : '+str(block_sensor))
                 if block_sensor is None:
                     block_sensor = BlockSensor.objects.create(
                                 tag = data.name,
@@ -268,26 +266,17 @@ def update_block():
                                 name = data.name)
 
                 indicator_link = BlockIndicators.objects.filter(sensor = block_sensor).filter(date_time__lte=data.date).order_by('-date_time')[:1]
-                logging.message('indicator_link : '+str(indicator_link))
                 if indicator_link.count() > 0 :
-                    logging.log('-----------indicator_link[0].value : '+str(int(indicator_link[0].value)))
-                    logging.log('-----------data.values : '+str(int(data.values)))
-                    logging.log('-----------=data.date : '+str(data.date))
                     if int(indicator_link[0].value) != int(data.values):
                         Acs_Indicators = BlockIndicators.objects.create(
                             date_time =data.date,
                             sensor = block_sensor,
                             value = int(data.values))
                 else:
-                    logging.log('==================================================================')
-                    logging.log('-----------data.date : '+str(data.date))
-                    logging.log('-----------data.values : '+str(data.values))
-
                     Acs_Indicators = BlockIndicators.objects.create(
                         date_time =data.date,
                         sensor = block_sensor,
                         value = int(data.values))
-                logging.log('Пишем в сенсор.')
                 block_sensor.value = int(data.values)
                 block_sensor.connect_time =data.date
                 block_sensor.save()
@@ -296,7 +285,8 @@ def update_block():
                 if len(bulk) >= 500:
                     logging.log('len '+str(len(bulk)))
                     logging.log('Помечаем')
-                    MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+                    result = MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+                    logging.log('Результат = '+str(result))
                     bulk = []
             MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
             cache.delete('mfsb_block')
