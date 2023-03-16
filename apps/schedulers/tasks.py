@@ -399,6 +399,7 @@ def auto_ops_delete():
         Mfsb.objects.using('mfsb').filter(check=True).delete();
         MfsbPpz.objects.using('mfsb_ppz').filter(check=True).delete();
         MfsbSkada.objects.using('mfsb_skada').filter(check=True).delete();
+        MfsbBlock.objects.using('mfsb_block').filter(check=True).delete();
     except Exception as err:
         logging.error(traceback.format_exc())
 
