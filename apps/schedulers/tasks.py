@@ -286,7 +286,8 @@ def update_block():
                         date_time =data.date,
                         sensor = block_sensor,
                         value = int(data.values))
-                block_sensor.value = data.values
+                logging.log('Пишем в сенсор.')
+                block_sensor.value = int(data.values)
                 block_sensor.connect_time =data.date
                 block_sensor.save()
                 data.check = True
