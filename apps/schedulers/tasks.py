@@ -256,6 +256,7 @@ def update_block():
         if not mfsb:
             cache.set('mfsb_block', '1')
             mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:50000];
+            logging.message('mfsb_list_block count : '+str(mfsb_list.count()))
             bulk = []
             for data in mfsb_list:
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
