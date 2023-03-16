@@ -532,29 +532,29 @@ def update_block():
             bulk = []
             for data in tqdm(mfsb_list):
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
-                if block_sensor is None:
-                    block_sensor = BlockSensor.objects.create(
-                                tag = data.name,
-                                position = 'None',
-                                name = data.name)
+                #if block_sensor is None:
+                #    block_sensor = BlockSensor.objects.create(
+                #                tag = data.name,
+                #                position = 'None',
+                #                name = data.name)
 
-                indicator_link = BlockIndicators.objects.filter(sensor = block_sensor).filter(date_time__lte=data.date).order_by('-date_time')[:1]
-                if indicator_link.count() > 0 :
-                    if indicator_link[0].value != data.values:
-                        Acs_Indicators = BlockIndicators.objects.create(
-                            date_time =data.date,
-                            sensor = block_sensor,
-                            value = data.values)
-                else:
-                    Acs_Indicators = BlockIndicators.objects.create(
-                        date_time =data.date,
-                        sensor = block_sensor,
-                        value = data.values)
-                block_sensor.value = data.values
-                block_sensor.connect_time =data.date
-                block_sensor.save()
-                data.check = True
-                data.save()
+                #indicator_link = BlockIndicators.objects.filter(sensor = block_sensor).filter(date_time__lte=data.date).order_by('-date_time')[:1]
+                #if indicator_link.count() > 0 :
+                #    if indicator_link[0].value != data.values:
+                #        Acs_Indicators = BlockIndicators.objects.create(
+                #            date_time =data.date,
+                #            sensor = block_sensor,
+                #            value = data.values)
+                #else:
+                #    Acs_Indicators = BlockIndicators.objects.create(
+                #        date_time =data.date,
+                #        sensor = block_sensor,
+                #        value = data.values)
+                #block_sensor.value = data.values
+                #block_sensor.connect_time =data.date
+                #block_sensor.save()
+                #data.check = True
+                #data.save()
                 #bulk.append(data)
                 #if len(bulk) > 500:
                 #    MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
