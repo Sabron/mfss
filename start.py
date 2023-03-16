@@ -528,6 +528,8 @@ def update_ops_date():
 def update_block():
     try:
             print(MfsbBlock.objects.using('mfsb_block').count())
+            MfsbBlock.objects.using('mfsb_block').filter(check=True).delete();
+            print(MfsbBlock.objects.using('mfsb_block').count())
             mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:10000];
             bulk = []
             for data in tqdm(mfsb_list):
