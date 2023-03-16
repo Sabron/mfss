@@ -270,6 +270,8 @@ def update_block():
                 indicator_link = BlockIndicators.objects.filter(sensor = block_sensor).filter(date_time__lte=data.date).order_by('-date_time')[:1]
                 logging.message('indicator_link : '+str(indicator_link))
                 if indicator_link.count() > 0 :
+                    logging.log('indicator_link[0].value : '+str(indicator_link[0].value))
+                    logging.log('indicator_link[0].value : '+str(data.values))
                     if indicator_link[0].value != data.values:
                         Acs_Indicators = BlockIndicators.objects.create(
                             date_time =data.date,
