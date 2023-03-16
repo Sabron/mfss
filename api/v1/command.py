@@ -92,7 +92,6 @@ def tags_info():
 
 @csrf_exempt
 def ping():
-    print('d')
     return "OK"
 
 @csrf_exempt #Добавить платеж

@@ -31,7 +31,6 @@ def user_api(request,user):
 def BasicAuthLoginAndPassword(auth):
     auth = auth.replace('Basic ','')
     loginAndUser=str(base64.b64decode(bytes(auth,'utf-8')).decode("utf-8")).split(":");
-    print(loginAndUser)
     return loginAndUser
 
 #методы addworker

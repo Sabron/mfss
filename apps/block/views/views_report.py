@@ -50,7 +50,6 @@ def float_range(A, L=None, D=None):
 def show_report_ToHTML(request):
     try:
         dict_param=request.POST.dict()
-        print(dict_param['DataStart'])
         data_start=datetime.strptime(dict_param['DataStart']+' 00:00:00', "%d.%m.%Y %H:%M:%S")
         data_stop=datetime.strptime(dict_param['DataStop']+' 23:59:59', "%d.%m.%Y %H:%M:%S")
         block_sensor = BlockSensor.objects.filter(id = dict_param['id_block']).first()
@@ -86,7 +85,6 @@ def show_report_ToHTML(request):
                       
                       
                      
-            print(block_indicators)
 
 
         html = html+"""

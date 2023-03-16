@@ -54,7 +54,6 @@ def get_ajax(request):
             sensor_list = FpsSensor.objects.filter(myquery).all().order_by('name')
             m_sensor = []
             for sensor in sensor_list:
-                print(type)
                 sensor_dict = dict()
                 sensor_dict.update(type=sensor.type)
                 sensor_dict.update(sensor_id=sensor.id)
