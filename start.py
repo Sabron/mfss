@@ -528,8 +528,6 @@ def update_ops_date():
 def update_block():
     try:
             print(MfsbBlock.objects.using('mfsb_block').count())
-            MfsbBlock.objects.using('mfsb_block').filter(check=True).delete();
-            print(MfsbBlock.objects.using('mfsb_block').count())
             mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:500];
             bulk = []
             for data in tqdm(mfsb_list):
@@ -556,11 +554,13 @@ def update_block():
                 block_sensor.connect_time =data.date
                 block_sensor.save()
                 data.check = True
-                bulk.append(data)
-                if len(bulk) > 500:
-                    MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
-                    bulk = []
+                data.save()
+                #bulk.append(data)
+                #if len(bulk) > 500:
+                #    MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+                #    bulk = []
             MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+            print('Удаляем')
             MfsbBlock.objects.using('mfsb_block').filter(check=True).delete();
     except Exception as err:
         logging.error("==============update_block")
