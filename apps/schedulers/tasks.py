@@ -288,6 +288,7 @@ def update_block():
                     Block.objects.bulk_update(bulk,['check'])
                     bulk = []
             Block.objects.bulk_update(bulk,['check'])
+            Block.objects.filter(check=True).delete();
             cache.delete('mfsb_block')
     except Exception as err:
         logging.error("==============update_block")
