@@ -46,6 +46,7 @@ from apps.fp.models.model_code_bolid import CodeBolid
 
 from apps.block.models.model_sensor import BlockSensor
 from apps.block.models.model_indicators import BlockIndicators
+from apps.block.models.model_block import Block
 
 
 from apps.eps.models.model_tags import Tag
@@ -255,7 +256,7 @@ def update_block():
         logging.message('mfsb_block : '+str(mfsb))
         if not mfsb:
             cache.set('mfsb_block', '1')
-            mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:1000];
+            mfsb_list = Block.objects.filter(check=False).order_by('date').all()[:50000];
             bulk = []
             for data in mfsb_list:
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
@@ -281,15 +282,12 @@ def update_block():
                 block_sensor.connect_time =data.date
                 block_sensor.save()
                 data.check = True
-                data.save()
-                #bulk.append(data)
-                #if len(bulk) >= 500:
-                #    logging.log('len '+str(len(bulk)))
-                #    logging.log('Помечаем')
-                #    result = MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
-                #    logging.log('Результат = '+str(result))
-                #    bulk = []
-            MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+                #data.save()
+                bulk.append(data)
+                if len(bulk) >= 500:
+                    Block.objects.bulk_update(bulk,['check'])
+                    bulk = []
+            Block.objects.bulk_update(bulk,['check'])
             cache.delete('mfsb_block')
     except Exception as err:
         logging.error("==============update_block")
