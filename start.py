@@ -529,7 +529,7 @@ def update_ops_date():
 def update_block():
     try:
             print(Block.objects.count())
-            mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:50000];
+            mfsb_list = Block.objects.filter(check!=True).order_by('date').all()[:50000];
             bulk = []
             for data in tqdm(mfsb_list):
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
@@ -559,12 +559,12 @@ def update_block():
                 #data.save() 
                 bulk.append(data)
                 if len(bulk) >= 500:
-                    MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+                    Block.objects.bulk_update(bulk,['check'])
                     bulk = []
             print('Помечаем')
-            MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
+            Block.objects.bulk_update(bulk,['check'])
             print('Удаляем')
-            MfsbBlock.objects.using('mfsb_block').filter(check=True).delete();
+            Block.objects.filter(check=True).delete();
     except Exception as err:
         logging.error("==============update_block")
         logging.error(traceback.format_exc())
@@ -620,13 +620,12 @@ def delete_acsIndicator():
     print('Осталось : '+str(new))
 
 if __name__ == "__main__":
-    print(Block.objects.count())
     #for i in range(1, 200):
     #    print('**************')
     #    print('* Итерация : '+str(i))
     #    print('**************')
 
-        #update_block();
+    update_block();
     #len_data()
     #delete_data()
     #len_data()
