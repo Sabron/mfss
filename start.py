@@ -620,12 +620,15 @@ def delete_acsIndicator():
     print('Осталось : '+str(new))
 
 if __name__ == "__main__":
+    mfsb_list = Block.objects.order_by('date').all()[:10];
+    for data in mfsb_list:
+        print(data)
     #for i in range(1, 200):
     #    print('**************')
     #    print('* Итерация : '+str(i))
     #    print('**************')
 
-    update_block();
+    #update_block();
     #len_data()
     #delete_data()
     #len_data()
