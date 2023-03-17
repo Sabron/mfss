@@ -528,7 +528,7 @@ def update_ops_date():
 def update_block():
     try:
             print(MfsbBlock.objects.using('mfsb_block').count())
-            mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:1000];
+            mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:50000];
             bulk = []
             for data in tqdm(mfsb_list):
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
@@ -620,7 +620,11 @@ def delete_acsIndicator():
     print('Осталось : '+str(new))
 
 if __name__ == "__main__":
-    update_block()
+    for i in range(1, 200):
+        print('**************')
+        print('* Итерация : '+str(i))
+        print('**************')
+        update_block();
     #len_data()
     #delete_data()
     #len_data()
