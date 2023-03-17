@@ -558,7 +558,6 @@ def update_block():
                 #data.save() 
                 bulk.append(data)
                 if len(bulk) >= 500:
-                    print('Помечаем')
                     MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
                     bulk = []
             print('Помечаем')
