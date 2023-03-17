@@ -56,6 +56,7 @@ from apps.scada.models.model_indicators import ScadaIndicators
 
 from apps.block.models.model_sensor import BlockSensor
 from apps.block.models.model_indicators import BlockIndicators
+from apps.block.models.model_block import Block
 
 
 from apps.eps.models.model_tags import Tag
@@ -527,7 +528,7 @@ def update_ops_date():
 
 def update_block():
     try:
-            print(MfsbBlock.objects.using('mfsb_block').count())
+            print(Block.objects.count())
             mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:50000];
             bulk = []
             for data in tqdm(mfsb_list):
@@ -619,11 +620,13 @@ def delete_acsIndicator():
     print('Осталось : '+str(new))
 
 if __name__ == "__main__":
-    for i in range(1, 200):
-        print('**************')
-        print('* Итерация : '+str(i))
-        print('**************')
-        update_block();
+    print(Block.objects.count())
+    #for i in range(1, 200):
+    #    print('**************')
+    #    print('* Итерация : '+str(i))
+    #    print('**************')
+
+        #update_block();
     #len_data()
     #delete_data()
     #len_data()
