@@ -622,7 +622,7 @@ def delete_acsIndicator():
 if __name__ == "__main__":
     mfsb_list = Block.objects.order_by('date').all()[:10];
     for data in mfsb_list:
-        print(data)
+        print(data.check)
     #for i in range(1, 200):
     #    print('**************')
     #    print('* Итерация : '+str(i))
