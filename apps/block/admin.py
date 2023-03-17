@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from .models.model_block import Block
 from .models.model_sensor import BlockSensor
 from .models.model_indicators import BlockIndicators
 
@@ -12,3 +13,8 @@ class BlockSensorAdmin(admin.ModelAdmin):
 class BlockIndicatorsAdmin(admin.ModelAdmin):
     list_display = ('date_time','sensor','value')
     search_fields = ('sensor__name',)
+
+@admin.register(Block)
+class BlockAdmin(admin.ModelAdmin):
+    list_display = ('name','values','date','check')
+    search_fields = ('name',)
