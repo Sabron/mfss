@@ -31,7 +31,7 @@ app.conf.beat_schedule = {
     },
     'apps.schedulers.tasks.update_block': {# Получение данных по блокировкам
         'task': 'apps.schedulers.tasks.update_block',
-        'schedule': timedelta(seconds=30),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
+        'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
     },
     'apps.schedulers.tasks.update_ops_skpv_date': { # Получение данных со водоснабжение
         'task': 'apps.schedulers.tasks.update_ops_skpv_date',
