@@ -528,7 +528,7 @@ def update_ops_date():
 def update_block():
     try:
             print(MfsbBlock.objects.using('mfsb_block').count())
-            mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:500];
+            mfsb_list = MfsbBlock.objects.using('mfsb_block').filter(check=False).order_by('date').all()[:1000];
             bulk = []
             for data in tqdm(mfsb_list):
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
@@ -557,9 +557,10 @@ def update_block():
                 #print('Запись')
                 #data.save()
                 bulk.append(data)
-                if len(bulk) > 500:
+                if len(bulk) > = 500:
                     MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
                     bulk = []
+            print('Помечаем')
             MfsbBlock.objects.using('mfsb_block').bulk_update(bulk,['check'])
             print('Удаляем')
             MfsbBlock.objects.using('mfsb_block').filter(check=True).delete();
