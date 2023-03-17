@@ -529,7 +529,7 @@ def update_ops_date():
 def update_block():
     try:
             print(Block.objects.count())
-            mfsb_list = Block.objects.filter(check=None).order_by('date').all()[:50000];
+            mfsb_list = Block.objects.filter(check=False).order_by('date').all()[:50000];
             bulk = []
             for data in tqdm(mfsb_list):
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
@@ -564,7 +564,7 @@ def update_block():
             print('Помечаем')
             Block.objects.bulk_update(bulk,['check'])
             print('Удаляем')
-            Block.objects.filter(Check=True).delete();
+            Block.objects.filter(check=True).delete();
     except Exception as err:
         logging.error("==============update_block")
         logging.error(traceback.format_exc())
