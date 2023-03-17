@@ -529,40 +529,40 @@ def update_ops_date():
 def update_block():
     try:
             print(Block.objects.count())
-            mfsb_list = Block.objects.filter(Check!=True).order_by('date').all()[:50000];
+            mfsb_list = Block.objects.filter(check=False).filter(check=None).order_by('date').all()[:50000];
             bulk = []
             for data in tqdm(mfsb_list):
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
                 if block_sensor is None:
                     block_sensor = BlockSensor.objects.create(
-                                tag = data.Name,
+                                tag = data.name,
                                 position = 'None',
-                                name = data.Name)
+                                name = data.name)
 
-                indicator_link = BlockIndicators.objects.filter(sensor = block_sensor).filter(date_time__lte=data.Date).order_by('-date_time')[:1]
+                indicator_link = BlockIndicators.objects.filter(sensor = block_sensor).filter(date_time__lte=data.date).order_by('-date_time')[:1]
                 if indicator_link.count() > 0 :
-                    if indicator_link[0].value != data.Values:
+                    if indicator_link[0].value != data.values:
                         Acs_Indicators = BlockIndicators.objects.create(
-                            date_time =data.Date,
+                            date_time =data.date,
                             sensor = block_sensor,
-                            value = data.Values)
+                            value = data.values)
                 else:
                     Acs_Indicators = BlockIndicators.objects.create(
-                        date_time =data.Date,
+                        date_time =data.date,
                         sensor = block_sensor,
-                        value = data.Values)
-                block_sensor.value = data.Values
-                block_sensor.connect_time =data.Date
+                        value = data.values)
+                block_sensor.value = data.values
+                block_sensor.connect_time =data.date
                 block_sensor.save()
-                data.Check = True
+                data.check = True
                 #print('Запись')
                 #data.save() 
                 bulk.append(data)
                 if len(bulk) >= 500:
-                    Block.objects.bulk_update(bulk,['Check'])
+                    Block.objects.bulk_update(bulk,['check'])
                     bulk = []
             print('Помечаем')
-            Block.objects.bulk_update(bulk,['Check'])
+            Block.objects.bulk_update(bulk,['check'])
             print('Удаляем')
             Block.objects.filter(Check=True).delete();
     except Exception as err:
