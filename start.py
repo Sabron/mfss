@@ -529,7 +529,7 @@ def update_ops_date():
 def update_block():
     try:
             print(Block.objects.count())
-            mfsb_list = Block.objects.filter(check=False).filter(check=None).order_by('date').all()[:50000];
+            mfsb_list = Block.objects.filter(check=None).order_by('date').all()[:50000];
             bulk = []
             for data in tqdm(mfsb_list):
                 block_sensor = BlockSensor.objects.filter(tag = data.name).first()
