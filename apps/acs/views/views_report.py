@@ -55,10 +55,9 @@ def show_report_error_ToHTML(request):
         sensor = AcsSensor.objects.filter(id = dict_param['id_sensor']).first()
         myquery =Q(sensor = sensor)
         myquery &= Q(date_time__range=[data_start,data_stop])
-        #myquery &= Q(value__range=[sensor.critical_value_from,sensor.critical_value_to])
-        myquery &= Q(value >=sensor.critical_value_from*sensor.ratio)
+        myquery &= Q(value__range=[sensor.critical_value_from*sensor.ratio,99999999.0])
+        #myquery &= Q(value >=(sensor.critical_value_from*sensor.ratio))
         indicators_list = AcsIndicators.objects.filter(myquery).order_by('date_time').all()
-        print(indicators_list.query)
         html="""
             <table id = 'id_table' class='table table-bordered'>
                   <thead>
@@ -109,7 +108,6 @@ def show_report_value_ToHTML(request):
         myquery &= Q(date_time__range=[data_start,data_stop])
         #myquery &= Q(value__range=[sensor.critical_value_from,sensor.critical_value_to])
         indicators_list = AcsIndicators.objects.filter(myquery).order_by('date_time').all()
-        print(indicators_list.query)
         html="""
             <table id = 'id_table' class='table table-bordered'>
                   <thead>
