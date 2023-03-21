@@ -130,7 +130,7 @@
         var DataStop = $("#id_datestop").val();
 		var id_sensor = $("#id_sensor").select2('data');
         if (!!DataStart) {
-			$("#reportPanelBody").html('<div class="overlay"><i class= "fas fa-2x fa-sync-alt" ></i></div>')
+			$("#reportPanelBody").html('<div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i></div>')
             $.ajax({
                 type: 'POST', // метод отправки
 				url: window.location.pathname+'?name=reporterror',
