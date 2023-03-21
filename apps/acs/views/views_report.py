@@ -55,7 +55,8 @@ def show_report_error_ToHTML(request):
         sensor = AcsSensor.objects.filter(id = dict_param['id_sensor']).first()
         myquery =Q(sensor = sensor)
         myquery &= Q(date_time__range=[data_start,data_stop])
-        myquery &= Q(value__range=[sensor.critical_value_from,sensor.critical_value_to])
+        #myquery &= Q(value__range=[sensor.critical_value_from,sensor.critical_value_to])
+        myquery &= Q(value >=sensor.critical_value_from)
         indicators_list = AcsIndicators.objects.filter(myquery).order_by('date_time').all()
         print(indicators_list.query)
         html="""
@@ -125,7 +126,7 @@ def show_report_value_ToHTML(request):
         for indicators in indicators_list:
             nom = nom +1
             style = 'color:black;'
-            if float(indicators.value) >= float(sensor.critical_value_from) and float(indicators.value) <= float(sensor.critical_value_to):
+            if float(indicators.value) >= float(sensor.critical_value_from) :
                 style = 'color:red;'
 
             html = html+"""
