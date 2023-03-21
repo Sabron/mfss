@@ -13,24 +13,33 @@
     <meta name="description" content="{% settings_value 'DESCRIPTION' %}" />
     <title>{% settings_value 'SITE_TITLE' %} : {{ user.profile.client }}</title>
     <link rel="icon" href="{% static 'img/favicon.ico' %}?ver={% settings_value 'APP_VER' %}" type="image/x-icon">
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{% static 'lte/plugins/fontawesome-free/css/all.min.css' %}?ver={% settings_value 'APP_VER' %}">
-    <!-- IonIcons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{% static 'lte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}?ver={% settings_value 'APP_VER' %}">
-    <!-- Toastr -->
-    <link rel="stylesheet" href="{% static 'lte/plugins/toastr/toastr.min.css' %}?ver={% settings_value 'APP_VER' %}">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{% static 'lte/dist/css/adminlte.min.css' %}?ver={% settings_value 'APP_VER' %}">
-    <!-- SweetAlert2 -->
-    <script src="{% static 'lte/plugins/sweetalert2/sweetalert2.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
-    <!-- Toastr -->
-    <script src="{% static 'lte/plugins/toastr/toastr.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+      <!-- Google Font: Source Sans Pro -->
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+      <!-- Font Awesome -->
+      <link rel="stylesheet" href="{% static 'lte/plugins/fontawesome-free/css/all.min.css' %}?ver={% settings_value 'APP_VER' %}">
+      <!-- daterange picker -->
+      <link rel="stylesheet" href="{% static 'lte/plugins/daterangepicker/daterangepicker.css' %}?ver={% settings_value 'APP_VER' %}">
+      <!-- iCheck for checkboxes and radio inputs -->
+      <link rel="stylesheet" href="{% static 'lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}?ver={% settings_value 'APP_VER' %}">
+      <!-- Bootstrap Color Picker -->
+      <link rel="stylesheet" href="{% static 'lte/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}?ver={% settings_value 'APP_VER' %}">
+      <!-- Tempusdominus Bootstrap 4 -->
+      <link rel="stylesheet" href="{% static 'lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}?ver={% settings_value 'APP_VER' %}">
+      <!-- Select2 -->
+      <link rel="stylesheet" href="{% static 'lte/plugins/select2/css/select2.min.css' %}?ver={% settings_value 'APP_VER' %}">
+      <link rel="stylesheet" href="{% static 'lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}?ver={% settings_value 'APP_VER' %}">
+      <!-- Bootstrap4 Duallistbox -->
+      <link rel="stylesheet" href="{% static 'lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css' %}?ver={% settings_value 'APP_VER' %}">
+      <!-- BS Stepper -->
+      <link rel="stylesheet" href="{% static 'lte/plugins/bs-stepper/css/bs-stepper.min.css' %}?ver={% settings_value 'APP_VER' %}">
+      <!-- dropzonejs -->
+      <link rel="stylesheet" href="{% static 'lte/plugins/dropzone/min/dropzone.min.css' %}?ver={% settings_value 'APP_VER' %}">
+      <!-- Theme style -->
+      <link rel="stylesheet" href="{% static 'lte/dist/css/adminlte.min.css' %}?ver={% settings_value 'APP_VER' %}">   
+
     {% block header_link %}
     {% endblock header_link %}
+
 
 </head>
 <body class=" layout-fixed text-sm layout-footer-fixed">
@@ -79,7 +88,7 @@
 
                         <li class="nav-item">
                             <a href="/acs/" class="nav-link">
-                                <i class="fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Все
                                 </p>
@@ -87,34 +96,42 @@
                         </li>
                         <li class="nav-item">
                             <a href="/acs/?type=1" class="nav-link">
-                                <i class="fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    CO2 - Датчики диоксида углерода
+                                    CO2 - <span style="font-size:10px;">Датчики диоксида углерода</span>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/acs/?type=2" class="nav-link">
-                                <i class="fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    CO - Датчики оксида
+                                    CO - <span style="font-size:10px;">Датчики оксида</span>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/acs/?type=3" class="nav-link">
-                                <i class="fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    CH4 -  Датчики метана
+                                    CH4 -  <span style="font-size:10px;">Датчики метана</span>
                                 </p>
                             </a>
                         </li>
                         </li>
                         <li class="nav-header"></li>
+                        <li class="nav-item">
+                            <a href="/acs/report/" class="nav-link">
+                                <i class="nav-icon fas fa-copy"></i>
+                                <p>
+                                    Отчеты
+                                </p>
+                            </a>
+                        </li>
                         <li class="nav-header"></li>
                         <li class="nav-item">
                             <a href="/" class="nav-link">
-                                <i class="fas fa-cog"></i>
+                                <i class="nav-icon fas fa-table"></i>
                                 <p>
                                     Информационный экран
                                 </p>
@@ -147,13 +164,32 @@
     </div>
     <!-- ./wrapper -->
     <!-- jQuery -->
-    <script src="{% static 'lte/plugins/jquery/jquery.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
-    <!-- Bootstrap -->
+     <script src="{% static 'lte/plugins/jquery/jquery.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- Bootstrap 4 -->
     <script src="{% static 'lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- Select2 -->
+    <script src="{% static 'lte/plugins/select2/js/select2.full.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- Bootstrap4 Duallistbox -->
+    <script src="{% static 'lte/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- InputMask -->
+    <script src="{% static 'lte/plugins/moment/moment.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <script src="{% static 'lte/plugins/inputmask/jquery.inputmask.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- date-range-picker -->
+    <script src="{% static 'lte/plugins/daterangepicker/daterangepicker.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- bootstrap color picker -->
+    <script src="{% static 'lte/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{% static 'lte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- BS-Stepper -->
+    <script src="{% static 'lte/plugins/bs-stepper/js/bs-stepper.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- dropzonejs -->
+    <script src="{% static 'lte/plugins/dropzone/min/dropzone.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'lte/dist/js/adminlte.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 
-    <!-- AdminLTE -->
-    <script src="{% static 'lte/dist/js/adminlte.js' %}?ver={% settings_value 'APP_VER' %}"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment-with-locales.min.js" integrity="sha512-EATaemfsDRVs6gs1pHbvhc6+rKFGv8+w4Wnxk4LmkC0fzdVoyWb+Xtexfrszd1YuUMBEhucNuorkf8LpFBhj6w==" crossorigin="anonymous"></script>
+    
+ 
     <!-- OPTIONAL SCRIPTS -->
     <script src="{% static 'lte/plugins/chart.js/Chart.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 

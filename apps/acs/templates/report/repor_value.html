@@ -1,0 +1,175 @@
+{% extends "acs_default.html" %}
+{% load static %}
+{% load mysettings %}
+
+
+{% block header_link %}
+<link type="text/css" rel="stylesheet" href="{% static '/css/speedometer.css' %}?ver={% settings_value 'APP_VER' %}">
+<!-- daterange picker -->
+<link rel="stylesheet" href="{% static 'lte/plugins/daterangepicker/daterangepicker.css' %}?ver={% settings_value 'APP_VER' %}">
+<!-- Select2 -->
+<link rel="stylesheet" href="{% static 'lte/plugins/select2/css/select2.min.css' %}?ver={% settings_value 'APP_VER' %}">
+<link rel="stylesheet" href="{% static 'lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}?ver={% settings_value 'APP_VER' %}">
+
+
+{% endblock header_link %}
+
+{% block info_title %}
+<h5>Аэрогазовый контроль : Отчеты</h5>
+{% endblock info_title %}
+
+{% block content %}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 id="sensorname">Отчет по показаниям</h1>
+                <h6 id="maxdate" style="color:darkcyan"></h6>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/acs/report/">Главная</a></li>
+                    <li class="breadcrumb-item active">Отчет по показаниям</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <div class="containe col-sm-8">
+        <form class="form-horizontal">
+            {% csrf_token %}
+            <div class="card card-primary card-outline card-tabs">
+                <div class="card-header p-0 pt-1 border-bottom-0">
+                </div>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Начальная дата:</label>
+                        <div class="input-group date col-sm-4" id="datestart" data-target-input="nearest">
+                            <input id="id_datestart" type="text" class="form-control datetimepicker-input" data-target="#datestart">
+                            <div class="input-group-append" data-target="#datestart" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Конечная дата :</label>
+                        <div class="input-group date col-sm-4" id="datestop" data-target-input="nearest">
+                            <input id="id_datestop" type="text" class="form-control datetimepicker-input" data-target="#datestop">
+                            <div class="input-group-append" data-target="#datestop" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_sensor" class="col-sm-2 col-form-label">Датчик:</label>
+                        <div class="col-sm-8">
+                            <select name="sensor" class="form-control select2" style="width: 100%;" id="id_sensor">
+                                {% for data in sensor_list  %}
+                                <option value="{{data.id}}">{{data.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a type="button" onclick="reportshow()" class="btn btn-success">Сформировать</a>
+                    <a type="button" onclick="cancel()" class="btn btn-default float-right">Закрыть</a>
+                </div>                <!-- /.card -->
+            </div>
+        </form>
+    </div>
+    <div id="print_Panel" class="container-fluid" style="height:100px;">
+        <div id="reportPanel" class="card card-primary card-outline card-tabs">
+            <div class="card-header p-1 pt-1 ">
+                <div class="dt-buttons btn-group flex-wrap">
+                    <!--<button class="btn btn-secondary buttons-excel buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>Excel</span></button>
+                    <button class="btn btn-secondary buttons-pdf buttons-html5" tabindex="0" aria-controls="example1" type="button"><span>PDF</span></button>
+                    <a class="btn btn-secondary buttons-print" onClick="javascript:CallPrint('print_Panel');" tabindex="0" aria-controls="example1" type="button"><span>Печать</span></a>-->
+                </div>
+            </div>
+            <div id="reportPanelBody" class="card-body">
+                <div class="alert alert-warning alert-dismissible" style="max-width:450px;">
+                    <!--<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>-->
+                    <h5><i class="icon fas fa-exclamation-triangle"></i> </h5>
+                    Отчет не сформирован. Нажмите "Сформировать" для получения отчета
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+    </div>
+
+
+</section>
+
+
+{% endblock %}
+
+{% block script_footer %}
+<script src="{% static 'js/gauge.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<script src="{% static 'js/speedometer.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<!-- date-range-picker -->
+<script src="{% static 'lte/plugins/daterangepicker/daterangepicker.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<script>
+    $(function () {
+        $('.date').datetimepicker({
+            locale: 'ru',
+            format: 'L',
+            format: 'DD.MM.YYYY',
+            autoclose: true,
+        });
+        //Initialize Select2 Elements
+        $('.select2').select2({
+            theme: 'bootstrap4'
+        })
+
+    });
+    function reportshow() {
+		console.log(window.location.pathname)
+        var DataStart = $("#id_datestart").val();
+        var DataStop = $("#id_datestop").val();
+		var id_sensor = $("#id_sensor").select2('data');
+        if (!!DataStart) {
+			$("#reportPanelBody").html('<div class="overlay"><i class= "fas fa-2x fa-sync-alt" ></i></div>')
+            $.ajax({
+                type: 'POST', // метод отправки
+				url: window.location.pathname+'?name=reportvalue',
+                data: {
+                    "DataStart": DataStart,
+                    "DataStop": DataStop,
+                    "metod": 'create',
+					"id_sensor": id_sensor[0].id,
+                },
+                success: function (data) {
+                    document.getElementById('reportPanel').style.height = '';
+                    $("#reportPanelBody").html(data); // при успешном получении ответа от сервера, заносим полученные данные в элемент с классом answer
+                },
+                error: function (dataerr) {
+                    $("#reportPanelBody").html(dataerr); // при успешном получении ответа от сервера, заносим полученные данные в элемент с классом answer
+
+                }
+            });
+
+        }
+
+    }
+    function cancel() {
+        document.location.href = "./";
+    }
+
+    function CallPrint(strid) {
+        var prtContent = document.getElementById(strid);
+        var WinPrint = window.open('', '', 'left=50,top=50,width=800,height=640,toolbar=0,scrollbars=1,status=0');
+        WinPrint.document.write('');
+        WinPrint.document.write(prtContent.innerHTML);
+        WinPrint.document.write('');
+        WinPrint.document.close();
+        WinPrint.focus();
+        WinPrint.print();
+        WinPrint.close();
+        prtContent.innerHTML = strOldOne;
+    }
+
+</script>
+{% endblock script_footer %}
