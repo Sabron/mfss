@@ -56,7 +56,7 @@ def show_report_error_ToHTML(request):
         myquery =Q(sensor = sensor)
         myquery &= Q(date_time__range=[data_start,data_stop])
         #myquery &= Q(value__range=[sensor.critical_value_from,sensor.critical_value_to])
-        myquery &= Q(value >=sensor.critical_value_from)
+        myquery &= Q(value >=sensor.critical_value_from*sensor.ratio)
         indicators_list = AcsIndicators.objects.filter(myquery).order_by('date_time').all()
         print(indicators_list.query)
         html="""
@@ -80,7 +80,7 @@ def show_report_error_ToHTML(request):
                  <td>"""+str(indicators.sensor)+"""</td>
                  <td>"""+indicators.date_time.strftime('%d.%m.%Y %H:%M')+"""</td>
                  """
-            html = html+"""<td>"""+str(indicators.value)+""" """+str(indicators.sensor.unit)+"""</td></tr>"""
+            html = html+"""<td>"""+str(indicators.value/indicators.sensor.ratio)+""" """+str(indicators.sensor.unit)+"""</td></tr>"""
 
                                
                       
@@ -126,7 +126,7 @@ def show_report_value_ToHTML(request):
         for indicators in indicators_list:
             nom = nom +1
             style = 'color:black;'
-            if float(indicators.value) >= float(sensor.critical_value_from) :
+            if float(indicators.value) >= float(sensor.critical_value_from*sensor.ratio) :
                 style = 'color:red;'
 
             html = html+"""
@@ -135,7 +135,7 @@ def show_report_value_ToHTML(request):
                  <td style="""+style+"""'>"""+str(indicators.sensor)+"""</td>
                  <td style="""+style+"""'>"""+indicators.date_time.strftime('%d.%m.%Y %H:%M')+"""</td>
                  """
-            html = html+"""<td style="""+style+"""'>"""+str(indicators.value)+""" """+str(indicators.sensor.unit)+"""</td></tr>"""
+            html = html+"""<td style="""+style+"""'>"""+str(indicators.value/indicators.sensor.ratio)+""" """+str(indicators.sensor.unit)+"""</td></tr>"""
 
                                
                       
