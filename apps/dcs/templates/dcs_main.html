@@ -12,19 +12,11 @@
  {% endblock info_title %}
 
 {% block content %}
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <p id="id_time"></p>
-        </div>
-    </div><!-- /.container-fluid -->
-</section>
-
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card card-primary card-outline card-tabs">
                     <div class="row">
                         {% for sensor in m_sensor %}
                         <div class="col-6 col-md-3 text-center">
@@ -48,7 +40,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card card-primary card-outline card-tabs">
                     <div class="card-header">
                         <h3 class="card-title">Показания датчиков</h3>
 
