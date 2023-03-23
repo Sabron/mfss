@@ -118,8 +118,6 @@
 
             });
             function reportshow() {
-                $("#reportPanelBody").html('<div class="overlay"><i class= "fas fa-2x fa-sync-alt" ></i></div>')
-
                 var DataStart = $("#id_datestart").val();
                 var DataStop = $("#id_datestop").val();
                 var id_block = $("#id_block").select2('data');
@@ -142,7 +140,8 @@
 		            } else {
 			            $("#id_sensor").css('border', "1px solid rgb(206, 212, 218)");
 		            }
-                if (!!DataStart) {
+				if (!!DataStart) {
+                    $("#reportPanelBody").html('<div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i></div>')
                     $.ajax({
                         type: 'POST', // метод отправки
                         url: window.location.pathname,
