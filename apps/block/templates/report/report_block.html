@@ -142,7 +142,7 @@
                     $("#reportPanelBody").html('<div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i></div>')
                     $.ajax({
                         type: 'POST', // метод отправки
-                        url: window.location.pathname,
+                        url: window.location.pathname+'?name=reportblock',
                         data: {
                             "DataStart": DataStart,
                             "DataStop": DataStop,

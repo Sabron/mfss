@@ -40,9 +40,14 @@
     <div class="containe col-sm-8">
         <form class="form-horizontal">
             {% csrf_token %}
-            <div class="card card-primary card-outline card-tabs">
-                <div class="card-header p-0 pt-1 border-bottom-0">
-                </div>
+                <div id="card_param" class="card card-primary card-outline card-tabs">
+                        <div class="card-header p-0 pt-1 border-bottom-0">
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
                 <div class="card-body">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Начальная дата:</label>
@@ -160,7 +165,8 @@
                     "metod": 'create',
 					"id_sensor": id_sensor[0].id,
                 },
-                success: function (data) {
+				success: function (data) {
+                    $('#card_param').CardWidget('collapse')
                     document.getElementById('reportPanel').style.height = '';
                     $("#reportPanelBody").html(data); // при успешном получении ответа от сервера, заносим полученные данные в элемент с классом answer
                 },

@@ -397,8 +397,6 @@ def report_error(request):
             dict_param=request.POST.dict()
             if dict_param['metod']=='create':
                 return show_report_error_ToHTML(request)
-            #elif dictParametr['metod']=='download':
-            #    return ReportTableWorksToXLS(request)
 
     except Exception as err:
         logging.error(traceback.format_exc())
