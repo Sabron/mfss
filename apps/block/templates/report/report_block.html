@@ -20,13 +20,6 @@
         {% endblock info_title %}
 
         {% block content %}
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <p id="id_time"></p>
-                </div>
-            </div><!-- /.container-fluid -->
-        </section>
 
         <section class="content">
             <div class="containe col-sm-8">
@@ -34,6 +27,11 @@
                     {% csrf_token %}
                     <div class="card card-primary card-outline card-tabs">
                         <div class="card-header p-0 pt-1 border-bottom-0">
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="form-group row">
