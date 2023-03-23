@@ -1,0 +1,10 @@
+[
+  {
+    "model": "sabron.Settings",
+    "pk": 1,
+    "fields": {
+      "name": "SCHEME",
+      "value": "default"
+    }
+  }
+]

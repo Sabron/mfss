@@ -13,12 +13,26 @@
 - POSTGRES_PORT - порт базы данных 
 ## Использование
 
+Загрузка первоначальных данных в базу производится через fixtures
+
+```bash
+python manage.py loaddata <имя файла>
+Пример :
+
+python manage.py loaddata settings.json
+
+```
+
 После проведения миграций создать суперпользователя из стандартной команды джанго:
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 python manage.py createsuperuser
+
 ```
+
+
+
 
 # github
 …or create a new repository on the command line
