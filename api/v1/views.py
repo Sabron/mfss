@@ -102,6 +102,9 @@ def Command(request):
         elif datadic['method']=='getListPositions':  #Получить список должностей
             data.update(respose=command.getListPositions(user))
             return generalmodule.ReturnJson(200,data)
+        elif datadic['method']=='getListWorkers':  #Получить список должностей
+            data.update(respose=command.getListWorkers(user))
+            return generalmodule.ReturnJson(200,data)
         elif datadic['method']=='anchors_info':  #Список тэгов
             data.update(respose=command.anchors_info())
             return generalmodule.ReturnJson(200,data)

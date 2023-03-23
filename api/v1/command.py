@@ -128,7 +128,7 @@ def addPayment(user,data_dic): #Добавить платеж
 @csrf_exempt #Список Подразделений
 def getListDepartments(user): #Список Подразделений
     departM = []
-    alldepatment=Department.objects.filter(client=user.profile.client)
+    alldepatment=Department.objects.filter().all()
     for depatment in alldepatment:
         name=depatment.name
         name=name.encode('cp1251').decode('cp1251')
@@ -141,7 +141,7 @@ def getListDepartments(user): #Список Подразделений
 @csrf_exempt #Список Должностей
 def getListPositions(user): #Список Должностей
     positionM = []
-    allposition=Positions.objects.filter(client=user.profile.client)
+    allposition=Position.objects.filter()
     for position in allposition:
         name=position.name
         name=name.encode('cp1251').decode('cp1251')
@@ -150,6 +150,35 @@ def getListPositions(user): #Список Должностей
         p.update(name=name)
         positionM.append(p)    
     return positionM
+
+@csrf_exempt #Список работников
+def getListWorkers(user): #Список работников
+    workerM = []
+    worker_list=Worker.objects.order_by('name').all()
+    for worker in worker_list:
+        
+        department = dict()
+        if worker.department is not None:
+            department.update(id = worker.department.id)
+            department.update(name = worker.department.name)
+        position = dict()
+        if worker.position is not None:
+            position.update(id = worker.position.id)
+            position.update(name = worker.position.name)
+        
+        catalog = dict()
+        catalog.update(tabnomer = worker.tabnomer)
+        catalog.update(name = worker.name)
+        catalog.update(lastName = worker.lastName)
+        catalog.update(firstName = worker.firstName)
+        catalog.update(otchestvo = worker.otchestvo)
+        catalog.update(sex_workers = worker.sex_workers)
+        catalog.update(position = position)
+        catalog.update(department = department)
+        catalog.update(uid = worker.uid)
+        workerM.append(catalog)    
+    return workerM
+
 
 @csrf_exempt #Добавить сотрудника
 def addWorker(user,params): #Добавить сотрудника

@@ -40,6 +40,19 @@ class Worker(models.Model):  # Сотрудники
                                    blank=False,
                                    default='m',
                                    verbose_name="Пол")
+    position = models.ForeignKey(Position,
+                                 on_delete=models.SET_NULL,
+                                 null=True,
+                                 blank=True,
+                                 help_text="",
+                                 verbose_name="Должность")
+    department = models.ForeignKey(Department,
+                                   on_delete=models.SET_NULL,
+                                   null=True,
+                                   help_text="",
+                                   verbose_name="Подразделение")
+
+
     uid = models.CharField(max_length=36,
                            blank=True,
                            help_text="uid",

@@ -42,6 +42,8 @@
                                     <th>id</th>
                                     <th>Таб. № </th>
                                     <th>ФИО</th>
+                                    <th>Подразделение</th>
+                                    <th>Должность</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -73,6 +75,26 @@
                                     {% csrf_token %}
                                     <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
                                         {{ catalog.name }}
+                                    </a>
+                                    <input type="hidden" value="{{catalog.id}}" name="id">
+                                </form>
+
+                            </td>
+                              <td>
+                                <form action="./?catalog=workers&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                    {% csrf_token %}
+                                    <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
+                                        {{ catalog.department }}
+                                    </a>
+                                    <input type="hidden" value="{{catalog.id}}" name="id">
+                                </form>
+
+                            </td>
+                              <td>
+                                <form action="./?catalog=workers&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                    {% csrf_token %}
+                                    <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
+                                        {{ catalog.position }}
                                     </a>
                                     <input type="hidden" value="{{catalog.id}}" name="id">
                                 </form>

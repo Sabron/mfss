@@ -20,6 +20,8 @@ from . import views_fps
 from . import views_fp
 from . import views_dcs
 from . import views_location
+from . import views_department
+from . import views_position
 from . import views_zone
 from . import views_scada
 from . import views_workers
@@ -50,6 +52,10 @@ def main_index(request):
             if param['module']=='scada':
                 return views_scada.main_index(request)
         if 'catalog' in param:
+            if param['catalog']=='position':
+                return views_position.main_index(request)
+            if param['catalog']=='department':
+                return views_department.main_index(request)
             if param['catalog']=='location':
                 return views_location.main_index(request)
             if param['catalog']=='zone':

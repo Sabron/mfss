@@ -1,0 +1,107 @@
+{% extends "management_base.html" %}
+{% load static %}
+{% load mysettings %}
+
+{% block header_link %}
+<!-- Select2 -->
+<link rel="stylesheet" href="{% static 'lte/plugins/select2/css/select2.min.css' %}?ver={% settings_value 'APP_VER' %}">
+<link rel="stylesheet" href="{% static 'lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}?ver={% settings_value 'APP_VER' %}">
+
+{% endblock header_link %}
+
+{% block content %}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Список подразделений</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/management/">Главная</a></li>
+                    <li class="breadcrumb-item active">Список подразделений</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content text-sm">
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header text-sm">
+                        <a href="./?catalog=department&cmd=add" type="button" class="btn bg-gradient-primary float-left" style="margin-right:20px;">Добавить</a>
+                        {% block pagination %}
+                        {% if is_paginated %}
+                        <ul class="pagination pagination no-margin text-sm">
+                            {% if 1 < start_page_list %}
+                            <li class="paginate_button page-item" id="mypaginator_next">
+                                <a class="page-link" href="?catalog=department&page={{start_page_list|add:-1}}" aria-controls="mypaginator" data-dt-idx="{{start_page_list|add:-1}}" style="padding: .3rem .5rem;"><span>..</span></a>
+                            </li>
+
+                            {% endif %}
+                            {% for n in page_list %}
+                            {% if n == page_object.number %}
+                            <li class="paginate_button page-item active" id="mypaginator_next">
+                                <a class="page-link" href="?catalog=department&page={{n}}" aria-controls="mypaginator" data-dt-idx="{{n}}" style="padding: .3rem .5rem;"><span>{{n}}</span></a>
+                            </li>
+                            {% else %}
+                            <li class="paginate_button page-item" id="mypaginator_next">
+                                <a class="page-link" href="?catalog=department&page={{n}}" aria-controls="mypaginator" data-dt-idx="{{n}}" style="padding: .3rem .5rem;"><span>{{n}}</span></a>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                            {% if end_page_list < num_pages %}
+                            <li class="paginate_button page-item" id="mypaginator_next">
+                                <a class="page-link" href="?catalog=department&page={{end_page_list|add:1}}" aria-controls="mypaginator" data-dt-idx="{{end_page_list|add:1}}" style="padding: .3rem .5rem;"><span>..</span></a>
+                            </li>
+
+                            {% endif %}
+                        </ul>
+
+                        {% endif %}
+                        {% endblock %}
+
+                    </div> <!-- /.card-header -->
+                    <div class="card-body table-responsive p-0">
+                        <table class="table table-bordered table-hover table-head-fixed text-nowrap">
+                            <thead>
+                                <tr role="row">
+                                    <th class="col-1"> </thclass="col-m-1">
+                                    <th>Наименование</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% if page_object %}
+                                {% for catalog in page_object.object_list %}
+                            <td style="width:10px;">
+                            </td>
+                            <td>
+                                <form action="./?catalog=department&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                    {% csrf_token %}
+                                    <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
+                                        {{ catalog.name }}
+                                    </a>
+                                    <input type="hidden" value="{{catalog.id}}" name="id">
+                                </form>
+
+                            </td>
+                            </tr>
+                            {% endfor %}
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div> <!-- /.card-body -->
+                </div> <!-- /.card -->
+            </div> <!-- /.row -->
+        </div><!-- /.container-fluid -->
+
+</section>
+
+{% endblock %}
+
+{% block script_footer %}
+{% endblock script_footer %}

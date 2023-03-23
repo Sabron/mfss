@@ -1,0 +1,75 @@
+{% extends "management_base.html" %}
+{% load static %}
+{% load mysettings %}
+
+
+{% block header_link %}
+<!-- DataTables -->
+<link rel="stylesheet" href="{% static 'plugins/datatables/dataTables.bootstrap.css' %}?ver={% settings_value 'APP_VER' %}">
+
+{% endblock header_link %}
+
+
+
+{% block content %}
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Подразделение </h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/management/">Главная</a></li>
+                    <li class="breadcrumb-item"><a href="/management?catalog=department&cmd=list">Список подразделений</a></li>
+                    <li class="breadcrumb-item active">{{department.name}}</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+<section class="content">
+    <form action="./?catalog=department&cmd={{mt}}" method="post" class="form-horizontal">
+        {% csrf_token %}
+        <input type="hidden" value="{{mt}}" name="mt">
+        <input type="hidden" value="{{department.id}}" name="id">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- /.col -->
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header p-2">
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+
+                            <div class="active tab-pane" id="activity">
+                                <div class="form-group row">
+                                    <label for="id_name" class="col-sm-2 col-form-label">Наименование:<i style="color:red;"> *</i></label>
+                                    <div class="col-sm-10">
+                                        {{ form.name }}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
+                        <div class="card-footer">
+                            <button id="btnok" type="submit" class="btn bg-gradient-primary">Сохранить</button>
+                            <a href="/management?catalog=department&cmd=list" type="button" class="btn btn-default float-right">Отмена</a>
+                        </div>
+                    </div>
+                    <!-- /.nav-tabs-custom -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </form>
+</section>
+{% endblock %}
+{% block script_footer %}
+
+{% endblock script_footer %}
+
