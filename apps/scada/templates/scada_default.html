@@ -13,29 +13,29 @@
     <meta name="description" content="{% settings_value 'DESCRIPTION' %}" />
     <title>{% settings_value 'SITE_TITLE' %} : {{ user.profile.client }}</title>
     <link rel="icon" href="{% static 'img/favicon.ico' %}?ver={% settings_value 'APP_VER' %}" type="image/x-icon">
-      <!-- Google Font: Source Sans Pro -->
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-      <!-- Font Awesome -->
-      <link rel="stylesheet" href="{% static 'lte/plugins/fontawesome-free/css/all.min.css' %}?ver={% settings_value 'APP_VER' %}">
-      <!-- daterange picker -->
-      <link rel="stylesheet" href="{% static 'lte/plugins/daterangepicker/daterangepicker.css' %}?ver={% settings_value 'APP_VER' %}">
-      <!-- iCheck for checkboxes and radio inputs -->
-      <link rel="stylesheet" href="{% static 'lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}?ver={% settings_value 'APP_VER' %}">
-      <!-- Bootstrap Color Picker -->
-      <link rel="stylesheet" href="{% static 'lte/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}?ver={% settings_value 'APP_VER' %}">
-      <!-- Tempusdominus Bootstrap 4 -->
-      <link rel="stylesheet" href="{% static 'lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}?ver={% settings_value 'APP_VER' %}">
-      <!-- Select2 -->
-      <link rel="stylesheet" href="{% static 'lte/plugins/select2/css/select2.min.css' %}?ver={% settings_value 'APP_VER' %}">
-      <link rel="stylesheet" href="{% static 'lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}?ver={% settings_value 'APP_VER' %}">
-      <!-- Bootstrap4 Duallistbox -->
-      <link rel="stylesheet" href="{% static 'lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css' %}?ver={% settings_value 'APP_VER' %}">
-      <!-- BS Stepper -->
-      <link rel="stylesheet" href="{% static 'lte/plugins/bs-stepper/css/bs-stepper.min.css' %}?ver={% settings_value 'APP_VER' %}">
-      <!-- dropzonejs -->
-      <link rel="stylesheet" href="{% static 'lte/plugins/dropzone/min/dropzone.min.css' %}?ver={% settings_value 'APP_VER' %}">
-      <!-- Theme style -->
-      <link rel="stylesheet" href="{% static 'lte/dist/css/adminlte.min.css' %}?ver={% settings_value 'APP_VER' %}">   
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'lte/plugins/fontawesome-free/css/all.min.css' %}?ver={% settings_value 'APP_VER' %}">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="{% static 'lte/plugins/daterangepicker/daterangepicker.css' %}?ver={% settings_value 'APP_VER' %}">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="{% static 'lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}?ver={% settings_value 'APP_VER' %}">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="{% static 'lte/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css' %}?ver={% settings_value 'APP_VER' %}">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="{% static 'lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}?ver={% settings_value 'APP_VER' %}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static 'lte/plugins/select2/css/select2.min.css' %}?ver={% settings_value 'APP_VER' %}">
+    <link rel="stylesheet" href="{% static 'lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}?ver={% settings_value 'APP_VER' %}">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="{% static 'lte/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css' %}?ver={% settings_value 'APP_VER' %}">
+    <!-- BS Stepper -->
+    <link rel="stylesheet" href="{% static 'lte/plugins/bs-stepper/css/bs-stepper.min.css' %}?ver={% settings_value 'APP_VER' %}">
+    <!-- dropzonejs -->
+    <link rel="stylesheet" href="{% static 'lte/plugins/dropzone/min/dropzone.min.css' %}?ver={% settings_value 'APP_VER' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'lte/dist/css/adminlte.min.css' %}?ver={% settings_value 'APP_VER' %}">
 
     {% block header_link %}
     {% endblock header_link %}
@@ -75,15 +75,6 @@
                     <ul class="nav nav-pills nav-sidebar flex-column text-sm nav-child-indent " data-widget="treeview" role="menu" data-accordion="false">
                         <li class="nav-header"></li>
                         <li class="nav-item">
-                            <a href="/block/report/" class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
-                                <p>
-                                    Отчеты
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-header"></li>
-                        <li class="nav-item">
                             <a href="/" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
                                 <p>
@@ -118,7 +109,7 @@
     </div>
     <!-- ./wrapper -->
     <!-- jQuery -->
-     <script src="{% static 'lte/plugins/jquery/jquery.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+    <script src="{% static 'lte/plugins/jquery/jquery.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
     <!-- Bootstrap 4 -->
     <script src="{% static 'lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
     <!-- Select2 -->
@@ -142,8 +133,8 @@
     <script src="{% static 'lte/dist/js/adminlte.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.0/moment-with-locales.min.js" integrity="sha512-EATaemfsDRVs6gs1pHbvhc6+rKFGv8+w4Wnxk4LmkC0fzdVoyWb+Xtexfrszd1YuUMBEhucNuorkf8LpFBhj6w==" crossorigin="anonymous"></script>
-    
- 
+
+
     <!-- OPTIONAL SCRIPTS -->
     <script src="{% static 'lte/plugins/chart.js/Chart.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
 

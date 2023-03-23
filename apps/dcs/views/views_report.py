@@ -17,8 +17,8 @@ from django.db.models.functions import (
     TruncDate, TruncDay, TruncHour, TruncMinute, TruncSecond,Greatest,
 )
 
-from apps.acs.models.model_indicators import AcsIndicators
-from apps.acs.models.model_sensor import AcsSensor
+from apps.dcs.models.model_indicators import DcsIndicators
+from apps.dcs.models.model_sensor import DcsSensor
 
 from apps.block.models.model_indicators import BlockIndicators
 from apps.block.models.model_sensor import BlockSensor
@@ -47,13 +47,17 @@ def float_range(A, L=None, D=None):
 
 @login_required(login_url='/accounts/login/?next=')
 @never_cache
-def show_report_ToHTML(request):
+def show_report_error_ToHTML(request):
     try:
         dict_param=request.POST.dict()
         data_start=datetime.strptime(dict_param['DataStart']+' 00:00:00', "%d.%m.%Y %H:%M:%S")
         data_stop=datetime.strptime(dict_param['DataStop']+' 23:59:59', "%d.%m.%Y %H:%M:%S")
-        block_sensor = BlockSensor.objects.filter(id = dict_param['id_block']).first()
-        block_indicators_list = BlockIndicators.objects.filter(sensor = block_sensor).filter(date_time__range=[data_start,data_stop]).order_by('date_time').all()
+        sensor = DcsSensor.objects.filter(id = dict_param['id_sensor']).first()
+        myquery =Q(sensor = sensor)
+        myquery &= Q(date_time__range=[data_start,data_stop])
+        myquery &= Q(value__range=[sensor.critical_value_from*sensor.ratio,99999999.0])
+        #myquery &= Q(value >=(sensor.critical_value_from*sensor.ratio))
+        indicators_list = DcsIndicators.objects.filter(myquery).order_by('date_time').all()
         html="""
             <table id = 'id_table' class='table table-bordered'>
                   <thead>
@@ -61,24 +65,75 @@ def show_report_ToHTML(request):
                       <th style='width: 15px'>№</th>
                       <th>Датчик</th>
                       <th>Дата</th>
-                      <th style='width: 40px'>Статус</th>
+                      <th style='width: 40px'>Показание</th>
                     </tr>
                   </thead>
                   <tbody>
         """
         nom = 0
-        for block_indicators in block_indicators_list:
+        for indicators in indicators_list:
             nom = nom +1
             html = html+"""
                  <tr>
                  <td>"""+str(nom)+"""</td>
-                 <td>"""+str(block_indicators.sensor)+"""</td>
-                 <td>"""+str(block_indicators.date_time)+"""</td>
+                 <td>"""+str(indicators.sensor)+"""</td>
+                 <td>"""+indicators.date_time.strftime('%d.%m.%Y %H:%M')+"""</td>
                  """
-            if block_indicators.value == 0: 
-                html = html+"""<td><span class='badge bg-danger'>"""+str(block_indicators.value)+"""</span></td></tr>"""
-            else:
-                html = html+"""<td><span class='badge bg-success'>"""+str(block_indicators.value)+"""</span></td></tr>"""
+            html = html+"""<td>"""+str(indicators.value/indicators.sensor.ratio)+""" """+str(indicators.sensor.unit)+"""</td></tr>"""
+
+                               
+                      
+                      
+                      
+                     
+
+
+        html = html+"""
+                  </tbody>
+                </table>
+        """
+        return HttpResponse(html, content_type='application/text')
+    except Exception as err:
+        logging.error(traceback.format_exc())
+
+@login_required(login_url='/accounts/login/?next=')
+@never_cache
+def show_report_value_ToHTML(request):
+    try:
+        dict_param=request.POST.dict()
+        data_start=datetime.strptime(dict_param['DataStart']+' 00:00:00', "%d.%m.%Y %H:%M:%S")
+        data_stop=datetime.strptime(dict_param['DataStop']+' 23:59:59', "%d.%m.%Y %H:%M:%S")
+        sensor = DcsSensor.objects.filter(id = dict_param['id_sensor']).first()
+        myquery =Q(sensor = sensor)
+        myquery &= Q(date_time__range=[data_start,data_stop])
+        #myquery &= Q(value__range=[sensor.critical_value_from,sensor.critical_value_to])
+        indicators_list = DcsIndicators.objects.filter(myquery).order_by('date_time').all()
+        html="""
+            <table id = 'id_table' class='table table-bordered'>
+                  <thead>
+                    <tr>
+                      <th style='width: 15px'>№</th>
+                      <th>Датчик</th>
+                      <th>Дата</th>
+                      <th style='width: 40px'>Показание</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+        """
+        nom = 0
+        for indicators in indicators_list:
+            nom = nom +1
+            style = 'color:black;'
+            if float(indicators.value) >= float(sensor.critical_value_from*sensor.ratio) :
+                style = 'color:red;'
+
+            html = html+"""
+                 <tr>
+                 <td style="""+style+"""'>"""+str(nom)+"""</td>
+                 <td style="""+style+"""'>"""+str(indicators.sensor)+"""</td>
+                 <td style="""+style+"""'>"""+indicators.date_time.strftime('%d.%m.%Y %H:%M')+"""</td>
+                 """
+            html = html+"""<td style="""+style+"""'>"""+str(indicators.value/indicators.sensor.ratio)+""" """+str(indicators.sensor.unit)+"""</td></tr>"""
 
                                
                       
@@ -98,7 +153,6 @@ def show_report_ToHTML(request):
 
 
 
-
 def get_ajax(request):
     try:
         if request.method == "POST":
@@ -108,7 +162,7 @@ def get_ajax(request):
             if 'type' in param:
                 type = param['type']
                 myquery &= Q(type=type)
-            sensor_list = AcsSensor.objects.filter(myquery).all().order_by('name')
+            sensor_list = DcsSensor.objects.filter(myquery).all().order_by('name')
             m_sensor = []
             for sensor in sensor_list:
                 sensor_dict = dict()
@@ -180,10 +234,10 @@ def SensorList(request):
     try:
         if request.method == "GET":
             param = request.GET.dict()
-            sensor = AcsSensor.objects.filter(id=param['id']).first()
+            sensor = DcsSensor.objects.filter(id=param['id']).first()
             now = datetime.now()
             start_date = now - timedelta(hours=0, minutes=0)
-            sensor_list = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('-date_time')
+            sensor_list = DcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date, datetime.now()]).all().order_by('-date_time')
             sensor_str = ''
             for sensor_in in sensor_list:
                 sensor_str = sensor_str+str(sensor_in.value).replace(',','.')+','
@@ -203,7 +257,7 @@ def sensor_ajax(request):
         if request.method == "POST":
             sensor_dict = dict()
             param = request.POST.dict()
-            sensor = AcsSensor.objects.filter(id=param['id']).first()
+            sensor = DcsSensor.objects.filter(id=param['id']).first()
             critical_type = sensor.critical_type
             connect_time = sensor.connect_time
             value = sensor.value
@@ -218,7 +272,7 @@ def sensor_ajax(request):
                 strftime = "%H:00"
                 start_date = end_date - timedelta(hours=30)
             
-            sensor_links = AcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('date_time').order_by('id')
+            sensor_links = DcsIndicators.objects.filter(sensor=sensor).filter(date_time__range=[start_date,end_date]).order_by('date_time').order_by('id')
             strftimeend = "%d.%m.%Y %H"
             m_sensor = []
             value_old = 0
@@ -264,42 +318,17 @@ def sensor_ajax_1(request):
         if request.method == "POST":
             sensor_dict = dict()
             param = request.POST.dict()
-            sensor = AcsSensor.objects.filter(id=param['id']).first()
+            sensor = DcsSensor.objects.filter(id=param['id']).first()
             strftime = "%H:%M:%S"
             if param['sensor_type'] == 'sec':
                 strftime = "%H:%M:%S"
-                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:100]
-                #sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
-                #        date_value=TruncSecond('date_time')).values('date_time', 'date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
+                sensor_list = DcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:100]
             elif param['sensor_type'] == 'min':
                 strftime = "%H:%M"
-                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:3600]
-                #sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
-                #        date_value=TruncMinute('date_time')).values('date_time','date_value', 'value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
+                sensor_list = DcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:3600]
             else:
                 strftime = "%H:00"
-                sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:120000]
-                #sensor_list = AcsIndicators.objects.filter(sensor=sensor).annotate(
-                #        date_value=TruncHour('date_time')).values('date_value', 'date_value','value', 'sensor__ratio').order_by('-date_value').distinct('date_value')[:30]
-                #sensor_list = AcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')
-                #m_sensor = []
-                #data_list =list()
-                #count = 0
-                #for sensor in sensor_list:
-                    #logging.message(sensor)
-                #    data = sensor.date_time.strftime(strftime)
-                #    if data in data_list:
-                #        continue;
-                #    data_list.append(data)
-                #    sensor_dict = dict()
-                #    sensor_dict.update(date_time=sensor.date_time.strftime(strftime))
-                    #sensor_dict.update(date_time=sensor['date_value'].strftime("%d-%m %H:%M:%S"))
-                #    sensor_dict.update(value=sensor.value / sensor.sensor.ratio)
-                #    m_sensor.append(sensor_dict)
-                #    count = count+1
-                #    if count > 30:
-                #        return generalmodule.ReturnJson(200,m_sensor) 
-                #return generalmodule.ReturnJson(200,m_sensor)
+                sensor_list = DcsIndicators.objects.filter(sensor=sensor).order_by('-date_time')[:120000]
             
             m_sensor = []
             data_list =list()
@@ -328,29 +357,47 @@ def sensor_ajax_1(request):
         logging.error(traceback.format_exc())
 
 
-
+ 
 @login_required(login_url='/accounts/login/?next=')
 @never_cache
-def report_block(request):
+def report_error(request):
     try:
-        #if request.user.profile.role == 2: # Администратор системы
-        #    return redirect('/management/')
         if request.method == "GET":
-            block_list = BlockSensor.objects.all()
+            sensor_list = DcsSensor.objects.all()
             context = {
-                'block_list':block_list
+                'sensor_list':sensor_list,
                     }
-            return render(request, 'report/report_block.html',context) 
+            return render(request, 'report/dcs_repor_error.html',context) 
         if request.method == "POST":
             dict_param=request.POST.dict()
             if dict_param['metod']=='create':
-                return show_report_ToHTML(request)
+                return show_report_error_ToHTML(request)
             #elif dictParametr['metod']=='download':
             #    return ReportTableWorksToXLS(request)
-            
+
     except Exception as err:
         logging.error(traceback.format_exc())
- 
+
+@login_required(login_url='/accounts/login/?next=')
+@never_cache
+def report_value(request):
+    try:
+        if request.method == "GET":
+            sensor_list = DcsSensor.objects.all()
+            context = {
+                'sensor_list':sensor_list,
+                    }
+            return render(request, 'report/dcs_repor_value.html',context) 
+        if request.method == "POST":
+            dict_param=request.POST.dict()
+            if dict_param['metod']=='create':
+                return show_report_value_ToHTML(request)
+            #elif dictParametr['metod']=='download':
+            #    return ReportTableWorksToXLS(request)
+
+    except Exception as err:
+        logging.error(traceback.format_exc())
+
 @login_required(login_url='/accounts/login/?next=')
 @never_cache
 def report_list(request):
@@ -358,12 +405,14 @@ def report_list(request):
         param=request.GET.dict()
         if 'name' in param:
             name = param['name']
-            if name == 'reportblock':
-                return report_block(request)
-      
+            if name == 'reporterror':
+                return report_error(request)
+            if name == 'reportvalue':
+                return report_value(request)
+        
         context = {
                     }
-        return render(request, 'block_report_list.html',context) 
+        return render(request, 'dcs_report_list.html',context) 
     except Exception as err:
         logging.error(traceback.format_exc())
-
+ 

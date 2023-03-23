@@ -1,4 +1,4 @@
-{% extends "acs_default.html" %}
+{% extends "dcs_default.html" %}
 {% load static %}
 {% load mysettings %}
 
@@ -15,7 +15,7 @@
 {% endblock header_link %}
 
 {% block info_title %}
-<h5>Аэрогазовый контроль : Отчеты</h5>
+<h5>Контроль запыленности : Отчеты</h5>
 {% endblock info_title %}
 
 {% block content %}
@@ -130,25 +130,26 @@
         var DataStop = $("#id_datestop").val();
 		var id_sensor = $("#id_sensor").select2('data');
 		if (DataStart.trim() == "") {
-			$("#id_datestart").css('border', "3px solid #80bdff").focus();
+			$("#id_datestart").css('border', "3px solid #e42121").focus();
 			return false;
 		} else {
 			$("#id_datestart").css('border', "1px solid rgb(206, 212, 218)");
 		}
-		if (DataStop.trim() == "") {
-             $("#id_datestop").css('border', "3px solid #80bdff").focus();
+        if (DataStop.trim() == "") {
+             $("#id_datestop").css('border', "3px solid #e42121").focus();
              return false;
 		} else {
 			$("#id_datestop").css('border', "1px solid rgb(206, 212, 218)");
 		}
 
 		if (id_sensor.length == 0) {
-			$("#id_sensor").css('border', "3px solid #80bdff").focus();
+			$("#id_sensor").css('border', "3px solid #e42121").focus();
 			return false;
 		} else {
 			$("#id_sensor").css('border', "1px solid rgb(206, 212, 218)");
 		}
-        if (!!DataStart) {
+
+        if (!!DataStart)  {
 			$("#reportPanelBody").html('<div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i></div>')
             $.ajax({
                 type: 'POST', // метод отправки

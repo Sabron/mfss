@@ -1,4 +1,4 @@
-{% extends "acs_default.html" %}
+{% extends "dcs_default.html" %}
 {% load static %}
 {% load mysettings %}
 
@@ -15,7 +15,7 @@
 {% endblock header_link %}
 
 {% block info_title %}
-<h5>Аэрогазовый контроль : Отчеты</h5>
+<h5>Контроль запыленности : Отчеты</h5>
 {% endblock info_title %}
 
 {% block content %}
@@ -23,13 +23,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 id="sensorname">Срабатывание датчиков</h1>
+                <h1 id="sensorname">Отчет по показаниям</h1>
                 <h6 id="maxdate" style="color:darkcyan"></h6>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/acs/report/">Главная</a></li>
-                    <li class="breadcrumb-item active">Срабатывание датчиков</li>
+                    <li class="breadcrumb-item active">Отчет по показаниям</li>
                 </ol>
             </div>
         </div>
@@ -152,7 +152,7 @@
 			$("#reportPanelBody").html('<div class="overlay"><i class="fas fa-3x fa-sync-alt fa-spin"></i></div>')
             $.ajax({
                 type: 'POST', // метод отправки
-				url: window.location.pathname+'?name=reporterror',
+				url: window.location.pathname+'?name=reportvalue',
                 data: {
                     "DataStart": DataStart,
                     "DataStop": DataStop,

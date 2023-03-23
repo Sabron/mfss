@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^sensor/$', views_block.SensorList, name='SensorList'),
     url(r'sensor_ajax/$', views_block.sensor_ajax, name='sensor_ajax'),
     url(r'ajax/$', views_block.get_ajax, name='get_ajax'),
-    url(r'^report/$', views_report.report, name='SensorList'),
+    url(r'^report/$', views_report.report_list, name='SensorList'),
     
     
     ]

@@ -1,0 +1,61 @@
+{% extends "dcs_default.html" %}
+{% load static %}
+{% load mysettings %}
+
+
+{% block header_link %}
+<link type="text/css" rel="stylesheet" href="{% static '/css/speedometer.css' %}?ver={% settings_value 'APP_VER' %}">
+{% endblock header_link %}
+
+{% block info_title %}
+<h5>Контроль запыленности : Отчеты</h5>
+{% endblock info_title %}
+
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <!-- Main content -->
+                <div class="invoice p-3 mb-3">
+                    <!-- title row -->
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>
+                                <i class="nav-icon fas fa-copy"></i> Отчеты
+                            </h4>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                    <!-- info row -->
+                    <div class="row ">
+                        <div class="col-sm-4 invoice-col">
+                            <a href="?name=reporterror"><strong>Срабатывание датчиков</strong></a>
+                            <br><p style="font-size:12px;fon">Отчет показывает критические показания по выбранному датчику за период</p>
+                            <a href="?name=reportvalue"><strong>Отчет по показаниям</strong></a>
+                            <br><p style="font-size:12px;fon">Отчет показанят датчика за выбранный период</p>
+
+                        </div>
+                        <!--<div class="col-sm-4 invoice-col">
+                            <a href=""><strong>Отчет колонка 2</strong></a>
+                            <br><p style="font-size:12px;fon">Отчет </p>
+                        </div>
+                        <div class="col-sm-4 invoice-col">
+                            <a href=""><strong>Отчет колонка 3</strong></a>
+                            <br><p style="font-size:12px;fon">Отчет </p>
+                        </div>-->
+                        <!-- /.col -->
+                    </div>
+                </div>
+                <!-- /.invoice -->
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+{% endblock %}
+
+{% block script_footer %}
+<script src="{% static 'js/gauge.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<script src="{% static 'js/speedometer.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+<script></script>
+{% endblock script_footer %}

@@ -123,7 +123,25 @@
                 var DataStart = $("#id_datestart").val();
                 var DataStop = $("#id_datestop").val();
                 var id_block = $("#id_block").select2('data');
-                console.log(id_block[0].id)
+	            if (DataStart.trim() == "") {
+			            $("#id_datestart").css('border', "3px solid #80bdff").focus();
+			            return false;
+		            } else {
+			            $("#id_datestart").css('border', "1px solid rgb(206, 212, 218)");
+		            }
+		            if (DataStop.trim() == "") {
+                         $("#id_datestop").css('border', "3px solid #80bdff").focus();
+                         return false;
+		            } else {
+			            $("#id_datestop").css('border', "1px solid rgb(206, 212, 218)");
+		            }
+
+		            if (id_sensor.length == 0) {
+			            $("#id_sensor").css('border', "3px solid #80bdff").focus();
+			            return false;
+		            } else {
+			            $("#id_sensor").css('border', "1px solid rgb(206, 212, 218)");
+		            }
                 if (!!DataStart) {
                     $.ajax({
                         type: 'POST', // метод отправки
@@ -163,6 +181,6 @@
 			   WinPrint.close();
 			   prtContent.innerHTML = strOldOne;
 }
-        
+
         </script>
         {% endblock script_footer %}
