@@ -14,7 +14,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Список сотрудников</h1>
+                <h1>Список сотрудников ({{clients_count}})</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -38,7 +38,9 @@
                         <table class="table table-bordered table-hover table-head-fixed text-nowrap">
                             <thead>
                                 <tr role="row">
-                                    <th class="col-1"> </th>
+                                    <th> </th>
+                                    <th>id</th>
+                                    <th>Таб. № </th>
                                     <th>ФИО</th>
                                 </tr>
                             </thead>
@@ -46,7 +48,25 @@
 
                                 {% if page_object %}
                                 {% for catalog in page_object.object_list %}
+                            <td style="width:5px;">
+                            </td>
                             <td style="width:10px;">
+                              <form action="./?catalog=workers&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                    {% csrf_token %}
+                                    <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
+                                        {{ catalog.id }}
+                                    </a>
+                                    <input type="hidden" value="{{catalog.id}}" name="id">
+                                </form>
+                            </td>
+                            <td style="width:10px;">
+                              <form action="./?catalog=workers&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">
+                                    {% csrf_token %}
+                                    <a href="#" onclick="document.getElementById('frm_name_{{catalog.id}}').submit(); return false;">
+                                        {{ catalog.tabnomer }}
+                                    </a>
+                                    <input type="hidden" value="{{catalog.id}}" name="id">
+                                </form>
                             </td>
                               <td>
                                 <form action="./?catalog=workers&cmd=edit" id="frm_name_{{catalog.id}}" method="POST" class="floatLeft butDelUser">

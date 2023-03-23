@@ -28,6 +28,7 @@ def worker_list(request):
     try:
         param=request.GET.dict()
         clients=Worker.objects.order_by("name").all()
+        clients_count = clients.count()
         paginator = Paginator(clients, 50)
         page_number = request.GET.get('page',1)
         page=paginator.get_page(page_number)
@@ -65,6 +66,7 @@ def worker_list(request):
                 'page_list':page_list,
                 'end_page_list':end_page_list,
                 'start_page_list':start_page_list,
+                'clients_count':clients_count,
                 })
         return render(request,'workers_list.html', context)
     except Exception as err:
@@ -119,6 +121,7 @@ def worker_save(request):
         form = WorkerForm(request.POST,instance=worker)
         if form.is_valid():
             worker = form.save(commit=False)
+            worker.name=worker.lastName+' '+worker.firstName+' '+worker.otchestvo
             worker.save()
         return redirect('/management/?catalog=workers&cmd=list')
     except Exception as err:
