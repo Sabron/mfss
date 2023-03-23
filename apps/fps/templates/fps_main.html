@@ -38,8 +38,8 @@
                                     <div class="col-6 col-md-3 text-center">
                                         {% if  1 == sensor.type %}
                                         <div style="display:inline;width:190px;height:190px;">
-                                            <canvas id="{{sensor.sensor.id}}_value_canvas" class="gauge-speed" style="margin-top:140px;" data-type="radial-gauge" data-width="170"
-                                                    data-glow="false" data-height="170" data-units="{{sensor.unit}}" data-title="{{sensor.sensor.id}}" data-min-value="0.0"
+                                            <canvas id="{{sensor.sensor.id}}_value_canvas" class="gauge-speed" style="margin-top:140px;" data-type="radial-gauge" data-width="140"
+                                                    data-glow="false" data-height="140" data-units="{{sensor.unit}}" data-title="{{sensor.sensor.id}}" data-min-value="0.0"
                                                     data-max-value="{{sensor.str_critical_value}}" data-major-ticks="{{sensor.scale}}" data-minor-ticks="10" data-value="{{sensor.str_value}}"
                                                     data-stroke-ticks="false" data-highlights='[{ "from": {{sensor.norm_value_from}}, "to": {{sensor.norm_value_to}}, "color": "#4caf50" },
                                                          { "from": {{sensor.danger_value_from}}, "to":{{sensor.danger_value_to}} , "color": "#ff9800" },{ "from": {{sensor.critical_value_from}}, "to": {{sensor.critical_value_to}}, "color": "#f44336" }]'
