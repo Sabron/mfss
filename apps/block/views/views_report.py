@@ -54,7 +54,11 @@ def show_report_ToHTML(request):
         data_start=datetime.strptime(dict_param['DataStart']+' 00:00:00', "%d.%m.%Y %H:%M:%S")
         data_stop=datetime.strptime(dict_param['DataStop']+' 23:59:59', "%d.%m.%Y %H:%M:%S")
         block_sensor = BlockSensor.objects.filter(id = dict_param['id_block']).first()
-        block_indicators_list = BlockIndicators.objects.filter(sensor = block_sensor).filter(date_time__range=[data_start,data_stop]).order_by('date_time').all()
+        if dict_param['all_block'] == 'true':
+            block_indicators_list = BlockIndicators.objects.filter(date_time__range=[data_start,data_stop]).order_by('sensor','date_time').all()
+        else:
+            block_indicators_list = BlockIndicators.objects.filter(sensor = block_sensor).filter(date_time__range=[data_start,data_stop]).order_by('sensor','date_time').all()
+        
         html="""
             <table id = 'id_table' class='table table-bordered'>
                   <thead>
@@ -68,18 +72,32 @@ def show_report_ToHTML(request):
                   <tbody>
         """
         nom = 0
+        nom_sensor = 0
+        old_sensor =''
         for block_indicators in block_indicators_list:
-            nom = nom +1
+            if old_sensor != block_indicators.sensor:
+                nom = nom +1
+                nom_sensor = 0
+                old_sensor = block_indicators.sensor
+                html = html+"""
+                    <tr style='background-color:#dee2e6;'>
+                    <td>"""+str(nom)+"""</td>
+                    <td>"""+str(block_indicators.sensor)+"""</td>
+                    <td></td>
+                    <td></td>
+                    </tr>
+                    """
+            nom_sensor = nom_sensor+1
             html = html+"""
                  <tr>
-                 <td>"""+str(nom)+"""</td>
-                 <td>"""+str(block_indicators.sensor)+"""</td>
-                 <td>"""+str(block_indicators.date_time)+"""</td>
+                 <td>"""+str(nom)+"""."""+str(nom_sensor)+"""</td>
+                 <td></td>
+                 <td>"""+block_indicators.date_time.strftime("%d.%m.%Y %H:%M:%S")+"""</td>
                  """
             if block_indicators.value == 0: 
-                html = html+"""<td><span class='badge bg-danger'>"""+str(block_indicators.value)+"""</span></td></tr>"""
+                    html = html+"""<td><span class='badge bg-danger'>"""+str(block_indicators.value)+"""</span></td></tr>"""
             else:
-                html = html+"""<td><span class='badge bg-success'>"""+str(block_indicators.value)+"""</span></td></tr>"""
+                    html = html+"""<td><span class='badge bg-success'>"""+str(block_indicators.value)+"""</span></td></tr>"""
 
                                
                       
@@ -95,9 +113,6 @@ def show_report_ToHTML(request):
         return HttpResponse(html, content_type='application/text')
     except Exception as err:
         logging.error(traceback.format_exc())
-
-
-
 
 
 def get_ajax(request):
@@ -344,8 +359,9 @@ def report_block(request):
             return render(request, 'report/report_block.html',context) 
         if request.method == "POST":
             dict_param=request.POST.dict()
-            if dict_param['metod']=='create':
-                return show_report_ToHTML(request)
+            if "metod" in dict_param:
+                if dict_param['metod']=='create':
+                    return show_report_ToHTML(request)
             
     except Exception as err:
         logging.error(traceback.format_exc())
