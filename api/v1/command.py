@@ -144,10 +144,11 @@ def getListPositions(user): #Список Должностей
     allposition=Position.objects.filter()
     for position in allposition:
         name=position.name
-        name=name.encode('cp1251').decode('cp1251')
         p=dict()
         p.update(id=position.id)
         p.update(name=name)
+        p.update(nameb=name.encode('cp1251').decode('cp1251'))
+        print(name.encode('cp1251').decode('cp1251'))
         positionM.append(p)    
     return positionM
 

@@ -57,7 +57,7 @@
                                 <div class="col-sm-8">
                                     <select name="block" class="form-control select2" style="width: 100%;" id="id_block">
                                         {% for data in block_list  %}
-                                        <option value="{{data.id}}">{{data.name}}</option>
+                                        <option value="{{data.id}}">{{data.name}} {{data.connect_time}}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
