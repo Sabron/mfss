@@ -6,13 +6,15 @@ from requests.auth import HTTPBasicAuth
 from datetime import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse,HttpResponseForbidden
+from django.db.models import Q
 
 from apps.catalog.models.model_positions import Position
 from apps.catalog.models.model_locations import Location
 from apps.catalog.models.model_departments import Department
 from apps.catalog.models.model_workers import Worker
 from apps.catalog.models.model_zones import Zone
-
+from apps.eps.models.model_tagdates import TagDate
+from apps.eps.models.model_tags import Tag
 
 from sabron.util import logging
 from apps.util import generalmodule
@@ -45,6 +47,51 @@ def anchors_info():
             tag_dic.update(all = str(tag))
             m_rags.append(tag_dic)
         return m_rags
+    except Exception as error:
+        logging.error(str(traceback.format_exc()))
+        data=dict()
+        data.update(status=-100)
+        data.update(error="system error : "+str(traceback.format_exc()))
+        return data
+ 
+
+@csrf_exempt
+def tags_list(request):
+    try:
+        param = request.GET.dict()
+        print(param['datastart'])
+        m_tags_list = []
+        if 'tag' in param:
+            tag_link = Tag.objects.filter(sn=param['tag']).first()
+            if tag_link is None:
+                return m_tags_list;
+            if 'datastart' in param and 'datastop' in param:
+                data_start=datetime.strptime(param['datastart']+' 00:00:00', "%d-%m-%Y %H:%M:%S")
+                data_stop=datetime.strptime(param['datastop']+' 23:59:59', "%d-%m-%Y %H:%M:%S")
+                myquery =Q(tag = tag_link)
+                myquery &= Q(time__range=[data_start,data_stop])
+                tagdate_list = TagDate.objects.filter(myquery).order_by('time').all()
+                for tagdate in tagdate_list:
+                    tag_dic = dict()
+                    tag_dic.update(tag = str(tag_link.sn))
+                    tag_dic.update(time = str(tagdate.time))
+                    tag_dic.update(accuracy = tagdate.accuracy)
+                    tag_dic.update(kinematic = tagdate.kinematic)
+                    tag_dic.update(seq = tagdate.seq)
+                    tag_dic.update(source = tagdate.source)
+                    tag_dic.update(le_status = tagdate.le_status)
+                    tag_dic.update(motion = tagdate.motion)
+                    tag_dic.update(solution = tagdate.solution)
+                    tag_dic.update(x = tagdate.x)
+                    tag_dic.update(y = tagdate.y)
+                    tag_dic.update(z = tagdate.z)
+                    m_tags_list.append(tag_dic)
+                return m_tags_list
+
+        data=dict()
+        data.update(status=-100)
+        data.update(error="system error : invalid parameters")
+        return data
     except Exception as error:
         logging.error(str(traceback.format_exc()))
         data=dict()
@@ -94,36 +141,6 @@ def tags_info():
 def ping():
     return "OK"
 
-@csrf_exempt #Добавить платеж
-def addPayment(user,data_dic): #Добавить платеж
-    try:
-        data=dict()
-        data.update(status=0)
-        data.update(error="")
-        data.update(method=data_dic['method'])
-        data.update(respose="OK")
-        payments = data_dic['payments']
-        error_list = []
-        for payment in payments:
-            link_workers=Workers.objects.filter(id=payment['personalaccount']).first()
-            if link_workers is None:
-                error_data=dict()
-                error_data.update(id=payment['personalaccount'])
-                error_data.update(comment=' id '+str(payment['personalaccount'])+' not found')
-                error_list.append(error_data)
-            date_time = datetime.strptime(payment['date_payment'], '%d-%m-%Y')
-            views_account.add_payment(data_dic['id_payment'],link_workers,date_time,payment['amount'])
-        data.update(id_payment=data_dic['id_payment'])
-        if len(error_list) > 0:
-            data.update(status=-1)
-            data.update(error=error_list)
-        return data
-    except Exception as error:
-        logging.error(str(traceback.format_exc()))
-        data=dict()
-        data.update(status=-100)
-        data.update(error="system error : "+str(traceback.format_exc()))
-        return generalmodule.ReturnJson(200,data)
 
 @csrf_exempt #Список Подразделений
 def getListDepartments(user): #Список Подразделений

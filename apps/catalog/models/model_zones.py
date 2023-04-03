@@ -9,8 +9,14 @@ class Zone(models.Model):  # Зоны
     Модель справочника зон доступа
     """
 
-    location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True,verbose_name="Объект")
-    name = models.CharField(max_length=60, help_text="",default=" ",verbose_name="Наименование")
+    location = models.ForeignKey(Location,
+                                on_delete=models.SET_NULL,
+                               null=True,
+                               verbose_name="Объект")
+    name = models.CharField(max_length=60,
+                           help_text="",
+                           default=" ",
+                           verbose_name="Наименование")
     
     def __str__(self):
         """

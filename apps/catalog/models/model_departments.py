@@ -8,8 +8,14 @@ class Department(models.Model):  # Подразделения
     Модель справочника зон доступа
     """
 
-    name = models.CharField(max_length=60, help_text="",default=" ",verbose_name="Наименование")
-    comments=models.TextField(max_length=1000, blank=True, verbose_name="Комментарий",default=' ')
+    name = models.CharField(max_length=60,
+                           help_text="",
+                           default=" ",
+                           verbose_name="Наименование")
+    comments=models.TextField(max_length=1000,
+                             blank=True,
+                             verbose_name="Комментарий",
+                             default=' ')
     def __str__(self):
         """
         String for representing the Model object (in Admin site etc.)

@@ -8,7 +8,10 @@ class Position(models.Model):  # Должности
     Модель справочника должности
     """
 
-    name = models.CharField(max_length=60, help_text="",default=" ",verbose_name="Наименование")
+    name = models.CharField(max_length=60,
+                           help_text="",
+                           default=" ",
+                           verbose_name="Наименование")
 
     def __str__(self):
         """

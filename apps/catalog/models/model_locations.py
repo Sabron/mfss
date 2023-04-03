@@ -9,7 +9,10 @@ class Location(models.Model):  # Объекты
     """
     Модель справочника объекты
     """
-    name = models.CharField(max_length=60, help_text="",default=" ",verbose_name="Наименование")
+    name = models.CharField(max_length=60,
+                           help_text="",
+                           default=" ",
+                           verbose_name="Наименование")
 
 
     

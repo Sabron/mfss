@@ -111,13 +111,8 @@ def Command(request):
         elif datadic['method']=='tags_info':  #Список тэгов
             data.update(respose=command.tags_info())
             return generalmodule.ReturnJson(200,data)
-        elif datadic['method']=='addPayment':  #Добавить платеж
-            if 'payments' not in datadic:
-                data.update(status=-5)
-                data.update(error="'payments' parameter not found")
-                return generalmodule.ReturnJson(200,data)
-            data=command.addPayment(user,datadic)
-            
+        elif datadic['method']=='tags_list':  #Список тэгов
+            data.update(respose=command.tags_list(request))
             return generalmodule.ReturnJson(200,data)
         #elif datadic['method']=='addWorker':  #Получить список стран
         #    data=addWorker(user,datadic['params'])
