@@ -59,7 +59,7 @@ def anchors_info():
 def tags_list(request):
     try:
         param = request.GET.dict()
-        print(param['datastart'])
+        print(param)
         m_tags_list = []
         if 'tag' in param:
             tag_link = Tag.objects.filter(sn=param['tag']).first()
@@ -87,7 +87,41 @@ def tags_list(request):
                     tag_dic.update(z = tagdate.z)
                     m_tags_list.append(tag_dic)
                 return m_tags_list
-
+            if 'date' in param and 'time' in param: 
+                split_date = param['date'].split('-')
+                split_time = param['time'].split(':')
+                print(split_date[2])
+                data_start=datetime.strptime(param['date']+' '+param['time']+'.000000', "%d-%m-%Y %H:%M:%S.%f")
+                data_stop=datetime.strptime(param['date']+' '+param['time']+'.999999', "%d-%m-%Y %H:%M:%S.%f")
+                myquery =Q(tag = tag_link)
+                myquery &= Q(time__range=[data_start,data_stop])
+                #myquery &= Q(time__year=split_date[2])
+                #myquery &= Q(time__month=split_date[1])
+                #myquery &= Q(time__day=split_date[0])
+                #myquery &= Q(time__hour=split_time[0])
+                #myquery &= Q(time__minute=split_time[1])
+                #myquery &= Q(time__second=split_time[2])
+                #myquery &= Q(time__microsecond__lte=1000000)
+                print(myquery)
+                tagdate_list = TagDate.objects.filter(myquery).order_by('time').all()
+                print(tagdate_list.query)
+                print(tagdate_list)
+                for tagdate in tagdate_list:
+                    tag_dic = dict()
+                    tag_dic.update(tag = str(tag_link.sn))
+                    tag_dic.update(time = str(tagdate.time))    
+                    tag_dic.update(accuracy = tagdate.accuracy)
+                    tag_dic.update(kinematic = tagdate.kinematic)
+                    tag_dic.update(seq = tagdate.seq)
+                    tag_dic.update(source = tagdate.source)
+                    tag_dic.update(le_status = tagdate.le_status)
+                    tag_dic.update(motion = tagdate.motion)
+                    tag_dic.update(solution = tagdate.solution)
+                    tag_dic.update(x = tagdate.x)
+                    tag_dic.update(y = tagdate.y)
+                    tag_dic.update(z = tagdate.z)
+                    m_tags_list.append(tag_dic)
+                return m_tags_list
         data=dict()
         data.update(status=-100)
         data.update(error="system error : invalid parameters")
