@@ -74,7 +74,7 @@ def tags_list(request):
                 for tagdate in tagdate_list:
                     tag_dic = dict()
                     tag_dic.update(tag = str(tag_link.sn))
-                    tag_dic.update(time = str(tagdate.time))
+                    tag_dic.update(time = str(tagdate.time))    
                     tag_dic.update(accuracy = tagdate.accuracy)
                     tag_dic.update(kinematic = tagdate.kinematic)
                     tag_dic.update(seq = tagdate.seq)
