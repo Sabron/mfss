@@ -73,7 +73,6 @@ def position_list(request): # Список подразделений
 def position_add(request):
     try:
         param=request.POST.dict()
-        print(param)
         if request.method == "POST":
             form = PositionForm(request.POST)
             if form.is_valid():

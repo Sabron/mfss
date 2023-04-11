@@ -49,7 +49,6 @@ def float_range(A, L=None, D=None):
 @never_cache
 def show_report_ToHTML(request):
     try:
-        print('Старт')
         dict_param=request.POST.dict()
         data_start=datetime.strptime(dict_param['DataStart']+' 00:00:00', "%d.%m.%Y %H:%M:%S")
         data_stop=datetime.strptime(dict_param['DataStop']+' 23:59:59', "%d.%m.%Y %H:%M:%S")

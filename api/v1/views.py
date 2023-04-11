@@ -51,12 +51,10 @@ def Command(request):
         #if request.method == "POST":
         #    return redirect("/")
         #    return generalmodule.Return404()
-        #print(request.body)
         #data_body=json.loads(request.body)
         datadic = request.GET.dict()
         headers = request.headers
         cookies=request.COOKIES
-        print(datadic)
         if 'Authorization' not in headers:
             data=dict()
             data.update(status=-1)
