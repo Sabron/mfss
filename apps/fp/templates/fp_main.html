@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+{% extends "scada_default.html" %}
+{% load static %}
+{% load mysettings %}
+
+
+{% block header_link %}
+<link type="text/css" rel="stylesheet" href="{% static '/css/speedometer.css' %}?ver={% settings_value 'APP_VER' %}">
+{% endblock header_link %}
+
+{% block info_title %}
+<h5>Противопожарная защита<h5>
+        {% endblock info_title %}
+
+        {% block content %}
+
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline card-tabs">
+                    <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-three-tabContent">
+                            <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Датчики противопожарной защиты</h3>
+
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <div class="card-body p-0">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 10px">Позиция</th>
+                                                            <th>Датчик</th>
+                                                            <th style="width: 280px">Состояние</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for sensor in m_sensor %}
+                                                        <tr>
+                                                            <td>{{sensor.sensor.position}}</td>
+                                                            <td><a href="#">{{sensor.sensor}} ({{sensor.connect_time}})</a></td>
+                                                            <td style="width: 280px">{{sensor.code}}</td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                        <!-- /.row -->
+                                    </div><!-- /.container-fluid -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </section>
+
+
+        {% endblock %}
+
+        {% block script_footer %}
+        <script src="{% static 'js/gauge.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+        <script src="{% static 'js/speedometer.js' %}?ver={% settings_value 'APP_VER' %}"></script>
+        <script>
+            function show() {
+                cmd = 'refresh';
+                $.ajax({
+                    type: 'POST', // метод отправки
+                    url: window.location.pathname + 'ajax/', // путь к обработчику
+                    data: {
+                        "cmd": cmd
+                    },
+                    // dataType: 'text',
+                    success: function (data) {
+
+                        for (index = data.length - 1; index >= 0; --index) {
+                            if (data[index].value == 1) {
+                                $("#" + data[index].sensor_id + "_label").html("ON")
+                                $("#" + data[index].sensor_id + "_input").prop('checked', true);
+                            } else {
+                                $("#" + data[index].sensor_id + "_label").html("OFF")
+                                $("#" + data[index].sensor_id + "_input").prop('checked', false);
+                            }
+
+                        }
+                    },
+                    error: function (dataerr) {
+                        console.log('Ошибка выполнение команды :' + dataerr)
+                    }
+                });
+            }
+
+            $(document).ready(function () {
+                show();
+                setInterval('show()', 1000);
+            });
+        </script>
+        {% endblock script_footer %}

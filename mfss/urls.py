@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^fps/', include('apps.fps.urls')),
     url(r'^dcs/', include('apps.dcs.urls')),
     url(r'^eps/', include('apps.eps.urls')),
+    url(r'^fp/', include('apps.fp.urls')),
     url(r'^scada/', include('apps.scada.urls')),
     url(r'^block/', include('apps.block.urls')),
     url(r'^management/', include('apps.management.urls')),
