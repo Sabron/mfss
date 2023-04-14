@@ -49,6 +49,8 @@ from apps.dcs.models.model_indicators import DcsIndicators
 from apps.fps.models.model_sensor import FpsSensor
 from apps.fps.models.model_indicators import FpsIndicators
 
+
+from apps.fp.models.model_sensor import FpSensor
 from apps.fp.models.model_indicators import FpIndicators
 
 from apps.scada.models.model_indicators import ScadaIndicators
@@ -620,12 +622,16 @@ def delete_acsIndicator():
     print('Осталось : '+str(new))
 
 if __name__ == "__main__":
+    sensor_list = FpSensor.objects.all()
+    for sensor in tqdm(sensor_list):
+        sensor.active = True
+        sensor.save()
     #for i in range(1, 200):
     #    print('**************')
     #    print('* Итерация : '+str(i))
     #    print('**************')
-
-    update_block();
+        
+    #update_block();
     #len_data()
     #delete_data()
     #len_data()
