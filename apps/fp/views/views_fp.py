@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import traceback
 import requests
-import locale
-locale.setlocale(
-    category=locale.LC_ALL,
-    locale="ru"  # Note: do not use "de_DE" as it doesn't work
-)
+#import locale
+#locale.setlocale(
+#    category=locale.LC_ALL,
+#    locale="ru"  # Note: do not use "de_DE" as it doesn't work
+#)
 
 
 from datetime import datetime,timedelta
