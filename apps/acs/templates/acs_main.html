@@ -49,6 +49,13 @@
                                             {% for sensor in m_sensor %}
                                                 {% if  sensor.zone == zone %} 
                                                     <div class="col-6 col-md-3 text-center">
+                                                        {% if  sensor.alarm %}
+                                                            <div class="ribbon-wrapper ribbon-lg">
+                                                                <div class="ribbon bg-danger text-sm">
+                                                                    Внимание!
+                                                                </div>
+                                                             </div>
+                                                        {% endif %}
                                                         <div style="display:inline;width:30px;height:30px;">
                                                             <canvas id="{{sensor.sensor.id}}_value_canvas" class="gauge-speed" style="margin-top:40px;" data-type="radial-gauge" data-width="140"
                                                                     data-glow="false" data-height="140" data-units="{{sensor.unit}}" data-title="{{sensor.sensor.id}}" data-min-value="0.0"
@@ -59,8 +66,7 @@
                                                                     data-value-box="true" data-animation-rule="linear" data-animation-duration="100"
                                                                     data-needle-shadow="false"></canvas>
                                                         </div>
-
-                                                        <div class="knob-label"><a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a><br> {{sensor.sensor.connect_time}} </div>
+                                                        <div class="knob-label"><a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}{{sensor.alarm}}</a><br> {{sensor.sensor.connect_time}} </div>
                                                     </div>
                                                     {% endif %}
                                                 {% endfor %}
@@ -124,6 +130,13 @@
                                 <div class="row">
                                     {% for sensor in m_sensor %}
                                     <div class="col-6 col-md-3 text-center">
+                                        {% if  sensor.alarm %}
+                                            <div class="ribbon-wrapper ribbon-lg">
+                                                <div class="ribbon bg-danger text-sm">
+                                                    Внимание!
+                                                </div>
+                                             </div>
+                                        {% endif %}
                                         <div style="display:inline;width:30px;height:30px;">
                                             <canvas id="{{sensor.sensor.id}}_value_canvas" class="gauge-speed" style="margin-top:40px;" data-type="radial-gauge" data-width="140"
                                                     data-glow="false" data-height="140" data-units="{{sensor.unit}}" data-title="{{sensor.sensor.id}}" data-min-value="0.0"
@@ -134,8 +147,7 @@
                                                     data-value-box="true" data-animation-rule="linear" data-animation-duration="100"
                                                     data-needle-shadow="false"></canvas>
                                         </div>
-
-                                        <div class="knob-label"><a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a><br> {{sensor.sensor.connect_time}} </div>
+                                         <div class="knob-label"><a href="sensor/?id={{sensor.sensor.id}}">{{sensor.sensor}}</a><br> {{sensor.sensor.connect_time}} </div>
                                     </div>
                                     {% endfor %}
                                 </div>

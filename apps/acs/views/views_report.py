@@ -56,7 +56,6 @@ def show_report_error_ToHTML(request):
         myquery =Q(sensor = sensor)
         myquery &= Q(date_time__range=[data_start,data_stop])
         myquery &= Q(value__range=[sensor.critical_value_from*sensor.ratio,99999999.0])
-        #myquery &= Q(value >=(sensor.critical_value_from*sensor.ratio))
         indicators_list = AcsIndicators.objects.filter(myquery).order_by('date_time').all()
         html="""
             <table id = 'id_table' class='table table-bordered table-striped'>

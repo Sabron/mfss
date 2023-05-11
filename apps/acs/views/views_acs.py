@@ -93,6 +93,7 @@ def MainIndexDefault(request):
         m_zone = []
         for sensor in sensor_list:
             str_value=str(sensor.value / sensor.ratio).replace(',','.')
+            value = sensor.value / sensor.ratio
             sensor_dict = dict()
             sensor_dict.update(zone=sensor.zone)
             sensor_dict.update(sensor=sensor)
@@ -109,6 +110,10 @@ def MainIndexDefault(request):
             sensor_dict.update(danger_value_to=str(sensor.danger_value_to).replace(',','.'))
             sensor_dict.update(critical_value_from=str(sensor.critical_value_from).replace(',','.'))
             sensor_dict.update(critical_value_to=str(sensor.critical_value_to).replace(',','.'))
+            if value>=sensor.critical_value:
+                sensor_dict.update(alarm=True)
+            else:
+                sensor_dict.update(alarm=False)
             #sensor.critical_value
             #color=0 зеленый
             #color=1 желтый
@@ -213,115 +218,7 @@ def sensor_ajax(request):
                     sensor_dict.update(value = result['value__max']/sensor.ratio)
                 m_sensor.append(sensor_dict)
             return generalmodule.ReturnJson(200,m_sensor)
-            #for i in range(30):
-            #    data_list =list()
-            #    for indicator in sensor_links:
-            #        if param['sensor_type'] == 'sec':
-            #            date_time = end_date - timedelta(seconds=i)
-            #            data = indicator.date_time.strftime("%d.%m.%Y %H:%M:%S")
-            #        elif param['sensor_type'] == 'min':
-            #            data = indicator.date_time.strftime("%d.%m.%Y %H:%M")
-            #            date_time = end_date - timedelta(minutes=i)
-            #        else:
-            #            date_time = end_date - timedelta(hours=i)
-            #            data = indicator.date_time.strftime("%d.%m.%Y %H")
-            #        if data in data_list:
-            #            continue;
-            #        data_list.append(data)
 
-
-            #if param['sensor_type'] == 'sec':
-            #    data_list =list()
-            #    sensor_data = list()
-            #    for indicator in sensor_links:
-            #        if data in data_list:
-            #            continue;
-            #        data_list.append(data)
-            #        sensor_data.append(indicator)
-            #elif param['sensor_type'] == 'min':
-            #    data_list =list()
-            #    sensor_data = list()
-            #    for indicator in sensor_links:
-            #        data = indicator.date_time.strftime("%d.%m.%Y %H:%M")
-            #        if data in data_list:
-            #            continue;
-            #        data_list.append(data)
-            #        sensor_data.append(indicator)
-            #else:
-            #    data_list =list()
-            #    sensor_data = list()
-            #    for indicator in sensor_links:
-            #        data = indicator.date_time.strftime("%d.%m.%Y %H")
-            #        if data in data_list:
-            #            continue;
-            #        data_list.append(data)
-            #        sensor_data.append(indicator)
-            #m_sensor = []
-            #data_list =list()
-            #count = len(sensor_data)
-            #value_old = 0
-            #for i in range(30):
-            #    sensor_dict = dict()
-            #    sensor_dict.update(date_max=str(connect_time))
-            #    if param['sensor_type'] == 'sec':
-            #        date_time = end_date - timedelta(seconds=i)
-            #        data = date_time.strftime("%d.%m.%Y %H:%M:%S")
-            #        for indicator in sensor_data:
-            #            indicator_date_time = indicator.date_time.strftime("%d.%m.%Y %H:%M:%S")
-            #            add_true = True
-            #            if data == indicator_date_time:
-            #                value = indicator.value / indicator.sensor.ratio
-            #                sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
-            #                sensor_dict.update(value = value)
-            #                value_old = value
-            #                add_true = False
-            #                break
-            #        if add_true:
-            #           sensor_dict.update(date_time = date_time.strftime(strftime))
-            #           sensor_dict.update(value = value_last)
-            #    elif param['sensor_type'] == 'min':
-            #        date_time = end_date - timedelta(minutes=i)
-            #        data = date_time.strftime("%d.%m.%Y %H:%M")
-            #        for indicator in sensor_data:
-            #            indicator_date_time = indicator.date_time.strftime("%d.%m.%Y %H:%M")
-            #            add_true = True
-            #            if data == indicator_date_time:
-            #                value = indicator.value / indicator.sensor.ratio
-            #                sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
-            #                sensor_dict.update(value = value)
-            #                value_old = value
-            #                add_true = False
-            #                break
-            #        if add_true:
-            #           sensor_dict.update(date_time = date_time.strftime(strftime))
-            #           sensor_dict.update(value = value_last)
-            #    else:
-            #        date_time = end_date - timedelta(hours=i)
-            #        data = date_time.strftime("%d.%m.%Y %H")
-            #        for indicator in sensor_data:
-            #            indicator_date_time = indicator.date_time.strftime("%d.%m.%Y %H")
-            #            add_true = True
-            #            if data == indicator_date_time:
-            #                value = indicator.value / indicator.sensor.ratio
-            #                sensor_dict.update(date_time = indicator.date_time.strftime(strftime))
-            #                sensor_dict.update(value = value)
-            #                value_old = value
-            #                add_true = False
-            #                break
-            #        if add_true:
-            #           sensor_dict.update(date_time = date_time.strftime(strftime))
-            #           sensor_dict.update(value = value_last)
-                #else:
-                #    if param['sensor_type'] == 'sec':
-                #        date_time = end_date - timedelta(seconds=i)
-                #    elif param['sensor_type'] == 'min':
-                #        date_time = end_date - timedelta(minutes=i)
-                #   else:
-                #        date_time = end_date - timedelta(hours=i)
-                #    sensor_dict.update(date_time = date_time.strftime(strftime))
-                #   sensor_dict.update(value = value_last)
-            #    m_sensor.append(sensor_dict)
-            #return generalmodule.ReturnJson(200,m_sensor)
     except Exception as err:
         logging.error(traceback.format_exc())
 

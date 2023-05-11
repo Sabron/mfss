@@ -188,12 +188,11 @@
  
 
                 },
-    //).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)'
                 error: function (dataerr) {
                     $("#reportPanelBody").html(dataerr); // при успешном получении ответа от сервера, заносим полученные данные в элемент с классом answer
 
                 },
-				timeout: 60000 // sets timeout to 3 seconds
+				timeout: 1200000 
             });
 
         }
