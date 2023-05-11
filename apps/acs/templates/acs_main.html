@@ -44,7 +44,7 @@
                           <div class="tab-pane fade" id="custom-tabs-three-{{zone.id}}" role="tabpanel" aria-labelledby="custom-tabs-{{zone.id}}-tab">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="card">
+                                   <!-- <div class="card">-->
                                         <div class="row">
                                             {% for sensor in m_sensor %}
                                                 {% if  sensor.zone == zone %} 
@@ -71,10 +71,10 @@
                                                     {% endif %}
                                                 {% endfor %}
                                         </div>
-                                    </div>
+                                    <!--</div>-->
                                 </div>
                             </div>                              
-                                <div class="row">
+                                <div class="row" style="margin-top:10px;">
                                     <div class="col-md-12">
                                         <div class="card">
                                             <div class="card-header">
@@ -126,7 +126,7 @@
                   <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="card">
+                            <!-- <div class="card">-->
                                 <div class="row">
                                     {% for sensor in m_sensor %}
                                     <div class="col-6 col-md-2 text-center" style="box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);">
@@ -151,10 +151,10 @@
                                     </div>
                                     {% endfor %}
                                 </div>
-                            </div>
+                            <!--</div>-->
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="margin-top:10px;">
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
