@@ -48,7 +48,7 @@
                                         <div class="row">
                                             {% for sensor in m_sensor %}
                                                 {% if  sensor.zone == zone %} 
-                                                    <div class="col-6 col-md-2 text-center">
+                                                    <div class="col-6 col-md-2 text-center" style="box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);>
                                                         {% if  sensor.alarm %}
                                                             <div class="ribbon-wrapper ribbon-lg">
                                                                 <div class="ribbon bg-danger text-sm">
@@ -129,7 +129,7 @@
                             <div class="card">
                                 <div class="row">
                                     {% for sensor in m_sensor %}
-                                    <div class="col-6 col-md-2 text-center">
+                                    <div class="col-6 col-md-2 text-center" style="box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);">
                                         {% if  sensor.alarm %}
                                             <div class="ribbon-wrapper ribbon-lg">
                                                 <div class="ribbon bg-danger text-sm">
