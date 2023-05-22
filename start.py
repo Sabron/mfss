@@ -637,7 +637,7 @@ def update_ktp_date():# Получение данных КТП
             bulk = []
             for mfsb in tqdm(mfsb_list):
                 data_ktp = DataKtp.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
-                if datd_mfsb is None:
+                if data_ktp is None:
                     DataKtp.objects.create(
                         date=mfsb.date,
                         name=mfsb.name,
