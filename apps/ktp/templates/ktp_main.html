@@ -116,6 +116,24 @@
                                 <script src="{% static 'js/gauge.min.js' %}?ver={% settings_value 'APP_VER' %}"></script>
                                 <script src="{% static 'js/speedometer.js' %}?ver={% settings_value 'APP_VER' %}"></script>
                                 <script>
+    function intime(d) {
+        var day = d.getDate();
+        var hrs = d.getHours();
+        var min = d.getMinutes();
+        var sec = d.getSeconds();
+
+        var mnt = new Array("января", "февраля", "марта", "апреля", "мая",
+        "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря");
+
+        if (day <= 9) day="0" + day;
+        if (hrs <= 9) hrs="0" + hrs;
+        if (min <=9 ) min="0" + min;
+        if (sec <= 9) sec="0" + sec;
+
+        return "Показание на : " +  day + " " + mnt[d.getMonth()] + " " + d.getFullYear() + " г."+ "&nbsp;&nbsp;&nbsp;" +hrs + ":" + min + ":" + sec
+    }
+
+
 	function show() {
 		cmd = 'refresh';
 		$.ajax({
@@ -134,10 +152,13 @@
                         $("#reakt282t1").html(data.value_reakt282_t1)
                         $("#reakt282t2").html(data.value_reakt282_t2)
                         $("#sum282reakt").html(data.summ282_reakt)
-                        $("#date_p").html(data.value_akt282date)
+                        $("#date_p").html(intime(new Date(data.value_akt282date)))
 
                                     }
-                    else{}
+                    else{
+                                    
+                                    
+                        }
                                     }
                  else{}
             },
