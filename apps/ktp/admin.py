@@ -6,6 +6,7 @@ from .models.model_indicators import KtpIndicators
 @admin.register(KtpSensor)
 class KtpSensorAdmin(admin.ModelAdmin):
     list_display = ('name','serial','zone','tag','connect_time')
+    list_filter = ('tag')
     search_fields = ('name',)
 
 @admin.register(KtpIndicators)
