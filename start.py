@@ -633,7 +633,7 @@ def update_ktp_date():# Получение данных КТП
         #mfsb = cache.get('update_ktp_date')
         #if not mfsb:
         #    cache.set('update_ktp_date', '1')
-            mfsb_list = MfsbKtp.objects.using('ktp').filter(check=False).order_by('date').all()[:20000];
+            mfsb_list = MfsbKtp.objects.using('ktp').filter(check=False).order_by('date').all()[:200000];
             bulk = []
             for mfsb in tqdm(mfsb_list):
                 data_ktp = DataKtp.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
@@ -643,12 +643,12 @@ def update_ktp_date():# Получение данных КТП
                         name=mfsb.name,
                         values=mfsb.values,
                         check=mfsb.check)
-                mfsb.check = True
-                bulk.append(mfsb)
-                if len(bulk) > 500:
-                    MfsbKtp.objects.using('ktp').bulk_update(bulk,['check'])
-                    bulk = []
-            MfsbKtp.objects.using('ktp').bulk_update(bulk,['check'])
+                #mfsb.check = True
+                #bulk.append(mfsb)
+                #if len(bulk) > 500:
+                #    MfsbKtp.objects.using('ktp').bulk_update(bulk,['check'])
+                #    bulk = []
+            #MfsbKtp.objects.using('ktp').bulk_update(bulk,['check'])
             #update_acs()
             #update_dcs()
          #   cache.delete('update_ktp_date')

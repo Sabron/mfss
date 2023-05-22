@@ -70,7 +70,7 @@ def update_ktp_date():# Получение данных КТП
         mfsb = cache.get('update_ktp_date')
         if not mfsb:
             cache.set('update_ktp_date', '1')
-            mfsb_list = MfsbKtp.objects.using('ktp').filter(check=False).order_by('date').all()[:20000];
+            mfsb_list = MfsbKtp.objects.using('ktp').filter(check=False).order_by('date').all()[:50000];
             bulk = []
             for mfsb in mfsb_list:
                 data_ktp = DataKtp.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()

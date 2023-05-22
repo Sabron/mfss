@@ -23,7 +23,11 @@ app.conf.beat_schedule = {
 #        'schedule': crontab(),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
 #    },
 
-
+  'apps.schedulers.tasks.update_ktp_date': {# Получение данных КПК
+        'task': 'apps.schedulers.tasks.update_ktp_date',
+        'schedule': timedelta(seconds=10),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight
+    },
+ 
 
     'apps.schedulers.tasks.update_ops_date': {# Получение данных АГК и КЗ
         'task': 'apps.schedulers.tasks.update_ops_date',
@@ -52,6 +56,7 @@ app.conf.beat_schedule = {
     },
 
 
+    
 
 #    'send-send_telegram_message-minute': {
 #        'task': 'tgbot.tasks.send_telegram_message',
