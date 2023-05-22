@@ -655,9 +655,30 @@ def update_ktp_date():# Получение данных КТП
     except Exception as err:
         logging.error(traceback.format_exc())
 
+def update_ktp():# Обработка данных КТП
+    try:
+        data_ktp= DataKtp.objects.filter(check=False).order_by('date').all()[:2]
+        for data in tqdm(data_ktp):
+            serial = data.values[0:3]
+            sensor_link = KtpSensor.objects.filter(tag=data.name).first()
+            if sensor_link is None:
+                sensor_link = KtpSensor.objects.create(
+                    tag = data.name,
+                    name = data.name,
+                    serial = serial,
+                    connect_time = data.date) 
+            else:
+                sensor_link.connect_time = data.date
+                sensor_link.serial = serial
+                sensor_link.save()
+
+            #print(data.values+' : '+data.values[0:3])
+
+    except Exception as err:
+        logging.error(traceback.format_exc())
 
 if __name__ == "__main__":
-    update_ktp_date()
+    update_ktp()
     #for i in range(1, 200):
     #    print('**************')
     #    print('* Итерация : '+str(i))

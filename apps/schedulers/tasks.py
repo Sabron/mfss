@@ -64,6 +64,29 @@ from mfss.celery import app
 
 from sabron.util import logging    
 
+
+def update_ktp():# Обработка данных КТП
+    try:
+        data_ktp= DataKtp.objects.filter(check=False).order_by('date').all()[:2]
+        for data in tqdm(data_ktp):
+            serial = data.values[0:3]
+            sensor_link = KtpSensor.objects.filter(tag=data.name).first()
+            if sensor_link is None:
+                sensor_link = KtpSensor.objects.create(
+                    tag = data.name,
+                    name = data.name,
+                    serial = serial,
+                    connect_time = data.date) 
+            else:
+                sensor_link.connect_time = data.date
+                sensor_link.serial = serial
+                sensor_link.save()
+
+            #print(data.values+' : '+data.values[0:3])
+
+    except Exception as err:
+        logging.error(traceback.format_exc())
+
 @app.task(ignore_result=True)
 def update_ktp_date():# Получение данных КТП
     try:
@@ -87,7 +110,7 @@ def update_ktp_date():# Получение данных КТП
                     MfsbKtp.objects.using('ktp').bulk_update(bulk,['check'])
                     bulk = []
             MfsbKtp.objects.using('ktp').bulk_update(bulk,['check'])
-            #update_acs()
+            update_ktp()
             #update_dcs()
             cache.delete('update_ktp_date')
     except Exception as err:

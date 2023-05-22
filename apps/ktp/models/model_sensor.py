@@ -23,10 +23,10 @@ class KtpSensor(models.Model):  # Датчики
         help_text="",
         default=" ",
         verbose_name="Наименование")
-#    serial = models.CharField(max_length=5,
-#        help_text="",
-#        default=" ",
-#        verbose_name="Серийный номер")
+    serial = models.CharField(max_length=5,
+        help_text="",
+        default=" ",
+        verbose_name="Серийный номер")
     connect_time = models.DateTimeField(
         default=datetime.now,
         blank=True,
