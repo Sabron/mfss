@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'apps.scada.apps.scadaConfig',
      #Система блокировок
     'apps.block.apps.blockConfig',
+     #Система КТП
+    'apps.ktp.apps.ktpConfig',
      #Телеграмм бот
     'tgbot.apps.TgbotConfig',
      #api

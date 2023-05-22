@@ -21,14 +21,21 @@ from apps.ops.models.model_mfsb_skada import MfsbSkada
 from apps.ops.models.model_mfsb_skpv import MfsbSkpv
 from apps.ops.models.model_mfsb_ppz import MfsbPpz
 from apps.ops.models.model_mfsb_block import MfsbBlock
+from apps.ops.models.model_mfsb_ktp import MfsbKtp
 
 from apps.main.models.model_datamfsb import DataMfsb
 from apps.main.models.model_datamfsb_ppz import DataMfsbPpz
 from apps.main.models.model_datamfsb_skpv import DataMfsbSkpv
 from apps.main.models.model_datamfsb_skada import DataMfsbSkada
+from apps.main.models.model_dataktp import DataKtp
+
 
 from apps.acs.models.model_sensor import AcsSensor
 from apps.acs.models.model_indicators import AcsIndicators
+
+from apps.ktp.models.model_sensor import KtpSensor
+from apps.ktp.models.model_indicators import KtpIndicators
+
 
 from apps.dcs.models.model_sensor import DcsSensor
 from apps.dcs.models.model_indicators import DcsIndicators
@@ -56,6 +63,34 @@ from apps.eps.models.model_tagdates import TagDate
 from mfss.celery import app
 
 from sabron.util import logging    
+
+
+def update_ktp_date():# Получение данных КТП
+    try:
+        mfsb = cache.get('update_ktp_date')
+        if not mfsb:
+            cache.set('update_ktp_date', '1')
+            mfsb_list = MfsbKtp.objects.using('ktp').filter(check=False).order_by('date').all()[:20000];
+            bulk = []
+            for mfsb in mfsb_list:
+                data_ktp = DataKtp.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+                if datd_mfsb is None:
+                    DataKtp.objects.create(
+                        date=mfsb.date,
+                        name=mfsb.name,
+                        values=mfsb.values,
+                        check=mfsb.check)
+                mfsb.check = True
+                bulk.append(mfsb)
+                if len(bulk) > 500:
+                    MfsbKtp.objects.using('ktp').bulk_update(bulk,['check'])
+                    bulk = []
+            MfsbKtp.objects.using('ktp').bulk_update(bulk,['check'])
+            #update_acs()
+            #update_dcs()
+            cache.delete('update_ktp_date')
+    except Exception as err:
+        logging.error(traceback.format_exc())
 
 
 def update_fps(): # Получение данных Системы контроля пожарного водоснабжения
@@ -399,6 +434,7 @@ def auto_ops_delete():
         MfsbPpz.objects.using('mfsb_ppz').filter(check=True).delete();
         MfsbSkada.objects.using('mfsb_skada').filter(check=True).delete();
         MfsbBlock.objects.using('mfsb_block').filter(check=True).delete();
+        MfsbKtp.objects.using('ktp').filter(check=True).delete();
     except Exception as err:
         logging.error(traceback.format_exc())
 

@@ -31,12 +31,17 @@ from apps.ops.models.model_mfsb_skada import MfsbSkada
 from apps.ops.models.model_mfsb_ppz import MfsbPpz
 from apps.ops.models.model_mfsb_skpv import MfsbSkpv
 from apps.ops.models.model_mfsb_block import MfsbBlock
+from apps.ops.models.model_mfsb_ktp import MfsbKtp
 
 
 from apps.main.models.model_datamfsb import DataMfsb
 from apps.main.models.model_datamfsb_skada import DataMfsbSkada
 from apps.main.models.model_datamfsb_ppz import DataMfsbPpz
 from apps.main.models.model_datamfsb_skpv import DataMfsbSkpv
+from apps.main.models.model_dataktp import DataKtp
+
+from apps.ktp.models.model_sensor import KtpSensor
+#from apps.acs.models.model_indicators import AcsIndicators
 
 
 from apps.acs.models.model_sensor import AcsSensor
@@ -621,11 +626,37 @@ def delete_acsIndicator():
     print('Удалено : '+str(old-new))
     print('Осталось : '+str(new))
 
+
+def update_ktp_date():# Получение данных КТП
+    try:
+        mfsb = cache.get('update_ktp_date')
+        if not mfsb:
+            cache.set('update_ktp_date', '1')
+            mfsb_list = MfsbKtp.objects.using('ktp').filter(check=False).order_by('date').all()[:20000];
+            bulk = []
+            for mfsb in tqdm(mfsb_list):
+                data_ktp = DataKtp.objects.filter(date=mfsb.date).filter(name=mfsb.name).first()
+                if datd_mfsb is None:
+                    DataKtp.objects.create(
+                        date=mfsb.date,
+                        name=mfsb.name,
+                        values=mfsb.values,
+                        check=mfsb.check)
+                mfsb.check = True
+                bulk.append(mfsb)
+                if len(bulk) > 500:
+                    MfsbKtp.objects.using('ktp').bulk_update(bulk,['check'])
+                    bulk = []
+            MfsbKtp.objects.using('ktp').bulk_update(bulk,['check'])
+            #update_acs()
+            #update_dcs()
+            cache.delete('update_ktp_date')
+    except Exception as err:
+        logging.error(traceback.format_exc())
+
+
 if __name__ == "__main__":
-    sensor_list = FpSensor.objects.all()
-    for sensor in tqdm(sensor_list):
-        sensor.active = True
-        sensor.save()
+    update_ktp_date()
     #for i in range(1, 200):
     #    print('**************')
     #    print('* Итерация : '+str(i))
