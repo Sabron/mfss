@@ -68,7 +68,7 @@ from sabron.util import logging
 def update_ktp():# Обработка данных КТП
     try:
         data_ktp= DataKtp.objects.filter(check=False).order_by('date').all()[:2]
-        for data in tqdm(data_ktp):
+        for data in data_ktp:
             serial = data.values[0:3]
             sensor_link = KtpSensor.objects.filter(tag=data.name).first()
             if sensor_link is None:
