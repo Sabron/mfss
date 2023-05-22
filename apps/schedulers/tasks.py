@@ -64,7 +64,7 @@ from mfss.celery import app
 
 from sabron.util import logging    
 
-
+@app.task(ignore_result=True)
 def update_ktp_date():# Получение данных КТП
     try:
         mfsb = cache.get('update_ktp_date')
