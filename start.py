@@ -631,7 +631,7 @@ def delete_acsIndicator():
 def update_ktp_date():# Получение данных КТП
     try:
         #mfsb = cache.get('update_ktp_date')
-        if not mfsb:
+        #if not mfsb:
         #    cache.set('update_ktp_date', '1')
             mfsb_list = MfsbKtp.objects.using('ktp').filter(check=False).order_by('date').all()[:20000];
             bulk = []
