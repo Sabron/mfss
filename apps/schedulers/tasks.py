@@ -68,6 +68,7 @@ from sabron.util import logging
 def update_ktp_date():# Получение данных КТП
     try:
         mfsb = cache.get('update_ktp_date')
+        logging.message('update_ktp_date : '+str(mfsb))
         if not mfsb:
             cache.set('update_ktp_date', '1')
             mfsb_list = MfsbKtp.objects.using('ktp').filter(check=False).order_by('date').all()[:50000];
