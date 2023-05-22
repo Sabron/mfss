@@ -229,7 +229,7 @@
             <!-- /.widget-user -->
           </div>
 
-                 <div class="col-12">
+             <div class="col-12">
             <!-- Widget: user widget style 1 -->
             <div class="card card-widget widget-user shadow">
               <!-- Add the bg color to the header using any of the bg-* classes -->
@@ -239,6 +239,26 @@
               </div>
               <div class="widget-user-image">
                 <a href="/scada/"type="" class="img-circle elevation-2">
+                    <img class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
+                </a>
+              </div>
+              <div class="card-footer">
+
+                <!-- /.row -->
+              </div>
+            </div>
+            <!-- /.widget-user -->
+          </div>
+             <div class="col-12">
+            <!-- Widget: user widget style 1 -->
+            <div class="card card-widget widget-user shadow">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="widget-user-header bg-info">
+                <h3 class="widget-user-username">Показания КТП</h3>
+                <h5 class="widget-user-desc"></h5>
+              </div>
+              <div class="widget-user-image">
+                <a href="/ktp/"type="" class="img-circle elevation-2">
                     <img class="img-circle elevation-2 btn-circle-ok" src="{% static 'img/ok-status.png' %}?ver={% settings_value 'APP_VER' %}" alt="User Avatar">
                 </a>
               </div>
