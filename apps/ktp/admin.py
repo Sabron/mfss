@@ -11,5 +11,6 @@ class KtpSensorAdmin(admin.ModelAdmin):
 
 @admin.register(KtpIndicators)
 class KtpIndicatorsAdmin(admin.ModelAdmin):
-    list_display = ('date_time','sensor','value')
+    list_display = ('date_time','sensor','value_akt','value_reakt')
+    list_filter = ('sensor',)
     search_fields = ('sensor__name',)

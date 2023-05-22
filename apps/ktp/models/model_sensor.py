@@ -37,7 +37,7 @@ class KtpSensor(models.Model):  # Датчики
         return self.id
 
     def __str__(self):
-        return self.name+' ( '+str(self.id)+' )'
+        return self.name
 
     class Meta:   # отображение в админики
         ordering = ('name',)

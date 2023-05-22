@@ -19,15 +19,10 @@ class KtpIndicators(models.Model):  # Показания датчиков
         on_delete=models.SET_NULL,
         null=True,
         verbose_name="Датчик")
-    value = models.CharField(max_length=50,
-      help_text="",
-        default=" ",
-         verbose_name="Показание")
-    ismarked = models.BooleanField(verbose_name=u'Пометка',
-        null=False,
-        default=False,
-        blank=True)
-
+    value_akt = models.BigIntegerField(default=0,
+         verbose_name="Активная ЭЭ")
+    value_reakt = models.BigIntegerField(default=0,
+         verbose_name="Реактивная ЭЭ")
 
     def getId(self):
         return self.id

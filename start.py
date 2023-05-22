@@ -42,7 +42,7 @@ from apps.main.models.model_datamfsb_skpv import DataMfsbSkpv
 from apps.main.models.model_dataktp import DataKtp
 
 from apps.ktp.models.model_sensor import KtpSensor
-#from apps.acs.models.model_indicators import AcsIndicators
+from apps.ktp.models.model_indicators import KtpIndicators
 
 
 from apps.acs.models.model_sensor import AcsSensor
@@ -657,8 +657,9 @@ def update_ktp_date():# Получение данных КТП
 
 def update_ktp():# Обработка данных КТП
     try:
-        data_ktp= DataKtp.objects.filter(check=False).order_by('date').all()[:2]
-        for data in tqdm(data_ktp):
+        bulk = []
+        data_ktp= DataKtp.objects.filter(check=False).order_by('date').all()[:20000]
+        for data in data_ktp:
             serial = data.values[0:3]
             sensor_link = KtpSensor.objects.filter(tag=data.name).first()
             if sensor_link is None:
@@ -671,9 +672,60 @@ def update_ktp():# Обработка данных КТП
                 sensor_link.connect_time = data.date
                 sensor_link.serial = serial
                 sensor_link.save()
+            if 'Показания Активная + Реактивная ЭЭ Т1' in data.name:
+                if '282' in serial:
+                    value_akt = data.values[5:15]
+                    value_reakt = data.values[15:len(data.values)]
+                    #print('Показания Активная + Реактивная ЭЭ Т1 : '+data.values)
+                    #print('Время : '+str(data.date))
+                    #print('Активная : '+value_akt)
+                    #print('Реактивная : '+value_reakt)
+                    indicator_link = KtpIndicators.objects.filter(sensor = sensor_link).filter(date_time=data.date).first()
+                    if indicator_link is None:
+                        KtpIndicators.objects.create(sensor = sensor_link,
+                                                     date_time = data.date,
+                                                     value_akt = value_akt,
+                                                     value_reakt = value_reakt)
+                    else:
+                        indicator_link.value_akt = value_akt
+                        indicator_link.value_reakt = value_reakt
+                        indicator_link.save()
+                    data.check = True
+                    bulk.append(data)
+                    if len(bulk) > 500:
+                        DataKtp.objects.bulk_update(bulk,['check'])
+                        bulk = []
+            if 'Показания Активная + Реактивная ЭЭ Т2' in data.name:
+               if '282' in serial:
+                    value_akt = data.values[5:15]
+                    value_reakt = data.values[15:len(data.values)]
+                    #print('Показания Активная + Реактивная ЭЭ Т2 : '+data.values)
+                    #print('Время : '+str(data.date))
+                    #print('Активная : '+value_akt)
+                    #print('Реактивная : '+value_reakt)
+                    indicator_link = KtpIndicators.objects.filter(sensor = sensor_link).filter(date_time=data.date).first()
+                    if indicator_link is None:
+                        KtpIndicators.objects.create(sensor = sensor_link,
+                                                     date_time = data.date,
+                                                     value_akt = value_akt,
+                                                     value_reakt = value_reakt)
+                    else:
+                        indicator_link.value_akt = value_akt
+                        indicator_link.value_reakt = value_reakt
+                        indicator_link.save()
+                    data.check = True
+                    bulk.append(data)
+                    if len(bulk) > 500:
+                        DataKtp.objects.bulk_update(bulk,['check'])
+                        bulk = []
 
-            #print(data.values+' : '+data.values[0:3])
-
+            if 'Показания Активная ЭЭ Т1' in data.name:
+                #print('Показания Активная ЭЭ Т1 : ')
+                pass
+            if 'Показания Активная ЭЭ Т2' in data.name:
+                #print('Показания Активная ЭЭ Т2 : ')
+                pass
+        DataKtp.objects.bulk_update(bulk,['check'])
     except Exception as err:
         logging.error(traceback.format_exc())
 
