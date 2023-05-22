@@ -14,7 +14,7 @@ class DataMfsbAdmin(admin.ModelAdmin):
 @admin.register(DataKtp)
 class DataKtpAdmin(admin.ModelAdmin):
     list_display = ('date','name','values','check')
-    list_filter = ('name')
+    list_filter = ('name',)
     search_fields = ('name',)
 
 
