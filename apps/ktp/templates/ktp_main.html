@@ -36,7 +36,7 @@
                                                                 <h3 class="profile-username text-center">Серийный номер</h3>
 
                                                                 <p class="text-muted text-center" style=" font-size: 18px;">282 </p>
-                                                                <p class="text-muted text-center p-1" style=" font-size: 18px;">на {{value_akt282date}} </p>
+                                                                <p class="text-muted text-center p-1" style=" font-size: 18px;" id="date_p">на {{value_akt282date}} </p>
 
 
                                                                 <ul class="list-group list-group-unbordered mb-3">
@@ -71,7 +71,9 @@
                                                                 <h3 class="profile-username text-center">Серийный номер</h3>
 
                                                                 <p class="text-muted text-center" style=" font-size: 18px;">805</p>
-
+                                                                
+                                                                <p class="text-muted text-center p-1" style=" font-size: 18px;" id="date_p">на {{value_akt805date}} </p>
+                                                                
                                                                 <ul class="list-group list-group-unbordered mb-3">
                                                                     <li class="list-group-item p-1">
                                                                         <b>Активная Энергия Т1</b> <a class="float-right">0</a>
@@ -132,6 +134,7 @@
                         $("#reakt282t1").html(data.value_reakt282_t1)
                         $("#reakt282t2").html(data.value_reakt282_t2)
                         $("#sum282reakt").html(data.summ282_reakt)
+                        $("#date_p").html(data.value_akt282date)
 
                                     }
                     else{}
