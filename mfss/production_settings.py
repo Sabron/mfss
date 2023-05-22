@@ -87,6 +87,14 @@ DATABASES = {
         'HOST': '192.168.10.2',
         'PORT': '5432',
     },
+    'mfsb_block': { # Блокировки
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ktp',
+        'USER': 'ktp_user',
+        'PASSWORD': 'rb,thrjl',
+        'HOST': '192.168.10.2',
+        'PORT': '5432',
+    },
 
 }
 
