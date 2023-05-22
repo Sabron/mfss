@@ -25,6 +25,7 @@ from django.conf import settings
 from django.db.models import Sum
 from django.db.models import Max,Min
 from django.db import connection
+from django.core.cache import cache
 
 from apps.ops.models.model_mfsb import Mfsb
 from apps.ops.models.model_mfsb_skada import MfsbSkada
