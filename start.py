@@ -630,9 +630,9 @@ def delete_acsIndicator():
 
 def update_ktp_date():# Получение данных КТП
     try:
-        mfsb = cache.get('update_ktp_date')
+        #mfsb = cache.get('update_ktp_date')
         if not mfsb:
-            cache.set('update_ktp_date', '1')
+        #    cache.set('update_ktp_date', '1')
             mfsb_list = MfsbKtp.objects.using('ktp').filter(check=False).order_by('date').all()[:20000];
             bulk = []
             for mfsb in tqdm(mfsb_list):
@@ -651,7 +651,7 @@ def update_ktp_date():# Получение данных КТП
             MfsbKtp.objects.using('ktp').bulk_update(bulk,['check'])
             #update_acs()
             #update_dcs()
-            cache.delete('update_ktp_date')
+         #   cache.delete('update_ktp_date')
     except Exception as err:
         logging.error(traceback.format_exc())
 
